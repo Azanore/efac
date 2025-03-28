@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Permission pour un stockage sécurisé -->
+    <queries>
+        <package android:name="com.android.vending" />
+    </queries>
+
+    <application>
+        <!-- Activer FlutterSecureStorage pour Android 9 (Pie) et supérieur -->
+        <meta-data
+            android:name="flutterSecureStorage"
+            android:value="true" />
+    </application>
+</manifest>
