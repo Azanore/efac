@@ -176,7 +176,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
           child: Text(
-            'Tous les utilisateurs sont chargés.',
+            S.of(context).allUsersLoaded,
             style: TextStyle(
               fontSize: 14,
               color: AppColors.borderColor(context),
@@ -272,7 +272,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                         child: TextField(
                           controller: _searchController,
                           decoration: InputDecoration(
-                            hintText: 'Rechercher un utilisateur...',
+                            hintText: S.of(context).searchUserPlaceholder,
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: AppColors.iconColor(
@@ -333,7 +333,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                           color: AppColors.iconColor(context),
                         ),
                         onPressed: _resetFilters,
-                        tooltip: 'Effacer le filtre',
+                        tooltip: S.of(context).clearFilter,
                         padding: EdgeInsets.all(8),
                         constraints: BoxConstraints(
                           minWidth: 36,
@@ -347,7 +347,10 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                         color: AppColors.iconColor(context),
                       ),
                       onPressed: _toggleExpandAll,
-                      tooltip: _expandAll ? 'Réduire tous' : 'Développer tous',
+                      tooltip:
+                          _expandAll
+                              ? S.of(context).collapseAll
+                              : S.of(context).expandAll,
                       padding: EdgeInsets.all(8),
                       constraints: BoxConstraints(minWidth: 36, minHeight: 36),
                     ),
@@ -378,7 +381,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Filtrer par statut',
+                          S.of(context).filterByStatus,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -387,17 +390,17 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                         ),
                         SizedBox(height: 8),
                         _buildFilterOption(
-                          'Tous les utilisateurs',
+                          S.of(context).allUsers,
                           null,
                           _isActiveFilter == null,
                         ),
                         _buildFilterOption(
-                          'Utilisateurs actifs',
+                          S.of(context).activeUsers,
                           true,
                           _isActiveFilter == true,
                         ),
                         _buildFilterOption(
-                          'Utilisateurs inactifs',
+                          S.of(context).inactiveUsers,
                           false,
                           _isActiveFilter == false,
                         ),
@@ -509,7 +512,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                             userService.users.isEmpty
                                 ? Center(
                                   child: Text(
-                                    'Aucun utilisateur trouvé',
+                                    S.of(context).noUserFound,
                                     style: TextStyle(
                                       fontSize: 16,
                                       color: AppColors.textColor(context),

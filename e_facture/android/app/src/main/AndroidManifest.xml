@@ -1,19 +1,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Add these permissions for storage -->
+    <!-- Permissions pour le stockage -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permission pour accéder aux notifications (pour flutter_local_notifications) -->
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
-
-    <!-- For Android 10 and above, you can add this for legacy external storage access -->
-
+    <!-- Pour Android 10 et au-delà, cette option permet l'accès au stockage externe classique (legacy) -->
     <application
         android:label="e_facture"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:requestLegacyExternalStorage="true">  <!-- Keep this here for legacy external storage on Android 10+ -->
+        android:requestLegacyExternalStorage="true"> <!-- Garder cette ligne pour Android 10+ -->
 
         <activity
             android:name=".MainActivity"
@@ -34,13 +34,13 @@
             </intent-filter>
         </activity>
 
-        <!-- Don't delete the meta-data below. This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <!-- Ne pas supprimer cette méta-donnée. Elle est utilisée par Flutter pour générer le plugin Registrant -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
 
-    <!-- Required to query activities that can process text -->
+    <!-- Nécéssaire pour interroger les applications pouvant traiter du texte -->
     <queries>
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>

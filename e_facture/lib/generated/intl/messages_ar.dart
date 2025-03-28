@@ -24,12 +24,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(invoice) => "جاري تنزيل ${invoice}...";
 
-  static String m2(error) => "خطأ: ${error}";
+  static String m2(year) => "${year}";
 
-  static String m3(filename) => "تم اختيار ملف PDF: ${filename}";
+  static String m3(error) => "خطأ: ${error}";
+
+  static String m4(filename) => "تم اختيار ملف PDF: ${filename}";
+
+  static String m5(status) => "الحالة: ${status}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "activate": MessageLookupByLibrary.simpleMessage("تفعيل"),
+    "activeStatus": MessageLookupByLibrary.simpleMessage("نشط"),
+    "activeUsers": MessageLookupByLibrary.simpleMessage("المستخدمين النشطين"),
+    "active_label": MessageLookupByLibrary.simpleMessage("نشط"),
     "adminAccountDeactivated": m0,
     "adminCompanyNameLabel": MessageLookupByLibrary.simpleMessage(
       "السبب الاجتماعي:",
@@ -60,12 +68,25 @@ class MessageLookup extends MessageLookupByLibrary {
     "adminSearchByCompany": MessageLookupByLibrary.simpleMessage(
       "البحث حسب السبب الاجتماعي",
     ),
+    "adminTotalInvoices": MessageLookupByLibrary.simpleMessage(
+      "إجمالي الفواتير",
+    ),
+    "adminTotalUsers": MessageLookupByLibrary.simpleMessage(
+      "إجمالي المستخدمين",
+    ),
     "adminUsersManagement": MessageLookupByLibrary.simpleMessage(
       "إدارة المستخدمين",
     ),
     "adminViewInvoice": MessageLookupByLibrary.simpleMessage("عرض الفاتورة"),
     "adminViewInvoices": MessageLookupByLibrary.simpleMessage(
       "عرض جميع الفواتير",
+    ),
+    "adoption_rate_title": MessageLookupByLibrary.simpleMessage(
+      "معدل اعتماد المستخدمين على المنصة",
+    ),
+    "allUsers": MessageLookupByLibrary.simpleMessage("جميع المستخدمين"),
+    "allUsersLoaded": MessageLookupByLibrary.simpleMessage(
+      "تم تحميل جميع المستخدمين.",
     ),
     "authChangePassword": MessageLookupByLibrary.simpleMessage(
       "تغيير كلمة المرور",
@@ -155,7 +176,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "authWeakPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور ضعيفة. يجب أن تحتوي على 8 أحرف على الأقل، وحرف كبير، وحرف صغير، ورقم.",
     ),
+    "clearFilter": MessageLookupByLibrary.simpleMessage("مسح الفلتر"),
+    "collapseAll": MessageLookupByLibrary.simpleMessage("طي الكل"),
     "currencySymbol": MessageLookupByLibrary.simpleMessage("د.م"),
+    "current_year_label": m2,
     "dashboardCreateInvoice": MessageLookupByLibrary.simpleMessage(
       "إنشاء فاتورة",
     ),
@@ -168,10 +192,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "dashboardViewMyInvoices": MessageLookupByLibrary.simpleMessage(
       "عرض فواتيري",
     ),
+    "deactivate": MessageLookupByLibrary.simpleMessage("تعطيل"),
+    "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "errorFetchingInvoices": MessageLookupByLibrary.simpleMessage(
       "خطأ في جلب الفواتير.",
     ),
-    "errorMessage": m2,
+    "errorMessage": m3,
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "تم تعطيل هذا الحساب. يرجى الاتصال بالمسؤول.",
     ),
@@ -223,6 +249,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع. يرجى المحاولة لاحقًا.",
     ),
+    "expandAll": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
+    "filterByStatus": MessageLookupByLibrary.simpleMessage("تصفية حسب الحالة"),
     "generalAdd": MessageLookupByLibrary.simpleMessage("إضافة"),
     "generalAmount": MessageLookupByLibrary.simpleMessage("المبلغ"),
     "generalCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
@@ -255,6 +283,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "homeNoAccount": MessageLookupByLibrary.simpleMessage("ليس لديك حساب؟"),
     "homeSignup": MessageLookupByLibrary.simpleMessage("اشترك"),
     "homeTitle": MessageLookupByLibrary.simpleMessage("الفاتورة الإلكترونية"),
+    "iceLabel": MessageLookupByLibrary.simpleMessage("الـ ICE"),
+    "inactiveStatus": MessageLookupByLibrary.simpleMessage("غير نشط"),
+    "inactiveUsers": MessageLookupByLibrary.simpleMessage(
+      "المستخدمين غير النشطين",
+    ),
+    "inactive_label": MessageLookupByLibrary.simpleMessage("غير نشط"),
     "invoiceAddInvoice": MessageLookupByLibrary.simpleMessage("إضافة الفاتورة"),
     "invoiceAddPdf": MessageLookupByLibrary.simpleMessage("إضافة ملف PDF"),
     "invoiceAllAmounts": MessageLookupByLibrary.simpleMessage("جميع المبالغ"),
@@ -283,15 +317,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceMoreThan2000": MessageLookupByLibrary.simpleMessage(
       "أكثر من 2000€",
     ),
-    "invoicePdfSelected": m3,
+    "invoicePdfSelected": m4,
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "بحث عن فاتورة...",
     ),
     "invoiceTotal": MessageLookupByLibrary.simpleMessage("إجمالي المبلغ"),
+    "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
+      "نشاط الفواتير",
+    ),
+    "invoicesLabel": MessageLookupByLibrary.simpleMessage("الفواتير"),
     "languagesArabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "languagesEnglish": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
     "languagesFrench": MessageLookupByLibrary.simpleMessage("الفرنسية"),
+    "last_seven_days": MessageLookupByLibrary.simpleMessage("آخر 7 أيام"),
     "loading": MessageLookupByLibrary.simpleMessage("جارٍ التحميل..."),
+    "monthly_invoice_title": MessageLookupByLibrary.simpleMessage(
+      "الفواتير حسب الشهر",
+    ),
     "myInvoices": MessageLookupByLibrary.simpleMessage("فواتيري"),
     "navigationBack": MessageLookupByLibrary.simpleMessage("عودة"),
     "navigationDashboardAdmin": MessageLookupByLibrary.simpleMessage(
@@ -301,11 +343,35 @@ class MessageLookup extends MessageLookupByLibrary {
       "لوحة تحكم المستخدم",
     ),
     "navigationHome": MessageLookupByLibrary.simpleMessage("الصفحة الرئيسية"),
+    "never_returned_label": MessageLookupByLibrary.simpleMessage(
+      "لم يعد بعد التسجيل",
+    ),
     "noInvoicesAvailable": MessageLookupByLibrary.simpleMessage(
       "لا توجد فواتير متاحة.",
     ),
+    "noUserFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على مستخدم",
+    ),
+    "no_data_message": MessageLookupByLibrary.simpleMessage(
+      "لا توجد بيانات لعرضها.",
+    ),
+    "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
+      "عاد وأنشأ على الأقل فاتورة واحدة",
+    ),
+    "returned_without_invoice_label": MessageLookupByLibrary.simpleMessage(
+      "عاد دون إنشاء فاتورة",
+    ),
+    "searchUserPlaceholder": MessageLookupByLibrary.simpleMessage(
+      "ابحث عن مستخدم...",
+    ),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("الإحصائيات"),
+    "statusLabel": m5,
+    "totalAmountLabel": MessageLookupByLibrary.simpleMessage("المبلغ الإجمالي"),
     "userInvoicesTitle": MessageLookupByLibrary.simpleMessage("فواتيري"),
+    "user_status_chart_title": MessageLookupByLibrary.simpleMessage(
+      "المستخدمين النشطين مقابل غير النشطين",
+    ),
+    "viewInvoices": MessageLookupByLibrary.simpleMessage("عرض الفواتير"),
     "welcomeDescription": MessageLookupByLibrary.simpleMessage(
       "الفاتورة الإلكترونية هي منصة إلكترونية لإيداع الفواتير من قبل موردي SNRT.",
     ),

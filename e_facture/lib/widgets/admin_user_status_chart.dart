@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../core/utils/app_colors.dart';
 import '../core/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminUserStatusChart extends StatefulWidget {
   const AdminUserStatusChart({super.key});
@@ -69,7 +70,8 @@ class _AdminUserStatusChartState extends State<AdminUserStatusChart> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Utilisateurs Actifs vs Inactifs",
+                      // Use the translated title here
+                      S.of(context).user_status_chart_title,
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -114,8 +116,14 @@ class _AdminUserStatusChartState extends State<AdminUserStatusChart> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        _buildLegendItem("Actifs", Colors.green),
-                        _buildLegendItem("Inactifs", Colors.red),
+                        _buildLegendItem(
+                          S.of(context).active_label,
+                          Colors.green,
+                        ), // Use translated "Active" label
+                        _buildLegendItem(
+                          S.of(context).inactive_label,
+                          Colors.red,
+                        ), // Use translated "Inactive" label
                       ],
                     ),
                   ],

@@ -55,6 +55,26 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
+  /// `Total Users`
+  String get adminTotalUsers {
+    return Intl.message(
+      'Total Users',
+      name: 'adminTotalUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Total Invoices`
+  String get adminTotalInvoices {
+    return Intl.message(
+      'Total Invoices',
+      name: 'adminTotalInvoices',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Account of {company} deactivated`
   String adminAccountDeactivated(Object company) {
     return Intl.message(
@@ -1248,6 +1268,271 @@ class S {
   /// `Welcome`
   String get welcomeTitle {
     return Intl.message('Welcome', name: 'welcomeTitle', desc: '', args: []);
+  }
+
+  /// `Invoice Activity`
+  String get invoice_activity_title {
+    return Intl.message(
+      'Invoice Activity',
+      name: 'invoice_activity_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Last 7 Days`
+  String get last_seven_days {
+    return Intl.message(
+      'Last 7 Days',
+      name: 'last_seven_days',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoices by Month`
+  String get monthly_invoice_title {
+    return Intl.message(
+      'Invoices by Month',
+      name: 'monthly_invoice_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{year}`
+  String current_year_label(Object year) {
+    return Intl.message(
+      '$year',
+      name: 'current_year_label',
+      desc: '',
+      args: [year],
+    );
+  }
+
+  /// `Active vs Inactive Users`
+  String get user_status_chart_title {
+    return Intl.message(
+      'Active vs Inactive Users',
+      name: 'user_status_chart_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active`
+  String get active_label {
+    return Intl.message('Active', name: 'active_label', desc: '', args: []);
+  }
+
+  /// `Inactive`
+  String get inactive_label {
+    return Intl.message('Inactive', name: 'inactive_label', desc: '', args: []);
+  }
+
+  /// `Platform Adoption Rate`
+  String get adoption_rate_title {
+    return Intl.message(
+      'Platform Adoption Rate',
+      name: 'adoption_rate_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No data to display.`
+  String get no_data_message {
+    return Intl.message(
+      'No data to display.',
+      name: 'no_data_message',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Never returned after sign up`
+  String get never_returned_label {
+    return Intl.message(
+      'Never returned after sign up',
+      name: 'never_returned_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Returned without creating an invoice`
+  String get returned_without_invoice_label {
+    return Intl.message(
+      'Returned without creating an invoice',
+      name: 'returned_without_invoice_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Returned and created at least 1 invoice`
+  String get returned_and_invoiced_label {
+    return Intl.message(
+      'Returned and created at least 1 invoice',
+      name: 'returned_and_invoiced_label',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All users are loaded.`
+  String get allUsersLoaded {
+    return Intl.message(
+      'All users are loaded.',
+      name: 'allUsersLoaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search for a user...`
+  String get searchUserPlaceholder {
+    return Intl.message(
+      'Search for a user...',
+      name: 'searchUserPlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter by status`
+  String get filterByStatus {
+    return Intl.message(
+      'Filter by status',
+      name: 'filterByStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All users`
+  String get allUsers {
+    return Intl.message('All users', name: 'allUsers', desc: '', args: []);
+  }
+
+  /// `Active users`
+  String get activeUsers {
+    return Intl.message(
+      'Active users',
+      name: 'activeUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inactive users`
+  String get inactiveUsers {
+    return Intl.message(
+      'Inactive users',
+      name: 'inactiveUsers',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear filter`
+  String get clearFilter {
+    return Intl.message(
+      'Clear filter',
+      name: 'clearFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collapse all`
+  String get collapseAll {
+    return Intl.message(
+      'Collapse all',
+      name: 'collapseAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expand all`
+  String get expandAll {
+    return Intl.message('Expand all', name: 'expandAll', desc: '', args: []);
+  }
+
+  /// `No user found`
+  String get noUserFound {
+    return Intl.message(
+      'No user found',
+      name: 'noUserFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Status: {status}`
+  String statusLabel(Object status) {
+    return Intl.message(
+      'Status: $status',
+      name: 'statusLabel',
+      desc: '',
+      args: [status],
+    );
+  }
+
+  /// `Active`
+  String get activeStatus {
+    return Intl.message('Active', name: 'activeStatus', desc: '', args: []);
+  }
+
+  /// `Inactive`
+  String get inactiveStatus {
+    return Intl.message('Inactive', name: 'inactiveStatus', desc: '', args: []);
+  }
+
+  /// `ICE`
+  String get iceLabel {
+    return Intl.message('ICE', name: 'iceLabel', desc: '', args: []);
+  }
+
+  /// `Email`
+  String get emailLabel {
+    return Intl.message('Email', name: 'emailLabel', desc: '', args: []);
+  }
+
+  /// `Invoices`
+  String get invoicesLabel {
+    return Intl.message('Invoices', name: 'invoicesLabel', desc: '', args: []);
+  }
+
+  /// `Total Amount`
+  String get totalAmountLabel {
+    return Intl.message(
+      'Total Amount',
+      name: 'totalAmountLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deactivate`
+  String get deactivate {
+    return Intl.message('Deactivate', name: 'deactivate', desc: '', args: []);
+  }
+
+  /// `Activate`
+  String get activate {
+    return Intl.message('Activate', name: 'activate', desc: '', args: []);
+  }
+
+  /// `View Invoices`
+  String get viewInvoices {
+    return Intl.message(
+      'View Invoices',
+      name: 'viewInvoices',
+      desc: '',
+      args: [],
+    );
   }
 }
 

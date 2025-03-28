@@ -85,7 +85,9 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Statistiques générales",
+                          S
+                              .of(context)
+                              .statisticsTitle, // Updated to use translation
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -99,7 +101,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               Expanded(
                                 child: _buildStatCard(
                                   context: context,
-                                  title: "Utilisateurs",
+                                  title: S.of(context).adminTotalUsers,
                                   value: totalUsers.toString(),
                                   icon: Icons.people,
                                   color: Colors.blue,
@@ -109,7 +111,7 @@ class _DashboardAdminState extends State<DashboardAdmin> {
                               Expanded(
                                 child: _buildStatCard(
                                   context: context,
-                                  title: "Factures",
+                                  title: S.of(context).adminTotalInvoices,
                                   value: totalInvoices.toString(),
                                   icon: Icons.receipt_long,
                                   color: Colors.green,

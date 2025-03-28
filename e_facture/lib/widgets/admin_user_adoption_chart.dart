@@ -6,6 +6,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../core/utils/app_colors.dart';
 import '../core/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminUserAdoptionChart extends StatefulWidget {
   const AdminUserAdoptionChart({super.key});
@@ -70,7 +71,9 @@ class _AdminUserAdoptionChartState extends State<AdminUserAdoptionChart> {
                 : total == 0
                 ? Center(
                   child: Text(
-                    "Aucune donnée à afficher.",
+                    S
+                        .of(context)
+                        .no_data_message, // Use translated "No data to display"
                     style: TextStyle(color: textColor),
                   ),
                 )
@@ -78,7 +81,7 @@ class _AdminUserAdoptionChartState extends State<AdminUserAdoptionChart> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Taux d’adoption de la plateforme",
+                      S.of(context).adoption_rate_title, // Use translated title
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
@@ -135,17 +138,23 @@ class _AdminUserAdoptionChartState extends State<AdminUserAdoptionChart> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         _buildLegendItem(
-                          "Jamais reconnecté après inscription",
+                          S
+                              .of(context)
+                              .never_returned_label, // Use translated label
                           Colors.grey,
                         ),
                         SizedBox(height: 6),
                         _buildLegendItem(
-                          "Revenu sans créer de facture",
+                          S
+                              .of(context)
+                              .returned_without_invoice_label, // Use translated label
                           Colors.orange,
                         ),
                         SizedBox(height: 6),
                         _buildLegendItem(
-                          "Revenu et a créé au moins 1 facture",
+                          S
+                              .of(context)
+                              .returned_and_invoiced_label, // Use translated label
                           Colors.green,
                         ),
                       ],

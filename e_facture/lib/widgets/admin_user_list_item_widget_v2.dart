@@ -3,6 +3,7 @@ import '/core/services/admin_user_service.dart';
 import 'package:e_facture/widgets/invoice_item_styles.dart';
 import '/widgets/custom_button_widget.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminUserListItemWidgetV2 extends StatefulWidget {
   final AdminUser user;
@@ -106,7 +107,9 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Text(
-                      widget.user.isActive ? 'Actif' : 'Désactivé',
+                      widget.user.isActive
+                          ? S.of(context).activeStatus
+                          : S.of(context).inactiveStatus,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 10,
@@ -126,7 +129,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                 children: [
                   _buildInfoRow(
                     Icons.business,
-                    'ICE',
+                    S.of(context).iceLabel,
                     widget.user.ice,
                     iconColor,
                     textColor,
@@ -134,7 +137,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                   SizedBox(height: 8),
                   _buildInfoRow(
                     Icons.email,
-                    'Email',
+                    S.of(context).emailLabel,
                     widget.user.email,
                     iconColor,
                     textColor,
@@ -142,7 +145,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                   SizedBox(height: 8),
                   _buildInfoRow(
                     Icons.receipt_long,
-                    'Factures',
+                    S.of(context).invoicesLabel,
                     '${widget.user.totalInvoices}',
                     iconColor,
                     textColor,
@@ -150,7 +153,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                   SizedBox(height: 8),
                   _buildInfoRow(
                     Icons.attach_money,
-                    'Montant Total',
+                    S.of(context).totalAmountLabel,
                     '${widget.user.totalAmount.toStringAsFixed(2)} MAD',
                     iconColor,
                     textColor,
@@ -160,7 +163,10 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomButtonWidget(
-                        text: widget.user.isActive ? 'Désactiver' : 'Activer',
+                        text:
+                            widget.user.isActive
+                                ? S.of(context).deactivate
+                                : S.of(context).activate,
                         height: 36,
                         padding: EdgeInsets.symmetric(horizontal: 10),
                         backgroundColor:
@@ -168,7 +174,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                         onPressed: widget.onToggleStatus,
                       ),
                       CustomButtonWidget(
-                        text: 'Voir Factures',
+                        text: S.of(context).viewInvoices,
                         icon: Icons.receipt_long,
                         height: 36,
                         padding: EdgeInsets.symmetric(horizontal: 10),

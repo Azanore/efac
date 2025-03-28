@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../core/utils/app_colors.dart';
 import '../core/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminInvoiceMonthlyChart extends StatefulWidget {
   const AdminInvoiceMonthlyChart({super.key});
@@ -87,7 +88,10 @@ class _AdminInvoiceMonthlyChartState extends State<AdminInvoiceMonthlyChart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Factures par Mois",
+                          // Utilisation de S.of(context) pour "Factures par Mois"
+                          S
+                              .of(context)
+                              .monthly_invoice_title, // Utilisation de la clé de traduction
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -103,7 +107,9 @@ class _AdminInvoiceMonthlyChartState extends State<AdminInvoiceMonthlyChart> {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              "${DateTime.now().year}",
+                              S
+                                  .of(context)
+                                  .current_year_label(DateTime.now().year),
                               style: TextStyle(
                                 fontSize: 12,
                                 color: textColor.withOpacity(0.7),

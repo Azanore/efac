@@ -24,12 +24,20 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m1(invoice) => "Downloading ${invoice}...";
 
-  static String m2(error) => "Error: ${error}";
+  static String m2(year) => "${year}";
 
-  static String m3(filename) => "PDF file selected: ${filename}";
+  static String m3(error) => "Error: ${error}";
+
+  static String m4(filename) => "PDF file selected: ${filename}";
+
+  static String m5(status) => "Status: ${status}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+    "activate": MessageLookupByLibrary.simpleMessage("Activate"),
+    "activeStatus": MessageLookupByLibrary.simpleMessage("Active"),
+    "activeUsers": MessageLookupByLibrary.simpleMessage("Active users"),
+    "active_label": MessageLookupByLibrary.simpleMessage("Active"),
     "adminAccountDeactivated": m0,
     "adminCompanyNameLabel": MessageLookupByLibrary.simpleMessage(
       "Company Name:",
@@ -54,12 +62,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "adminSearchByCompany": MessageLookupByLibrary.simpleMessage(
       "Search by Company Name",
     ),
+    "adminTotalInvoices": MessageLookupByLibrary.simpleMessage(
+      "Total Invoices",
+    ),
+    "adminTotalUsers": MessageLookupByLibrary.simpleMessage("Total Users"),
     "adminUsersManagement": MessageLookupByLibrary.simpleMessage(
       "Users Management",
     ),
     "adminViewInvoice": MessageLookupByLibrary.simpleMessage("View Invoice"),
     "adminViewInvoices": MessageLookupByLibrary.simpleMessage(
       "View All Invoices",
+    ),
+    "adoption_rate_title": MessageLookupByLibrary.simpleMessage(
+      "Platform Adoption Rate",
+    ),
+    "allUsers": MessageLookupByLibrary.simpleMessage("All users"),
+    "allUsersLoaded": MessageLookupByLibrary.simpleMessage(
+      "All users are loaded.",
     ),
     "authChangePassword": MessageLookupByLibrary.simpleMessage(
       "Change password",
@@ -139,7 +158,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "authWeakPassword": MessageLookupByLibrary.simpleMessage(
       "Password is too weak. It must contain at least 8 characters, an uppercase letter, a lowercase letter, and a digit.",
     ),
+    "clearFilter": MessageLookupByLibrary.simpleMessage("Clear filter"),
+    "collapseAll": MessageLookupByLibrary.simpleMessage("Collapse all"),
     "currencySymbol": MessageLookupByLibrary.simpleMessage("DH"),
+    "current_year_label": m2,
     "dashboardCreateInvoice": MessageLookupByLibrary.simpleMessage(
       "Create invoice",
     ),
@@ -152,10 +174,12 @@ class MessageLookup extends MessageLookupByLibrary {
     "dashboardViewMyInvoices": MessageLookupByLibrary.simpleMessage(
       "View my invoices",
     ),
+    "deactivate": MessageLookupByLibrary.simpleMessage("Deactivate"),
+    "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "errorFetchingInvoices": MessageLookupByLibrary.simpleMessage(
       "Error fetching invoices.",
     ),
-    "errorMessage": m2,
+    "errorMessage": m3,
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "This account has been disabled. Please contact the administrator.",
     ),
@@ -207,6 +231,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
       "An unexpected error occurred. Please try again later.",
     ),
+    "expandAll": MessageLookupByLibrary.simpleMessage("Expand all"),
+    "filterByStatus": MessageLookupByLibrary.simpleMessage("Filter by status"),
     "generalAdd": MessageLookupByLibrary.simpleMessage("Add"),
     "generalAmount": MessageLookupByLibrary.simpleMessage("Amount"),
     "generalCancel": MessageLookupByLibrary.simpleMessage("Cancel"),
@@ -243,6 +269,10 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "homeSignup": MessageLookupByLibrary.simpleMessage("Sign up"),
     "homeTitle": MessageLookupByLibrary.simpleMessage("E-Invoice"),
+    "iceLabel": MessageLookupByLibrary.simpleMessage("ICE"),
+    "inactiveStatus": MessageLookupByLibrary.simpleMessage("Inactive"),
+    "inactiveUsers": MessageLookupByLibrary.simpleMessage("Inactive users"),
+    "inactive_label": MessageLookupByLibrary.simpleMessage("Inactive"),
     "invoiceAddInvoice": MessageLookupByLibrary.simpleMessage(
       "Add the invoice",
     ),
@@ -275,15 +305,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceMoreThan2000": MessageLookupByLibrary.simpleMessage(
       "More than €2000",
     ),
-    "invoicePdfSelected": m3,
+    "invoicePdfSelected": m4,
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "Search for an invoice...",
     ),
     "invoiceTotal": MessageLookupByLibrary.simpleMessage("Total Amount"),
+    "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
+      "Invoice Activity",
+    ),
+    "invoicesLabel": MessageLookupByLibrary.simpleMessage("Invoices"),
     "languagesArabic": MessageLookupByLibrary.simpleMessage("Arabic"),
     "languagesEnglish": MessageLookupByLibrary.simpleMessage("English"),
     "languagesFrench": MessageLookupByLibrary.simpleMessage("French"),
+    "last_seven_days": MessageLookupByLibrary.simpleMessage("Last 7 Days"),
     "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+    "monthly_invoice_title": MessageLookupByLibrary.simpleMessage(
+      "Invoices by Month",
+    ),
     "myInvoices": MessageLookupByLibrary.simpleMessage("My Invoices"),
     "navigationBack": MessageLookupByLibrary.simpleMessage("Back"),
     "navigationDashboardAdmin": MessageLookupByLibrary.simpleMessage(
@@ -293,11 +331,33 @@ class MessageLookup extends MessageLookupByLibrary {
       "User Dashboard",
     ),
     "navigationHome": MessageLookupByLibrary.simpleMessage("Home"),
+    "never_returned_label": MessageLookupByLibrary.simpleMessage(
+      "Never returned after sign up",
+    ),
     "noInvoicesAvailable": MessageLookupByLibrary.simpleMessage(
       "No invoices available.",
     ),
+    "noUserFound": MessageLookupByLibrary.simpleMessage("No user found"),
+    "no_data_message": MessageLookupByLibrary.simpleMessage(
+      "No data to display.",
+    ),
+    "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
+      "Returned and created at least 1 invoice",
+    ),
+    "returned_without_invoice_label": MessageLookupByLibrary.simpleMessage(
+      "Returned without creating an invoice",
+    ),
+    "searchUserPlaceholder": MessageLookupByLibrary.simpleMessage(
+      "Search for a user...",
+    ),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("Statistics"),
+    "statusLabel": m5,
+    "totalAmountLabel": MessageLookupByLibrary.simpleMessage("Total Amount"),
     "userInvoicesTitle": MessageLookupByLibrary.simpleMessage("My Invoices"),
+    "user_status_chart_title": MessageLookupByLibrary.simpleMessage(
+      "Active vs Inactive Users",
+    ),
+    "viewInvoices": MessageLookupByLibrary.simpleMessage("View Invoices"),
     "welcomeDescription": MessageLookupByLibrary.simpleMessage(
       "e-Facture is an electronic invoice submission platform for SNRT suppliers.",
     ),

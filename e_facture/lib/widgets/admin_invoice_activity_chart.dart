@@ -7,6 +7,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../core/utils/app_colors.dart';
 import '../core/services/auth_service.dart';
 import 'package:provider/provider.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminInvoiceActivityChart extends StatefulWidget {
   const AdminInvoiceActivityChart({super.key});
@@ -26,13 +27,28 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
     _loadStats();
   }
 
+  // Helper function to convert DateTime to ISO 8601 format
+  String formatDateToISO8601(DateTime date) {
+    return DateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ").format(date);
+  }
+
   Future<void> _loadStats() async {
     final auth = Provider.of<AuthProvider>(context, listen: false);
     final token = auth.token;
 
     final apiUrl = dotenv.env['API_URL']!;
+    final now = DateTime.now();
+    final sevenDaysAgo = now.subtract(Duration(days: 6));
+
+    // Format the start and end dates to ISO 8601 format
+    String startDateISO = formatDateToISO8601(sevenDaysAgo);
+    String endDateISO = formatDateToISO8601(now);
+
+    // Make the API request with the formatted dates
     final response = await http.get(
-      Uri.parse('$apiUrl/admin/invoices/weekly-stats'),
+      Uri.parse(
+        '$apiUrl/admin/invoices/weekly-stats?startDate=$startDateISO&endDate=$endDateISO',
+      ),
       headers: {
         'Authorization': 'Bearer $token',
         'Content-Type': 'application/json',
@@ -41,17 +57,29 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+
+      if (data['stats'] == null) {
+        setState(() {
+          isLoading = false;
+        });
+        return;
+      }
+
       final rawStats = data['stats'] as List;
 
-      final now = DateTime.now();
       final fullStats = List.generate(7, (i) {
         final date = DateFormat(
           'yyyy-MM-dd',
         ).format(now.subtract(Duration(days: 6 - i)));
+
+        // Convert the API date to Western numerals before comparison
+        final westernDate = _convertArabicToWesternNumerals(date);
+
         final found = rawStats.firstWhere(
-          (e) => e['_id'] == date,
+          (e) => _convertArabicToWesternNumerals(e['_id']) == westernDate,
           orElse: () => {'_id': date, 'count': 0},
         );
+
         return {'date': date, 'count': found['count'] ?? 0};
       });
 
@@ -64,6 +92,21 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
         isLoading = false;
       });
     }
+  }
+
+  String _convertArabicToWesternNumerals(String arabicDate) {
+    final arabicNumerals = '٠١٢٣٤٥٦٧٨٩'; // Arabic numerals
+    final westernNumerals = '0123456789'; // Western numerals
+
+    // Replace Arabic numerals with Western numerals
+    String westernDate = arabicDate
+        .split('')
+        .map((char) {
+          final index = arabicNumerals.indexOf(char);
+          return index != -1 ? westernNumerals[index] : char;
+        })
+        .join('');
+    return westernDate;
   }
 
   @override
@@ -86,7 +129,10 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Activité des Factures",
+                          // Utilisation de S.of(context) pour "Activité des Factures"
+                          S
+                              .of(context)
+                              .invoice_activity_title, // Utilisation de la clé de traduction
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -102,7 +148,8 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
                             ),
                             SizedBox(width: 5),
                             Text(
-                              "7 derniers jours",
+                              // Utilisation de S.of(context) pour "7 derniers jours"
+                              S.of(context).last_seven_days,
                               style: TextStyle(
                                 fontSize: 12,
                                 color: textColor.withOpacity(0.7),
@@ -140,9 +187,11 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
                                 showTitles: true,
                                 getTitlesWidget: (value, _) {
                                   final day = stats[value.toInt()]['date'];
+                                  final westernDate =
+                                      _convertArabicToWesternNumerals(day);
                                   final label = DateFormat(
                                     'E',
-                                  ).format(DateTime.parse(day));
+                                  ).format(DateTime.parse(westernDate));
                                   return Padding(
                                     padding: const EdgeInsets.only(top: 8),
                                     child: Text(
