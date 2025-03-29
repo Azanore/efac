@@ -441,7 +441,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                'Statut: ${_isActiveFilter! ? "Utilisateurs actifs" : "Utilisateurs inactifs"}',
+                                '${S.of(context).status}: ${_isActiveFilter! ? S.of(context).activeUsersStatus : S.of(context).inactiveUsersStatus}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.textColor(context),
@@ -466,7 +466,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                                 SizedBox(width: 4),
                                 Expanded(
                                   child: Text(
-                                    'Recherche: "$_searchQuery"',
+                                    '${S.of(context).search}: "$_searchQuery"',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: AppColors.textColor(context),
@@ -488,7 +488,7 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${userService.totalUsers} utilisateur${userService.totalUsers > 1 ? 's' : ''} trouvé${userService.totalUsers > 1 ? 's' : ''}',
+                S.of(context).userCount(userService.totalUsers),
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
@@ -503,7 +503,11 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                 userService.isLoading && _offset == 0
                     ? Center(child: CircularProgressIndicator())
                     : userService.error != null
-                    ? Center(child: Text('Erreur : ${userService.error}'))
+                    ? Center(
+                      child: Text(
+                        '${S.of(context).error}: ${userService.error}',
+                      ),
+                    )
                     : RefreshIndicator(
                       onRefresh: _resetAndLoadUsers,
                       child: Padding(

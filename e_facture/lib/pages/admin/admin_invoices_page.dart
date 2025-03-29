@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/widgets/admin_invoice_list_item_widget.dart';
 import 'package:logger/logger.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminInvoicesPage extends StatefulWidget {
   final String? userId; // facultatif : null = toutes factures
@@ -194,7 +195,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
           child: Text(
-            'Toutes les factures sont chargées.',
+            S.of(context).allInvoicesLoaded,
             style: TextStyle(
               fontSize: 14,
               color:
@@ -228,8 +229,8 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
         rightAction: QuickSettingsWidget(),
         title:
             widget.userId != null
-                ? 'Factures Utilisateur'
-                : 'Toutes les Factures',
+                ? S.of(context).userInvoicesTitle
+                : S.of(context).allInvoicesTitle,
       ),
       body: Column(
         children: [
@@ -305,7 +306,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                         child: TextField(
                           controller: _searchController,
                           decoration: InputDecoration(
-                            hintText: 'Rechercher une facture...',
+                            hintText: S.of(context).searchInvoiceHint,
                             hintStyle: TextStyle(
                               fontSize: 14,
                               color: AppColors.iconColor(
@@ -360,7 +361,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                           color: AppColors.iconColor(context),
                         ),
                         onPressed: _resetFilters,
-                        tooltip: 'Effacer le filtre',
+                        tooltip: S.of(context).clearFilterTooltip,
                         padding: EdgeInsets.all(8),
                         constraints: BoxConstraints(
                           minWidth: 36,
@@ -373,7 +374,10 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                         color: AppColors.iconColor(context),
                       ),
                       onPressed: _toggleExpandAll,
-                      tooltip: _expandAll ? 'Réduire tous' : 'Développer tous',
+                      tooltip:
+                          _expandAll
+                              ? S.of(context).collapseAllTooltip
+                              : S.of(context).expandAllTooltip,
                       padding: EdgeInsets.all(8),
                       constraints: BoxConstraints(minWidth: 36, minHeight: 36),
                     ),
@@ -398,7 +402,8 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Filtrer par date',
+                          S.of(context).filterByDate
+,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -414,7 +419,8 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                                 label: Text(
                                   _startDate != null
                                       ? 'Du: ${DateFormat('dd/MM/yyyy').format(_startDate!)}'
-                                      : 'Date Début',
+                                      : S.of(context).startDateLabel
+,
                                   style: TextStyle(fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -447,7 +453,8 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                                 label: Text(
                                   _endDate != null
                                       ? 'Au: ${DateFormat('dd/MM/yyyy').format(_endDate!)}'
-                                      : 'Date Fin',
+                                      : S.of(context).endDateLabel
+,
                                   style: TextStyle(fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -495,7 +502,8 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                               ),
                             ),
                             child: Text(
-                              'Appliquer',
+                              S.of(context).applyFilter
+,
                               style: TextStyle(
                                 color: AppColors.buttonTextColor,
                               ),

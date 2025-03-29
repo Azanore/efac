@@ -4,6 +4,7 @@ import '/core/models/admin_invoice.dart';
 import '/core/utils/app_colors.dart';
 import '/widgets/invoice_item_styles.dart';
 import '/core/utils/admin_invoice_utils.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class AdminInvoiceListItemWidget extends StatefulWidget {
   final AdminInvoice adminInvoice;
@@ -188,7 +189,7 @@ class _AdminInvoiceListItemWidgetState
                 children: [
                   _buildInfoRow(
                     Icons.calendar_today,
-                    'Date',
+                    S.of(context).invoiceDate,
                     DateFormat(
                       'dd/MM/yyyy',
                     ).format(widget.adminInvoice.invoice.createdAt),
@@ -198,7 +199,7 @@ class _AdminInvoiceListItemWidgetState
                   SizedBox(height: 8),
                   _buildInfoRow(
                     Icons.attach_money,
-                    'Montant',
+                    S.of(context).invoiceAmount,
                     '${widget.adminInvoice.invoice.amount.toStringAsFixed(2)} MAD',
                     iconColor,
                     textColor,
@@ -207,7 +208,7 @@ class _AdminInvoiceListItemWidgetState
                   if (widget.adminInvoice.userLegalName != null)
                     _buildInfoRow(
                       Icons.business,
-                      'Société',
+                      S.of(context).generalCompany,
                       widget.adminInvoice.userLegalName!,
                       iconColor,
                       textColor,
@@ -216,7 +217,7 @@ class _AdminInvoiceListItemWidgetState
                     SizedBox(height: 8),
                     _buildInfoRow(
                       Icons.confirmation_number,
-                      'ICE',
+                      S.of(context).generalIce,
                       widget.adminInvoice.userIce!,
                       iconColor,
                       textColor,
@@ -226,7 +227,7 @@ class _AdminInvoiceListItemWidgetState
                     SizedBox(height: 8),
                     _buildInfoRow(
                       Icons.email,
-                      'Email',
+                      S.of(context).generalEmail,
                       widget.adminInvoice.userEmail!,
                       iconColor,
                       textColor,

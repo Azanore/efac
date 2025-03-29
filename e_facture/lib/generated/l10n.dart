@@ -545,9 +545,9 @@ class S {
     );
   }
 
-  /// `DH`
+  /// `MAD`
   String get currencySymbol {
-    return Intl.message('DH', name: 'currencySymbol', desc: '', args: []);
+    return Intl.message('MAD', name: 'currencySymbol', desc: '', args: []);
   }
 
   /// `Create invoice`
@@ -1245,10 +1245,10 @@ class S {
     );
   }
 
-  /// `My Invoices`
+  /// `User Invoices`
   String get userInvoicesTitle {
     return Intl.message(
-      'My Invoices',
+      'User Invoices',
       name: 'userInvoicesTitle',
       desc: '',
       args: [],
@@ -1533,6 +1533,174 @@ class S {
       desc: '',
       args: [],
     );
+  }
+
+  /// `Status`
+  String get status {
+    return Intl.message('Status', name: 'status', desc: '', args: []);
+  }
+
+  /// `Active users`
+  String get activeUsersStatus {
+    return Intl.message(
+      'Active users',
+      name: 'activeUsersStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Inactive users`
+  String get inactiveUsersStatus {
+    return Intl.message(
+      'Inactive users',
+      name: 'inactiveUsersStatus',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search`
+  String get search {
+    return Intl.message('Search', name: 'search', desc: '', args: []);
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message('Error', name: 'error', desc: '', args: []);
+  }
+
+  /// `{count, plural, =0{No users found} =1{1 user found} other{{count} users found}}`
+  String userCount(num count) {
+    return Intl.plural(
+      count,
+      zero: 'No users found',
+      one: '1 user found',
+      other: '$count users found',
+      name: 'userCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `All Invoices`
+  String get allInvoicesTitle {
+    return Intl.message(
+      'All Invoices',
+      name: 'allInvoicesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All invoices are loaded.`
+  String get allInvoicesLoaded {
+    return Intl.message(
+      'All invoices are loaded.',
+      name: 'allInvoicesLoaded',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear filter`
+  String get clearFilterTooltip {
+    return Intl.message(
+      'Clear filter',
+      name: 'clearFilterTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Expand all`
+  String get expandAllTooltip {
+    return Intl.message(
+      'Expand all',
+      name: 'expandAllTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Collapse all`
+  String get collapseAllTooltip {
+    return Intl.message(
+      'Collapse all',
+      name: 'collapseAllTooltip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Filter by date`
+  String get filterByDate {
+    return Intl.message(
+      'Filter by date',
+      name: 'filterByDate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start Date`
+  String get startDateLabel {
+    return Intl.message(
+      'Start Date',
+      name: 'startDateLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End Date`
+  String get endDateLabel {
+    return Intl.message('End Date', name: 'endDateLabel', desc: '', args: []);
+  }
+
+  /// `Date:`
+  String get dateRangeText {
+    return Intl.message('Date:', name: 'dateRangeText', desc: '', args: []);
+  }
+
+  /// `Search:`
+  String get searchQueryText {
+    return Intl.message('Search:', name: 'searchQueryText', desc: '', args: []);
+  }
+
+  /// `{count} invoice(s) found`
+  String invoiceCountResult(Object count) {
+    return Intl.message(
+      '$count invoice(s) found',
+      name: 'invoiceCountResult',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Error: {error}`
+  String invoiceError(Object error) {
+    return Intl.message(
+      'Error: $error',
+      name: 'invoiceError',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `Search an invoice...`
+  String get searchInvoiceHint {
+    return Intl.message(
+      'Search an invoice...',
+      name: 'searchInvoiceHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get applyFilter {
+    return Intl.message('Apply', name: 'applyFilter', desc: '', args: []);
   }
 }
 

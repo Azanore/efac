@@ -28,15 +28,25 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(error) => "Erreur: ${error}";
 
-  static String m4(filename) => "Fichier PDF sélectionné : ${filename}";
+  static String m4(count) => "${count} facture(s) trouvée(s)";
 
-  static String m5(status) => "Statut: ${status}";
+  static String m5(error) => "Erreur: ${error}";
+
+  static String m6(filename) => "Fichier PDF sélectionné : ${filename}";
+
+  static String m7(status) => "Statut: ${status}";
+
+  static String m8(count) =>
+      "${Intl.plural(count, zero: 'Aucun utilisateur trouvé', one: '1 utilisateur trouvé', other: '${count} utilisateurs trouvés')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activate": MessageLookupByLibrary.simpleMessage("Activer"),
     "activeStatus": MessageLookupByLibrary.simpleMessage("Actif"),
     "activeUsers": MessageLookupByLibrary.simpleMessage("Utilisateurs actifs"),
+    "activeUsersStatus": MessageLookupByLibrary.simpleMessage(
+      "Utilisateurs actifs",
+    ),
     "active_label": MessageLookupByLibrary.simpleMessage("Actifs"),
     "adminAccountDeactivated": m0,
     "adminCompanyNameLabel": MessageLookupByLibrary.simpleMessage(
@@ -80,10 +90,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "adoption_rate_title": MessageLookupByLibrary.simpleMessage(
       "Taux d’adoption de la plateforme",
     ),
+    "allInvoicesLoaded": MessageLookupByLibrary.simpleMessage(
+      "Toutes les factures sont chargées.",
+    ),
+    "allInvoicesTitle": MessageLookupByLibrary.simpleMessage(
+      "Toutes les Factures",
+    ),
     "allUsers": MessageLookupByLibrary.simpleMessage("Tous les utilisateurs"),
     "allUsersLoaded": MessageLookupByLibrary.simpleMessage(
       "Tous les utilisateurs sont chargés.",
     ),
+    "applyFilter": MessageLookupByLibrary.simpleMessage("Appliquer"),
     "authChangePassword": MessageLookupByLibrary.simpleMessage(
       "Changer le mot de passe",
     ),
@@ -175,8 +192,12 @@ class MessageLookup extends MessageLookupByLibrary {
       "Le mot de passe est trop faible. Il doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.",
     ),
     "clearFilter": MessageLookupByLibrary.simpleMessage("Effacer le filtre"),
+    "clearFilterTooltip": MessageLookupByLibrary.simpleMessage(
+      "Effacer le filtre",
+    ),
     "collapseAll": MessageLookupByLibrary.simpleMessage("Réduire tous"),
-    "currencySymbol": MessageLookupByLibrary.simpleMessage("MAD"),
+    "collapseAllTooltip": MessageLookupByLibrary.simpleMessage("Réduire tous"),
+    "currencySymbol": MessageLookupByLibrary.simpleMessage("DH"),
     "current_year_label": m2,
     "dashboardCreateInvoice": MessageLookupByLibrary.simpleMessage(
       "Créer une facture",
@@ -190,8 +211,11 @@ class MessageLookup extends MessageLookupByLibrary {
     "dashboardViewMyInvoices": MessageLookupByLibrary.simpleMessage(
       "Voir mes factures",
     ),
+    "dateRangeText": MessageLookupByLibrary.simpleMessage("Date :"),
     "deactivate": MessageLookupByLibrary.simpleMessage("Désactiver"),
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
+    "endDateLabel": MessageLookupByLibrary.simpleMessage("Date Fin"),
+    "error": MessageLookupByLibrary.simpleMessage("Erreur"),
     "errorFetchingInvoices": MessageLookupByLibrary.simpleMessage(
       "Erreur lors de la récupération des factures.",
     ),
@@ -248,6 +272,8 @@ class MessageLookup extends MessageLookupByLibrary {
       "An unexpected error occurred. Please try again later.",
     ),
     "expandAll": MessageLookupByLibrary.simpleMessage("Développer tous"),
+    "expandAllTooltip": MessageLookupByLibrary.simpleMessage("Développer tous"),
+    "filterByDate": MessageLookupByLibrary.simpleMessage("Filtrer par date"),
     "filterByStatus": MessageLookupByLibrary.simpleMessage(
       "Filtrer par statut",
     ),
@@ -292,6 +318,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "inactiveUsers": MessageLookupByLibrary.simpleMessage(
       "Utilisateurs inactifs",
     ),
+    "inactiveUsersStatus": MessageLookupByLibrary.simpleMessage(
+      "Utilisateurs inactifs",
+    ),
     "inactive_label": MessageLookupByLibrary.simpleMessage("Inactifs"),
     "invoiceAddInvoice": MessageLookupByLibrary.simpleMessage(
       "Ajouter la facture",
@@ -309,12 +338,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Le montant doit être supérieur à 5 millions.",
     ),
     "invoiceCount": MessageLookupByLibrary.simpleMessage("Nombre de factures"),
+    "invoiceCountResult": m4,
     "invoiceCreateInvoiceTitle": MessageLookupByLibrary.simpleMessage(
       "Créer une Facture",
     ),
     "invoiceDate": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDateFilter": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDownload": MessageLookupByLibrary.simpleMessage("Télécharger"),
+    "invoiceError": m5,
     "invoiceFebruary": MessageLookupByLibrary.simpleMessage("Février"),
     "invoiceFileRequirements": MessageLookupByLibrary.simpleMessage(
       "Le fichier doit être un PDF et < 2 Mo.",
@@ -331,7 +362,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceMoreThan2000": MessageLookupByLibrary.simpleMessage(
       "Plus de 2000€",
     ),
-    "invoicePdfSelected": m4,
+    "invoicePdfSelected": m6,
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "Rechercher une facture...",
     ),
@@ -375,13 +406,23 @@ class MessageLookup extends MessageLookupByLibrary {
     "returned_without_invoice_label": MessageLookupByLibrary.simpleMessage(
       "Revenu sans créer de facture",
     ),
+    "search": MessageLookupByLibrary.simpleMessage("Recherche"),
+    "searchInvoiceHint": MessageLookupByLibrary.simpleMessage(
+      "Rechercher une facture...",
+    ),
+    "searchQueryText": MessageLookupByLibrary.simpleMessage("Recherche :"),
     "searchUserPlaceholder": MessageLookupByLibrary.simpleMessage(
       "Rechercher un utilisateur...",
     ),
+    "startDateLabel": MessageLookupByLibrary.simpleMessage("Date Début"),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("Statistiques"),
-    "statusLabel": m5,
+    "status": MessageLookupByLibrary.simpleMessage("Statut"),
+    "statusLabel": m7,
     "totalAmountLabel": MessageLookupByLibrary.simpleMessage("Montant Total"),
-    "userInvoicesTitle": MessageLookupByLibrary.simpleMessage("Mes Factures"),
+    "userCount": m8,
+    "userInvoicesTitle": MessageLookupByLibrary.simpleMessage(
+      "Factures Utilisateur",
+    ),
     "user_status_chart_title": MessageLookupByLibrary.simpleMessage(
       "Utilisateurs Actifs vs Inactifs",
     ),

@@ -171,5 +171,28 @@
   "totalAmountLabel": "المبلغ الإجمالي",
   "deactivate": "تعطيل",
   "activate": "تفعيل",
-  "viewInvoices": "عرض الفواتير"
+  "viewInvoices": "عرض الفواتير",
+  "status": "الحالة",
+  "activeUsersStatus": "مستخدمون نشطون",
+  "inactiveUsersStatus": "مستخدمون غير نشطين",
+  "search": "بحث",
+  "error": "خطأ",
+  "userCount": "{count, plural, =0{لم يتم العثور على مستخدمين} =1{تم العثور على مستخدم واحد} other{تم العثور على {count} مستخدمين}}",
+  "userInvoicesTitle": "فواتير المستخدم",
+  "allInvoicesTitle": "جميع الفواتير",
+  "allInvoicesLoaded": "تم تحميل جميع الفواتير.",
+  "clearFilterTooltip": "مسح الفلتر",
+  "expandAllTooltip": "توسيع الكل",
+  "collapseAllTooltip": "طي الكل",
+  "filterByDate": "تصفية حسب التاريخ",
+  "startDateLabel": "تاريخ البداية",
+  "endDateLabel": "تاريخ النهاية",
+  "searchQueryText": "بحث:",
+  "dateRangeText": "التاريخ:",
+  "invoiceCountResult": "تم العثور على {count} فاتورة",
+  "invoiceError": "خطأ: {error}",
+  "searchInvoiceHint": "ابحث عن فاتورة...",
+  "applyFilter": "تطبيق"
+
+
 }

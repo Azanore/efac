@@ -129,7 +129,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                 children: [
                   _buildInfoRow(
                     Icons.business,
-                    S.of(context).iceLabel,
+                    S.of(context).generalIce,
                     widget.user.ice,
                     iconColor,
                     textColor,
@@ -154,7 +154,7 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                   _buildInfoRow(
                     Icons.attach_money,
                     S.of(context).totalAmountLabel,
-                    '${widget.user.totalAmount.toStringAsFixed(2)} MAD',
+                    '${widget.user.totalAmount.toStringAsFixed(2)} ${S.of(context).currencySymbol}',
                     iconColor,
                     textColor,
                   ),
