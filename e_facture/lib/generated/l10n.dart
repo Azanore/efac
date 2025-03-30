@@ -1702,6 +1702,139 @@ class S {
   String get applyFilter {
     return Intl.message('Apply', name: 'applyFilter', desc: '', args: []);
   }
+
+  /// `From: {date}`
+  String fromDateLabel(Object date) {
+    return Intl.message(
+      'From: $date',
+      name: 'fromDateLabel',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `To: {date}`
+  String toDateLabel(Object date) {
+    return Intl.message(
+      'To: $date',
+      name: 'toDateLabel',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `From {date}`
+  String fromDateFilterDisplay(Object date) {
+    return Intl.message(
+      'From $date',
+      name: 'fromDateFilterDisplay',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `To {date}`
+  String toDateFilterDisplay(Object date) {
+    return Intl.message(
+      'To $date',
+      name: 'toDateFilterDisplay',
+      desc: '',
+      args: [date],
+    );
+  }
+
+  /// `Search: "{query}"`
+  String searchQueryDisplay(Object query) {
+    return Intl.message(
+      'Search: "$query"',
+      name: 'searchQueryDisplay',
+      desc: '',
+      args: [query],
+    );
+  }
+
+  /// `{count, plural, =0{No invoice found} =1{1 invoice found} other{{count} invoices found}}`
+  String invoicesFoundCount(num count) {
+    return Intl.plural(
+      count,
+      zero: 'No invoice found',
+      one: '1 invoice found',
+      other: '$count invoices found',
+      name: 'invoicesFoundCount',
+      desc: '',
+      args: [count],
+    );
+  }
+
+  /// `Error: {error}`
+  String errorPrefix(Object error) {
+    return Intl.message(
+      'Error: $error',
+      name: 'errorPrefix',
+      desc: '',
+      args: [error],
+    );
+  }
+
+  /// `No invoices found`
+  String get noInvoicesFound {
+    return Intl.message(
+      'No invoices found',
+      name: 'noInvoicesFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Active filter`
+  String get activeFilter {
+    return Intl.message(
+      'Active filter',
+      name: 'activeFilter',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show as list`
+  String get showListView {
+    return Intl.message(
+      'Show as list',
+      name: 'showListView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show as grid`
+  String get showGridView {
+    return Intl.message(
+      'Show as grid',
+      name: 'showGridView',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start date`
+  String get startDatePlaceholder {
+    return Intl.message(
+      'Start date',
+      name: 'startDatePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `End date`
+  String get endDatePlaceholder {
+    return Intl.message(
+      'End date',
+      name: 'endDatePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

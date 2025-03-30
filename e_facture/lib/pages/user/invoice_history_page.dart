@@ -223,7 +223,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
         padding: const EdgeInsets.symmetric(vertical: 16),
         child: Center(
           child: Text(
-            'Toutes les factures sont chargées.',
+            S.of(context).allInvoicesLoaded,
             style: TextStyle(
               fontSize: 14,
               color: AppColors.textColor(context).withOpacity(0.7),
@@ -241,7 +241,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
     return Scaffold(
       appBar: AppBarWidget(
         rightAction: QuickSettingsWidget(),
-        title: S.of(context).adminIceLabel,
+        title: S.of(context).userInvoicesTitle,
       ),
       body: Column(
         children: [
@@ -278,8 +278,8 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                             Expanded(
                               child: Text(
                                 _isFilterApplied
-                                    ? 'Filtre actif'
-                                    : 'Filtrer par date',
+                                    ? S.of(context).activeFilter
+                                    : S.of(context).filterByDate,
                                 style: TextStyle(
                                   color: AppColors.buttonTextColor,
                                   fontSize: 13,
@@ -321,7 +321,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                           color: AppColors.iconColor(context),
                         ),
                         onPressed: _resetFilters,
-                        tooltip: 'Effacer le filtre',
+                        tooltip: S.of(context).clearFilterTooltip,
                         padding: EdgeInsets.all(8),
                         constraints: BoxConstraints(
                           minWidth: 36,
@@ -337,8 +337,8 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                       onPressed: _toggleViewMode,
                       tooltip:
                           _isGridView
-                              ? 'Afficher en liste'
-                              : 'Afficher en grille',
+                              ? S.of(context).showListView
+                              : S.of(context).showGridView,
                       padding: EdgeInsets.all(8),
                       constraints: BoxConstraints(minWidth: 36, minHeight: 36),
                     ),
@@ -367,8 +367,8 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                         SizedBox(width: 4),
                         Expanded(
                           child: Text(
-                            'Date: ${_startDate != null ? "Du ${DateFormat('dd/MM/yyyy').format(_startDate!)}" : ""}'
-                            '${_endDate != null ? " Au ${DateFormat('dd/MM/yyyy').format(_endDate!)}" : ""}',
+                            '${S.of(context).dateRangeText} ${_startDate != null ? S.of(context).fromDateLabel(DateFormat('dd/MM/yyyy').format(_startDate!)) : ""}'
+                            '${_endDate != null ? S.of(context).toDateLabel(DateFormat('dd/MM/yyyy').format(_endDate!)) : ""}',
                             style: TextStyle(
                               fontSize: 12,
                               color: AppColors.textColor(context),
@@ -406,8 +406,14 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                               child: _buildDatePickerButton(
                                 label:
                                     _startDate != null
-                                        ? 'Du: ${DateFormat('dd/MM/yyyy').format(_startDate!)}'
-                                        : 'Date Début',
+                                        ? S
+                                            .of(context)
+                                            .fromDateLabel(
+                                              DateFormat(
+                                                'dd/MM/yyyy',
+                                              ).format(_startDate!),
+                                            )
+                                        : S.of(context).startDatePlaceholder,
                                 onPressed: () async {
                                   DateTime? picked = await showDatePicker(
                                     context: context,
@@ -426,8 +432,14 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                               child: _buildDatePickerButton(
                                 label:
                                     _endDate != null
-                                        ? 'Au: ${DateFormat('dd/MM/yyyy').format(_endDate!)}'
-                                        : 'Date Fin',
+                                        ? S
+                                            .of(context)
+                                            .toDateLabel(
+                                              DateFormat(
+                                                'dd/MM/yyyy',
+                                              ).format(_endDate!),
+                                            )
+                                        : S.of(context).endDatePlaceholder,
                                 onPressed: () async {
                                   DateTime? picked = await showDatePicker(
                                     context: context,
@@ -457,7 +469,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                               ),
                             ),
                             child: Text(
-                              'Appliquer',
+                              S.of(context).applyFilter,
                               style: TextStyle(
                                 color: AppColors.buttonTextColor,
                               ),
@@ -477,7 +489,9 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
               child: Consumer<InvoiceService>(
                 builder:
                     (context, invoiceService, _) => Text(
-                      '${invoiceService.totalInvoices} facture${invoiceService.totalInvoices > 1 ? 's' : ''} trouvée${invoiceService.totalInvoices > 1 ? 's' : ''}',
+                      S
+                          .of(context)
+                          .invoicesFoundCount(invoiceService.totalInvoices),
                       style: TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.normal,
@@ -520,7 +534,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                       if (invoiceService.error != null) {
                         return Center(
                           child: Text(
-                            S.of(context).errorMessage(invoiceService.error!),
+                            S.of(context).errorPrefix(invoiceService.error!),
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.errorColor,
@@ -532,7 +546,7 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                       if (invoices.isEmpty) {
                         return Center(
                           child: Text(
-                            'Aucune facture trouvée.',
+                            S.of(context).noInvoicesFound,
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.textColor(context),
@@ -541,42 +555,33 @@ class _UserInvoicesPageState extends State<UserInvoicesPage> {
                         );
                       }
 
-                      return Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: CustomScrollbar(
-                          controller: _scrollController,
-                          child: CustomScrollView(
-                            controller: _scrollController,
-                            slivers: [
-                              _isGridView
-                                  ? SliverGrid(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          crossAxisSpacing: 16,
-                                          mainAxisSpacing: 16,
-                                          childAspectRatio: 0.8,
-                                        ),
-                                    delegate: SliverChildBuilderDelegate(
-                                      (context, index) =>
-                                          InvoiceCard(invoice: invoices[index]),
-                                      childCount: invoices.length,
-                                    ),
-                                  )
-                                  : SliverList(
-                                    delegate: SliverChildBuilderDelegate((
-                                      context,
-                                      index,
-                                    ) {
-                                      return InvoiceListItemWidget(
-                                        invoice: invoices[index],
-                                      );
-                                    }, childCount: invoices.length),
+                      return CustomScrollbar(
+                        controller: _scrollController,
+                        slivers: [
+                          if (_isGridView)
+                            GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: invoices.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 16,
+                                    mainAxisSpacing: 16,
+                                    childAspectRatio: 0.8,
                                   ),
-                              SliverToBoxAdapter(child: _buildFooterWidget()),
-                            ],
-                          ),
-                        ),
+                              itemBuilder: (context, index) {
+                                return InvoiceCard(invoice: invoices[index]);
+                              },
+                            )
+                          else
+                            ...invoices.map(
+                              (invoice) =>
+                                  InvoiceListItemWidget(invoice: invoice),
+                            ),
+
+                          _buildFooterWidget(),
+                        ],
                       );
                     },
                   ),

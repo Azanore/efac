@@ -192,5 +192,18 @@
   "invoiceCountResult": "{count} facture(s) trouvée(s)",
   "invoiceError": "Erreur: {error}",
   "searchInvoiceHint": "Rechercher une facture...",
-  "applyFilter": "Appliquer"
+  "applyFilter": "Appliquer",
+  "fromDateLabel": "Du: {date}",
+  "toDateLabel": "Au: {date}",
+  "fromDateFilterDisplay": "Du {date}",
+  "toDateFilterDisplay": "Au {date}",
+  "searchQueryDisplay": "Recherche: \"{query}\"",
+  "invoicesFoundCount": "{count, plural, =0{Aucune facture trouvée} =1{1 facture trouvée} other{{count} factures trouvées}}",
+  "errorPrefix": "Erreur: {error}",
+  "noInvoicesFound": "Aucune facture trouvée",
+  "activeFilter": "Filtre actif",
+  "showListView": "Afficher en liste",
+  "showGridView": "Afficher en grille",
+  "startDatePlaceholder": "Date début",
+  "endDatePlaceholder": "Date fin"
 }

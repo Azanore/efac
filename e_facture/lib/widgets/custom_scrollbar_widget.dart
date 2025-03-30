@@ -1,33 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:e_facture/core/utils/app_colors.dart';
 
 class CustomScrollbar extends StatelessWidget {
-  final Widget child;
   final ScrollController controller;
+  final List<Widget> slivers;
+  final EdgeInsetsGeometry padding;
 
   const CustomScrollbar({
     super.key,
-    required this.child,
     required this.controller,
+    required this.slivers,
+    this.padding = const EdgeInsetsDirectional.only(
+      start: 16,
+      end: 16,
+      top: 16,
+      bottom: 16,
+    ),
   });
 
   @override
   Widget build(BuildContext context) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final thumbColor =
-        isDarkMode
-            ? AppColors.lightPrimaryColor.withAlpha((255 * 0.7).toInt())
-            : AppColors.lightPrimaryColor.withAlpha((255 * 0.6).toInt());
-
-    return RawScrollbar(
-      controller: controller,
-      thumbVisibility: true,
-      radius: const Radius.circular(8),
-      thickness: 4, // scrollbar fine
-      thumbColor: thumbColor,
-      child: Padding(
-        padding: const EdgeInsets.only(right: 8), // pour ne pas coller au bord
-        child: child,
+    return ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
+      child: Scrollbar(
+        controller: controller,
+        thumbVisibility: true,
+        thickness: 4,
+        radius: const Radius.circular(8),
+        child: CustomScrollView(
+          controller: controller,
+          slivers: [
+            SliverPadding(
+              padding: padding,
+              sliver: SliverList(delegate: SliverChildListDelegate(slivers)),
+            ),
+          ],
+        ),
       ),
     );
   }

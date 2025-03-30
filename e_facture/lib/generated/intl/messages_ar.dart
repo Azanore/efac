@@ -28,20 +28,36 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(error) => "خطأ: ${error}";
 
-  static String m4(count) => "تم العثور على ${count} فاتورة";
+  static String m4(error) => "خطأ: ${error}";
 
-  static String m5(error) => "خطأ: ${error}";
+  static String m5(date) => "من ${date}";
 
-  static String m6(filename) => "تم اختيار ملف PDF: ${filename}";
+  static String m6(date) => "من: ${date}";
 
-  static String m7(status) => "الحالة: ${status}";
+  static String m7(count) => "تم العثور على ${count} فاتورة";
 
-  static String m8(count) =>
+  static String m8(error) => "خطأ: ${error}";
+
+  static String m9(filename) => "تم اختيار ملف PDF: ${filename}";
+
+  static String m10(count) =>
+      "${Intl.plural(count, zero: 'لم يتم العثور على أي فاتورة', one: 'تم العثور على فاتورة واحدة', few: 'تم العثور على ${count} فواتير', many: 'تم العثور على ${count} فاتورة', other: 'تم العثور على ${count} فاتورة')}";
+
+  static String m11(query) => "بحث: \"${query}\"";
+
+  static String m12(status) => "الحالة: ${status}";
+
+  static String m13(date) => "إلى ${date}";
+
+  static String m14(date) => "إلى: ${date}";
+
+  static String m15(count) =>
       "${Intl.plural(count, zero: 'لم يتم العثور على مستخدمين', one: 'تم العثور على مستخدم واحد', other: 'تم العثور على ${count} مستخدمين')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activate": MessageLookupByLibrary.simpleMessage("تفعيل"),
+    "activeFilter": MessageLookupByLibrary.simpleMessage("تصفية نشطة"),
     "activeStatus": MessageLookupByLibrary.simpleMessage("نشط"),
     "activeUsers": MessageLookupByLibrary.simpleMessage("المستخدمين النشطين"),
     "activeUsersStatus": MessageLookupByLibrary.simpleMessage("مستخدمون نشطون"),
@@ -211,11 +227,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "deactivate": MessageLookupByLibrary.simpleMessage("تعطيل"),
     "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "endDateLabel": MessageLookupByLibrary.simpleMessage("تاريخ النهاية"),
+    "endDatePlaceholder": MessageLookupByLibrary.simpleMessage("تاريخ النهاية"),
     "error": MessageLookupByLibrary.simpleMessage("خطأ"),
     "errorFetchingInvoices": MessageLookupByLibrary.simpleMessage(
       "خطأ في جلب الفواتير.",
     ),
     "errorMessage": m3,
+    "errorPrefix": m4,
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "تم تعطيل هذا الحساب. يرجى الاتصال بالمسؤول.",
     ),
@@ -271,6 +289,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "expandAllTooltip": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
     "filterByDate": MessageLookupByLibrary.simpleMessage("تصفية حسب التاريخ"),
     "filterByStatus": MessageLookupByLibrary.simpleMessage("تصفية حسب الحالة"),
+    "fromDateFilterDisplay": m5,
+    "fromDateLabel": m6,
     "generalAdd": MessageLookupByLibrary.simpleMessage("إضافة"),
     "generalAmount": MessageLookupByLibrary.simpleMessage("المبلغ"),
     "generalCancel": MessageLookupByLibrary.simpleMessage("إلغاء"),
@@ -322,14 +342,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "يجب أن يكون المبلغ أكبر من 5 ملايين.",
     ),
     "invoiceCount": MessageLookupByLibrary.simpleMessage("عدد الفواتير"),
-    "invoiceCountResult": m4,
+    "invoiceCountResult": m7,
     "invoiceCreateInvoiceTitle": MessageLookupByLibrary.simpleMessage(
       "إنشاء فاتورة",
     ),
     "invoiceDate": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "invoiceDateFilter": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "invoiceDownload": MessageLookupByLibrary.simpleMessage("تحميل"),
-    "invoiceError": m5,
+    "invoiceError": m8,
     "invoiceFebruary": MessageLookupByLibrary.simpleMessage("فبراير"),
     "invoiceFileRequirements": MessageLookupByLibrary.simpleMessage(
       "يجب أن يكون الملف بصيغة PDF وأقل من 2 ميجابايت.",
@@ -342,7 +362,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceMoreThan2000": MessageLookupByLibrary.simpleMessage(
       "أكثر من 2000€",
     ),
-    "invoicePdfSelected": m6,
+    "invoicePdfSelected": m9,
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "بحث عن فاتورة...",
     ),
@@ -350,6 +370,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
       "نشاط الفواتير",
     ),
+    "invoicesFoundCount": m10,
     "invoicesLabel": MessageLookupByLibrary.simpleMessage("الفواتير"),
     "languagesArabic": MessageLookupByLibrary.simpleMessage("العربية"),
     "languagesEnglish": MessageLookupByLibrary.simpleMessage("الإنجليزية"),
@@ -374,6 +395,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noInvoicesAvailable": MessageLookupByLibrary.simpleMessage(
       "لا توجد فواتير متاحة.",
     ),
+    "noInvoicesFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على فواتير",
+    ),
     "noUserFound": MessageLookupByLibrary.simpleMessage(
       "لم يتم العثور على مستخدم",
     ),
@@ -390,16 +414,24 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchInvoiceHint": MessageLookupByLibrary.simpleMessage(
       "ابحث عن فاتورة...",
     ),
+    "searchQueryDisplay": m11,
     "searchQueryText": MessageLookupByLibrary.simpleMessage("بحث:"),
     "searchUserPlaceholder": MessageLookupByLibrary.simpleMessage(
       "ابحث عن مستخدم...",
     ),
+    "showGridView": MessageLookupByLibrary.simpleMessage("عرض كشبكة"),
+    "showListView": MessageLookupByLibrary.simpleMessage("عرض كقائمة"),
     "startDateLabel": MessageLookupByLibrary.simpleMessage("تاريخ البداية"),
+    "startDatePlaceholder": MessageLookupByLibrary.simpleMessage(
+      "تاريخ البداية",
+    ),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("الإحصائيات"),
     "status": MessageLookupByLibrary.simpleMessage("الحالة"),
-    "statusLabel": m7,
+    "statusLabel": m12,
+    "toDateFilterDisplay": m13,
+    "toDateLabel": m14,
     "totalAmountLabel": MessageLookupByLibrary.simpleMessage("المبلغ الإجمالي"),
-    "userCount": m8,
+    "userCount": m15,
     "userInvoicesTitle": MessageLookupByLibrary.simpleMessage(
       "فواتير المستخدم",
     ),

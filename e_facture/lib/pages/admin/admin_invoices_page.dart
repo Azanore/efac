@@ -402,8 +402,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          S.of(context).filterByDate
-,
+                          S.of(context).filterByDate,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -418,9 +417,14 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                                 icon: Icon(Icons.date_range, size: 16),
                                 label: Text(
                                   _startDate != null
-                                      ? 'Du: ${DateFormat('dd/MM/yyyy').format(_startDate!)}'
-                                      : S.of(context).startDateLabel
-,
+                                      ? S
+                                          .of(context)
+                                          .fromDateLabel(
+                                            DateFormat(
+                                              'dd/MM/yyyy',
+                                            ).format(_startDate!),
+                                          )
+                                      : S.of(context).startDateLabel,
                                   style: TextStyle(fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -452,9 +456,14 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                                 icon: Icon(Icons.date_range, size: 16),
                                 label: Text(
                                   _endDate != null
-                                      ? 'Au: ${DateFormat('dd/MM/yyyy').format(_endDate!)}'
-                                      : S.of(context).endDateLabel
-,
+                                      ? S
+                                          .of(context)
+                                          .toDateLabel(
+                                            DateFormat(
+                                              'dd/MM/yyyy',
+                                            ).format(_endDate!),
+                                          )
+                                      : S.of(context).endDateLabel,
                                   style: TextStyle(fontSize: 12),
                                   overflow: TextOverflow.ellipsis,
                                 ),
@@ -502,8 +511,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                               ),
                             ),
                             child: Text(
-                              S.of(context).applyFilter
-,
+                              S.of(context).applyFilter,
                               style: TextStyle(
                                 color: AppColors.buttonTextColor,
                               ),
@@ -541,8 +549,7 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                               ),
                               SizedBox(width: 4),
                               Text(
-                                'Date: ${_startDate != null ? "Du ${DateFormat('dd/MM/yyyy').format(_startDate!)}" : ""}'
-                                '${_endDate != null ? " Au ${DateFormat('dd/MM/yyyy').format(_endDate!)}" : ""}',
+                                'Date: ${_startDate != null ? S.of(context).fromDateFilterDisplay(DateFormat('dd/MM/yyyy').format(_startDate!)) : ""}${_endDate != null ? " ${S.of(context).toDateFilterDisplay(DateFormat('dd/MM/yyyy').format(_endDate!))}" : ""}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.textColor(context),
@@ -570,7 +577,9 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                                 SizedBox(width: 4),
                                 Expanded(
                                   child: Text(
-                                    'Recherche: "$_searchQuery"',
+                                    S
+                                        .of(context)
+                                        .searchQueryDisplay(_searchQuery),
                                     style: TextStyle(
                                       fontSize: 12,
                                       color: AppColors.textColor(context),
@@ -592,11 +601,14 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                '${invoiceService.totalInvoices} facture${invoiceService.totalInvoices > 1 ? 's' : ''} trouvée${invoiceService.totalInvoices > 1 ? 's' : ''}',
+                S.of(context).invoicesFoundCount(invoiceService.totalInvoices),
+
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.normal,
-                  color: AppColors.textColor(context).withOpacity(0.7),
+                  color: AppColors.textColor(
+                    context,
+                  ).withAlpha((255 * 0.7).toInt()),
                 ),
               ),
             ),
@@ -607,44 +619,39 @@ class _AdminInvoicesPageState extends State<AdminInvoicesPage> {
                 invoiceService.isLoading && _offset == 0
                     ? Center(child: CircularProgressIndicator())
                     : invoiceService.error != null
-                    ? Center(child: Text('Erreur: ${invoiceService.error}'))
+                    ? Center(
+                      child: Text(
+                        S
+                            .of(context)
+                            .errorPrefix(invoiceService.error ?? 'Unknown'),
+                      ),
+                    )
                     : RefreshIndicator(
                       onRefresh: _resetAndLoadInvoices,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child:
-                            invoiceService.adminInvoices.isEmpty
-                                ? Center(
-                                  child: Text(
-                                    'Aucune facture trouvée',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: AppColors.textColor(context),
-                                    ),
-                                  ),
-                                )
-                                : CustomScrollbar(
-                                  controller: _scrollController,
-                                  child: ListView.builder(
-                                    controller: _scrollController,
-                                    itemCount:
-                                        invoiceService.adminInvoices.length + 1,
-                                    itemBuilder: (context, index) {
-                                      if (index <
-                                          invoiceService.adminInvoices.length) {
-                                        final adminInvoice =
-                                            invoiceService.adminInvoices[index];
-                                        return AdminInvoiceListItemWidget(
-                                          adminInvoice: adminInvoice,
-                                          expandAll: _expandAll,
-                                        );
-                                      } else {
-                                        return _buildFooterWidget();
-                                      }
-                                    },
+                      child:
+                          invoiceService.adminInvoices.isEmpty
+                              ? Center(
+                                child: Text(
+                                  S.of(context).noInvoicesFound,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppColors.textColor(context),
                                   ),
                                 ),
-                      ),
+                              )
+                              : CustomScrollbar(
+                                controller: _scrollController,
+                                slivers: [
+                                  ...invoiceService.adminInvoices.map(
+                                    (adminInvoice) =>
+                                        AdminInvoiceListItemWidget(
+                                          adminInvoice: adminInvoice,
+                                          expandAll: _expandAll,
+                                        ),
+                                  ),
+                                  _buildFooterWidget(),
+                                ],
+                              ),
                     ),
           ),
         ],

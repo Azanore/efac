@@ -510,56 +510,47 @@ class _AdminUsersPageState extends State<AdminUsersPage> {
                     )
                     : RefreshIndicator(
                       onRefresh: _resetAndLoadUsers,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child:
-                            userService.users.isEmpty
-                                ? Center(
-                                  child: Text(
-                                    S.of(context).noUserFound,
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      color: AppColors.textColor(context),
-                                    ),
-                                  ),
-                                )
-                                : CustomScrollbar(
-                                  controller: _scrollController,
-                                  child: ListView.builder(
-                                    controller: _scrollController,
-                                    itemCount: userService.users.length + 1,
-                                    itemBuilder: (context, index) {
-                                      if (index < userService.users.length) {
-                                        final user = userService.users[index];
-                                        return AdminUserListItemWidgetV2(
-                                          user: user,
-                                          expandAll: _expandAll,
-                                          onToggleStatus: () {
-                                            userService.toggleUserStatus(
-                                              context,
-                                              user.id,
-                                              !user.isActive,
-                                            );
-                                          },
-                                          onViewInvoices: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder:
-                                                    (_) => AdminInvoicesPage(
-                                                      userId: user.id,
-                                                    ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      } else {
-                                        return _buildFooterWidget();
-                                      }
-                                    },
+                      child:
+                          userService.users.isEmpty
+                              ? Center(
+                                child: Text(
+                                  S.of(context).noUserFound,
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: AppColors.textColor(context),
                                   ),
                                 ),
-                      ),
+                              )
+                              : CustomScrollbar(
+                                controller: _scrollController,
+                                slivers: [
+                                  ...userService.users.map(
+                                    (user) => AdminUserListItemWidgetV2(
+                                      user: user,
+                                      expandAll: _expandAll,
+                                      onToggleStatus: () {
+                                        userService.toggleUserStatus(
+                                          context,
+                                          user.id,
+                                          !user.isActive,
+                                        );
+                                      },
+                                      onViewInvoices: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder:
+                                                (_) => AdminInvoicesPage(
+                                                  userId: user.id,
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  _buildFooterWidget(),
+                                ],
+                              ),
                     ),
           ),
         ],

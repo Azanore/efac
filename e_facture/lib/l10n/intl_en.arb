@@ -192,6 +192,18 @@
   "invoiceCountResult": "{count} invoice(s) found",
   "invoiceError": "Error: {error}",
   "searchInvoiceHint": "Search an invoice...",
-  "applyFilter": "Apply"
-
+  "applyFilter": "Apply",
+  "fromDateLabel": "From: {date}",
+  "toDateLabel": "To: {date}",
+  "fromDateFilterDisplay": "From {date}",
+  "toDateFilterDisplay": "To {date}",
+  "searchQueryDisplay": "Search: \"{query}\"",
+  "invoicesFoundCount": "{count, plural, =0{No invoice found} =1{1 invoice found} other{{count} invoices found}}",
+  "errorPrefix": "Error: {error}",
+  "noInvoicesFound": "No invoices found",
+  "activeFilter": "Active filter",
+  "showListView": "Show as list",
+  "showGridView": "Show as grid",
+  "startDatePlaceholder": "Start date",
+  "endDatePlaceholder": "End date"
 }

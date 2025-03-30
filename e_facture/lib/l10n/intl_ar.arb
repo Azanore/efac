@@ -192,7 +192,18 @@
   "invoiceCountResult": "تم العثور على {count} فاتورة",
   "invoiceError": "خطأ: {error}",
   "searchInvoiceHint": "ابحث عن فاتورة...",
-  "applyFilter": "تطبيق"
-
-
+  "applyFilter": "تطبيق",
+  "fromDateLabel": "من: {date}",
+  "toDateLabel": "إلى: {date}",
+  "fromDateFilterDisplay": "من {date}",
+  "toDateFilterDisplay": "إلى {date}",
+  "searchQueryDisplay": "بحث: \"{query}\"",
+  "invoicesFoundCount": "{count, plural, =0{لم يتم العثور على أي فاتورة} =1{تم العثور على فاتورة واحدة} few{تم العثور على {count} فواتير} many{تم العثور على {count} فاتورة} other{تم العثور على {count} فاتورة}}",
+  "errorPrefix": "خطأ: {error}",
+  "noInvoicesFound": "لم يتم العثور على فواتير",
+  "activeFilter": "تصفية نشطة",
+  "showListView": "عرض كقائمة",
+  "showGridView": "عرض كشبكة",
+  "startDatePlaceholder": "تاريخ البداية",
+  "endDatePlaceholder": "تاريخ النهاية"
 }

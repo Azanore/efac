@@ -28,20 +28,36 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m3(error) => "Erreur: ${error}";
 
-  static String m4(count) => "${count} facture(s) trouvée(s)";
+  static String m4(error) => "Erreur: ${error}";
 
-  static String m5(error) => "Erreur: ${error}";
+  static String m5(date) => "Du ${date}";
 
-  static String m6(filename) => "Fichier PDF sélectionné : ${filename}";
+  static String m6(date) => "Du: ${date}";
 
-  static String m7(status) => "Statut: ${status}";
+  static String m7(count) => "${count} facture(s) trouvée(s)";
 
-  static String m8(count) =>
+  static String m8(error) => "Erreur: ${error}";
+
+  static String m9(filename) => "Fichier PDF sélectionné : ${filename}";
+
+  static String m10(count) =>
+      "${Intl.plural(count, zero: 'Aucune facture trouvée', one: '1 facture trouvée', other: '${count} factures trouvées')}";
+
+  static String m11(query) => "Recherche: \"${query}\"";
+
+  static String m12(status) => "Statut: ${status}";
+
+  static String m13(date) => "Au ${date}";
+
+  static String m14(date) => "Au: ${date}";
+
+  static String m15(count) =>
       "${Intl.plural(count, zero: 'Aucun utilisateur trouvé', one: '1 utilisateur trouvé', other: '${count} utilisateurs trouvés')}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
     "activate": MessageLookupByLibrary.simpleMessage("Activer"),
+    "activeFilter": MessageLookupByLibrary.simpleMessage("Filtre actif"),
     "activeStatus": MessageLookupByLibrary.simpleMessage("Actif"),
     "activeUsers": MessageLookupByLibrary.simpleMessage("Utilisateurs actifs"),
     "activeUsersStatus": MessageLookupByLibrary.simpleMessage(
@@ -215,11 +231,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "deactivate": MessageLookupByLibrary.simpleMessage("Désactiver"),
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "endDateLabel": MessageLookupByLibrary.simpleMessage("Date Fin"),
+    "endDatePlaceholder": MessageLookupByLibrary.simpleMessage("Date fin"),
     "error": MessageLookupByLibrary.simpleMessage("Erreur"),
     "errorFetchingInvoices": MessageLookupByLibrary.simpleMessage(
       "Erreur lors de la récupération des factures.",
     ),
     "errorMessage": m3,
+    "errorPrefix": m4,
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "Ce compte a été désactivé. Veuillez contacter l\'administrateur.",
     ),
@@ -277,6 +295,8 @@ class MessageLookup extends MessageLookupByLibrary {
     "filterByStatus": MessageLookupByLibrary.simpleMessage(
       "Filtrer par statut",
     ),
+    "fromDateFilterDisplay": m5,
+    "fromDateLabel": m6,
     "generalAdd": MessageLookupByLibrary.simpleMessage("Ajouter"),
     "generalAmount": MessageLookupByLibrary.simpleMessage("Montant"),
     "generalCancel": MessageLookupByLibrary.simpleMessage("Annuler"),
@@ -338,14 +358,14 @@ class MessageLookup extends MessageLookupByLibrary {
       "Le montant doit être supérieur à 5 millions.",
     ),
     "invoiceCount": MessageLookupByLibrary.simpleMessage("Nombre de factures"),
-    "invoiceCountResult": m4,
+    "invoiceCountResult": m7,
     "invoiceCreateInvoiceTitle": MessageLookupByLibrary.simpleMessage(
       "Créer une Facture",
     ),
     "invoiceDate": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDateFilter": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDownload": MessageLookupByLibrary.simpleMessage("Télécharger"),
-    "invoiceError": m5,
+    "invoiceError": m8,
     "invoiceFebruary": MessageLookupByLibrary.simpleMessage("Février"),
     "invoiceFileRequirements": MessageLookupByLibrary.simpleMessage(
       "Le fichier doit être un PDF et < 2 Mo.",
@@ -362,7 +382,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceMoreThan2000": MessageLookupByLibrary.simpleMessage(
       "Plus de 2000€",
     ),
-    "invoicePdfSelected": m6,
+    "invoicePdfSelected": m9,
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "Rechercher une facture...",
     ),
@@ -370,6 +390,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
       "Activité des Factures",
     ),
+    "invoicesFoundCount": m10,
     "invoicesLabel": MessageLookupByLibrary.simpleMessage("Factures"),
     "languagesArabic": MessageLookupByLibrary.simpleMessage("Arabe"),
     "languagesEnglish": MessageLookupByLibrary.simpleMessage("Anglais"),
@@ -394,6 +415,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "noInvoicesAvailable": MessageLookupByLibrary.simpleMessage(
       "Aucune facture disponible.",
     ),
+    "noInvoicesFound": MessageLookupByLibrary.simpleMessage(
+      "Aucune facture trouvée",
+    ),
     "noUserFound": MessageLookupByLibrary.simpleMessage(
       "Aucun utilisateur trouvé",
     ),
@@ -410,16 +434,22 @@ class MessageLookup extends MessageLookupByLibrary {
     "searchInvoiceHint": MessageLookupByLibrary.simpleMessage(
       "Rechercher une facture...",
     ),
+    "searchQueryDisplay": m11,
     "searchQueryText": MessageLookupByLibrary.simpleMessage("Recherche :"),
     "searchUserPlaceholder": MessageLookupByLibrary.simpleMessage(
       "Rechercher un utilisateur...",
     ),
+    "showGridView": MessageLookupByLibrary.simpleMessage("Afficher en grille"),
+    "showListView": MessageLookupByLibrary.simpleMessage("Afficher en liste"),
     "startDateLabel": MessageLookupByLibrary.simpleMessage("Date Début"),
+    "startDatePlaceholder": MessageLookupByLibrary.simpleMessage("Date début"),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("Statistiques"),
     "status": MessageLookupByLibrary.simpleMessage("Statut"),
-    "statusLabel": m7,
+    "statusLabel": m12,
+    "toDateFilterDisplay": m13,
+    "toDateLabel": m14,
     "totalAmountLabel": MessageLookupByLibrary.simpleMessage("Montant Total"),
-    "userCount": m8,
+    "userCount": m15,
     "userInvoicesTitle": MessageLookupByLibrary.simpleMessage(
       "Factures Utilisateur",
     ),
