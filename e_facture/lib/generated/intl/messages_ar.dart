@@ -156,6 +156,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "authForgotPassword": MessageLookupByLibrary.simpleMessage(
       "نسيت كلمة المرور؟",
     ),
+    "authInvalidCurrentPassword": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور الحالية غير صحيحة.",
+    ),
     "authInvalidEmail": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني غير صالح.",
     ),

@@ -144,6 +144,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "authForgotPassword": MessageLookupByLibrary.simpleMessage(
       "Forgot Password?",
     ),
+    "authInvalidCurrentPassword": MessageLookupByLibrary.simpleMessage(
+      "Incorrect current password.",
+    ),
     "authInvalidEmail": MessageLookupByLibrary.simpleMessage("Invalid email."),
     "authLogin": MessageLookupByLibrary.simpleMessage("Log In"),
     "authLoginButton": MessageLookupByLibrary.simpleMessage("Log In"),

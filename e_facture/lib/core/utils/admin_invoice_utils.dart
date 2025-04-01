@@ -5,11 +5,11 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:open_file/open_file.dart';
 import 'package:e_facture/core/models/admin_invoice.dart';
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class AdminInvoiceUtils {
   static final FlutterLocalNotificationsPlugin _notifications =

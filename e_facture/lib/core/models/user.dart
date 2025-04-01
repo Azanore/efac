@@ -1,15 +1,17 @@
 class User {
-  final String email; // Email de l'utilisateur
-  final String ice; // Identifiant fiscal de l'entreprise
-  final String legalName; // Nom légal de l'entreprise (raison sociale)
-  final String password; // Mot de passe crypté
-  final bool isActive; // Indique si l'utilisateur est actif
-  final bool isFirstLogin; // Indique si c'est le premier login de l'utilisateur
-  final bool isAdmin; // Indique si l'utilisateur est un administrateur
-  final DateTime createdAt; // Date de création du compte
-  final DateTime updatedAt; // Date de la dernière mise à jour des informations
+  final String id; // <-- Ajouté pour remplacer UserData
+  final String email;
+  final String ice;
+  final String legalName;
+  final String password;
+  final bool isActive;
+  final bool isFirstLogin;
+  final bool isAdmin;
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   User({
+    required this.id, // <-- Ajouté
     required this.email,
     required this.ice,
     required this.legalName,
@@ -21,9 +23,9 @@ class User {
     required this.updatedAt,
   });
 
-  // Méthode pour convertir un objet User en Map (utile pour l'API)
   Map<String, dynamic> toMap() {
     return {
+      'id': id, // <-- Ajouté
       'email': email,
       'ice': ice,
       'legalName': legalName,
@@ -36,19 +38,26 @@ class User {
     };
   }
 
-  // Méthode pour créer un objet User à partir d'un Map (utile pour l'API)
   factory User.fromMap(Map<String, dynamic> map) {
+    print("🧩 User.fromMap raw: $map"); // Temporaire pour debug
+
     return User(
-      email: map['email'],
-      ice: map['ice'],
-      legalName: map['legalName'],
-      password: map['password'],
-      isActive: map['isActive'] ?? true, // Valeur par défaut si manquante
-      isFirstLogin:
-          map['isFirstLogin'] ?? true, // Valeur par défaut si manquante
-      isAdmin: map['isAdmin'] ?? false, // Valeur par défaut si manquante
-      createdAt: DateTime.parse(map['createdAt']),
-      updatedAt: DateTime.parse(map['updatedAt']),
+      id: map['id'] ?? '',
+      email: map['email'] ?? '',
+      ice: map['ice'] ?? '',
+      legalName: map['legalName'] ?? '',
+      password: map['password'] ?? '', // fallback vide
+      isActive: map['isActive'] ?? true,
+      isFirstLogin: map['isFirstLogin'] ?? true,
+      isAdmin: map['isAdmin'] ?? false,
+      createdAt:
+          map['createdAt'] != null
+              ? DateTime.parse(map['createdAt'])
+              : DateTime.now(),
+      updatedAt:
+          map['updatedAt'] != null
+              ? DateTime.parse(map['updatedAt'])
+              : DateTime.now(),
     );
   }
 }

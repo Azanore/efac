@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
-import '/core/services/auth_service.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class DashboardAdmin extends StatefulWidget {
   const DashboardAdmin({super.key});

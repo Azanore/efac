@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:e_facture/widgets/custom_button_widget.dart';
 import 'package:e_facture/core/providers/locale_provider.dart';
 import 'package:e_facture/core/providers/theme_provider.dart';
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:e_facture/generated/l10n.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class DrawerWidget extends StatefulWidget {
   const DrawerWidget({super.key});

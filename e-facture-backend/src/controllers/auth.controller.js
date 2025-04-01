@@ -118,7 +118,7 @@ export const changePassword = async (req, res) => {
     user.password
   );
   if (!isPasswordValid) {
-    return errorResponse(res, "errorsInvalidCredentials", 401);
+    return errorResponse(res, "errorsInvalidCurrentPassword", 401);
   }
 
   if (!validateStrongPassword(newPassword)) {

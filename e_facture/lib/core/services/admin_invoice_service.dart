@@ -4,9 +4,9 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'auth_service.dart';
 import '../models/invoice.dart';
 import '../models/admin_invoice.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class AdminInvoiceService with ChangeNotifier {
   final String baseUrl = dotenv.get('API_URL');

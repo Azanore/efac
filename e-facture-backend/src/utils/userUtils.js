@@ -16,4 +16,8 @@ export const formatUserForClient = (user) => ({
   ice: user.ice,
   isAdmin: user.isAdmin,
   isFirstLogin: user.isFirstLogin,
+  isActive: user.isActive,
+  createdAt: user.createdAt,
+  updatedAt: user.updatedAt,
+  password: "",
 });

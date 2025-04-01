@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:logger/logger.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'auth_service.dart'; // Pour récupérer le token
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class AdminUser {
   final String id;

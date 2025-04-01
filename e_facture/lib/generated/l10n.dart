@@ -2025,6 +2025,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Incorrect current password.`
+  String get authInvalidCurrentPassword {
+    return Intl.message(
+      'Incorrect current password.',
+      name: 'authInvalidCurrentPassword',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

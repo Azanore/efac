@@ -33,6 +33,7 @@ class FeedbackHelper {
       "errorsSamePassword": S.of(context).errorsSamePassword,
       "errorsInvalidUserInfo": S.of(context).errorsInvalidUserInfo,
       "errorsNetwork": S.of(context).errorsNetwork,
+      "errorsInvalidCurrentPassword": S.of(context).authInvalidCurrentPassword,
     };
 
     final message =

@@ -234,5 +234,6 @@
   "errorsWeakPassword": "كلمة المرور ضعيفة جدًا.",
   "errorsSamePassword": "لا يمكن أن تكون كلمة المرور الجديدة مثل القديمة.",
   "errorsInvalidUserInfo": "المعلومات المقدمة غير صحيحة.",
-  "genericSuccess": "تمت العملية بنجاح"
+  "genericSuccess": "تمت العملية بنجاح",
+  "authInvalidCurrentPassword": "كلمة المرور الحالية غير صحيحة."
 }

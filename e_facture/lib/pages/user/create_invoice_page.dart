@@ -1,3 +1,4 @@
+import 'package:e_facture/core/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -8,9 +9,9 @@ import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:e_facture/widgets/app_bar_widget.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/generated/l10n.dart';
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:e_facture/core/services/invoice_service.dart';
 import 'package:logger/logger.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class CreateInvoice extends StatefulWidget {
   const CreateInvoice({super.key});
@@ -145,7 +146,11 @@ class CreateInvoiceState extends State<CreateInvoice> {
         logger.d("Résultat succès: $result");
 
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        await authProvider.fetchUserStats(context);
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+        await userProvider.fetchStats(
+          authProvider.userData!.id,
+          authProvider.token!,
+        );
 
         if (!mounted) return;
 

@@ -1,4 +1,3 @@
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/widgets/app_bar_widget.dart';
 import 'package:e_facture/widgets/custom_scrollbar_widget.dart';
@@ -12,6 +11,7 @@ import 'package:e_facture/core/models/invoice.dart';
 import 'package:intl/intl.dart';
 import 'package:e_facture/widgets/custom_list_item_widget.dart';
 import 'package:logger/logger.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class UserInvoicesPage extends StatefulWidget {
   const UserInvoicesPage({super.key});

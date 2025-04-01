@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:dio/dio.dart';
@@ -13,6 +12,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 class InvoiceService with ChangeNotifier {
   final String baseUrl = dotenv.get('API_URL') + dotenv.get('INVOICE_PATH');

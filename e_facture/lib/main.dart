@@ -1,6 +1,6 @@
+import 'package:e_facture/core/providers/user_provider.dart';
 import 'package:e_facture/core/services/admin_user_service.dart';
 import 'package:e_facture/core/services/admin_invoice_service.dart';
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:e_facture/core/services/invoice_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,6 +21,7 @@ import 'core/providers/theme_provider.dart';
 import 'package:e_facture/generated/l10n.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'pages/splash_screen.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => InvoiceService()),
         ChangeNotifierProvider(create: (_) => AdminUserService()),
         ChangeNotifierProvider(create: (_) => AdminInvoiceService()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MyApp(),
     ),

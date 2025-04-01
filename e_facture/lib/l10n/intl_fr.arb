@@ -234,6 +234,8 @@
   "errorsWeakPassword": "Le mot de passe est trop faible.",
   "errorsSamePassword": "Le nouveau mot de passe ne peut pas être identique à l'ancien.",
   "errorsInvalidUserInfo": "Les informations fournies sont incorrectes.",
-  "genericSuccess": "Opération effectuée avec succès"
+  "genericSuccess": "Opération effectuée avec succès",
+  "authInvalidCurrentPassword": "Mot de passe actuel incorrect."
+
 
 }

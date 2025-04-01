@@ -1,4 +1,3 @@
-import 'package:e_facture/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import '/widgets/app_bar_widget.dart';
 import '/widgets/drawer_widget.dart';
@@ -7,6 +6,8 @@ import '/generated/l10n.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:e_facture/core/providers/auth_provider.dart';
+import 'package:e_facture/core/providers/user_provider.dart';
 
 class DashboardUser extends StatefulWidget {
   const DashboardUser({super.key});
@@ -16,20 +17,20 @@ class DashboardUser extends StatefulWidget {
 }
 
 class _DashboardUserState extends State<DashboardUser> {
-  bool _statsFetched = false;
+  bool _hasFetched = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (!_statsFetched) {
+
+    if (!_hasFetched) {
+      _hasFetched = true;
+
       WidgetsBinding.instance.addPostFrameCallback((_) {
         final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        if (mounted) {
-          authProvider.fetchUserStats(context);
-          setState(() {
-            _statsFetched = true;
-          });
-        }
+        final userProvider = Provider.of<UserProvider>(context, listen: false);
+
+        userProvider.fetchStats(authProvider.userData!.id, authProvider.token!);
       });
     }
   }
@@ -41,14 +42,19 @@ class _DashboardUserState extends State<DashboardUser> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
+    final stats = userProvider.userStats;
+    final isLoading = userProvider.isLoadingStats;
+    final error = userProvider.statsError;
+
     return Scaffold(
       appBar: AppBarWidget(title: S.of(context).navigationDashboardUser),
       drawer: DrawerWidget(),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Center(
           child: Container(
-            constraints: BoxConstraints(maxWidth: 600),
+            constraints: const BoxConstraints(maxWidth: 600),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
@@ -59,7 +65,7 @@ class _DashboardUserState extends State<DashboardUser> {
                   ),
                   color: AppColors.cardColor(context),
                   child: Padding(
-                    padding: EdgeInsets.all(16),
+                    padding: const EdgeInsets.all(16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -71,84 +77,70 @@ class _DashboardUserState extends State<DashboardUser> {
                             color: AppColors.textColor(context),
                           ),
                         ),
-                        SizedBox(height: 20),
-                        Selector<
-                          AuthProvider,
-                          (bool, Map<String, dynamic>?, String?)
-                        >(
-                          selector:
-                              (_, provider) => (
-                                provider.isLoadingStats,
-                                provider.userStats,
-                                provider.statsError,
+                        const SizedBox(height: 20),
+                        if (isLoading || stats == null)
+                          Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.buttonColor,
+                            ),
+                          )
+                        else if (error != null)
+                          Text(
+                            'Erreur : $error',
+                            style: TextStyle(color: AppColors.errorColor),
+                          )
+                        else
+                          Column(
+                            children: [
+                              _buildStatItem(
+                                title: S.of(context).invoiceCount,
+                                value: '${stats['totalInvoices']}',
+                                icon: Icons.receipt,
+                                color: AppColors.buttonColor,
+                                textColor: AppColors.textColor(context),
                               ),
-                          builder: (ctx, statsData, _) {
-                            final isLoading = statsData.$1;
-                            final stats = statsData.$2;
-                            final error = statsData.$3;
-
-                            if (isLoading || stats == null) {
-                              return Center(
-                                child: CircularProgressIndicator(
-                                  color: AppColors.buttonColor,
-                                ),
-                              );
-                            }
-
-                            if (error != null) {
-                              return Text(
-                                'Error: $error',
-                                style: TextStyle(color: AppColors.errorColor),
-                              );
-                            }
-
-                            return Column(
-                              children: [
-                                _buildStatItem(
-                                  title: S.of(context).invoiceCount,
-                                  value: '${stats['totalInvoices']}',
-                                  icon: Icons.receipt,
-                                  color: AppColors.buttonColor,
-                                  textColor: AppColors.textColor(context),
-                                ),
-                                SizedBox(height: 12),
-                                Divider(height: 1),
-                                SizedBox(height: 12),
-                                _buildStatItem(
-                                  title: S.of(context).invoiceTotal,
-                                  value:
-                                      '${_formatAmount(stats['totalAmount'])} ${S.of(context).currencySymbol}',
-                                  icon: Icons.currency_exchange,
-                                  color: AppColors.successColor,
-                                  textColor: AppColors.textColor(context),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                              const SizedBox(height: 12),
+                              const Divider(height: 1),
+                              const SizedBox(height: 12),
+                              _buildStatItem(
+                                title: S.of(context).invoiceTotal,
+                                value:
+                                    '${_formatAmount(stats['totalAmount'])} ${S.of(context).currencySymbol}',
+                                icon: Icons.currency_exchange,
+                                color: AppColors.successColor,
+                                textColor: AppColors.textColor(context),
+                              ),
+                            ],
+                          ),
                       ],
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 CustomButtonWidget(
                   text: S.of(context).invoiceCreateInvoiceTitle,
                   onPressed:
                       () => Navigator.pushNamed(context, '/invoice/create'),
                   backgroundColor: AppColors.successColor,
                   textColor: AppColors.buttonTextColor,
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 40,
+                  ),
                   icon: Icons.add_box,
                   height: 60,
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 CustomButtonWidget(
                   text: S.of(context).dashboardViewMyInvoices,
                   onPressed:
                       () => Navigator.pushNamed(context, '/invoice/history'),
                   backgroundColor: AppColors.primaryColor(context),
                   textColor: AppColors.buttonTextColor,
-                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 40,
+                  ),
                   icon: Icons.history,
                   height: 60,
                 ),
@@ -170,14 +162,14 @@ class _DashboardUserState extends State<DashboardUser> {
     return Row(
       children: [
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
+            color: color.withAlpha((0.1 * 255).round()),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(icon, color: color, size: 24),
         ),
-        SizedBox(width: 15),
+        const SizedBox(width: 15),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,10 +178,10 @@ class _DashboardUserState extends State<DashboardUser> {
                 title,
                 style: TextStyle(
                   fontSize: 14,
-                  color: textColor.withOpacity(0.8),
+                  color: textColor.withAlpha((0.8 * 255).round()),
                 ),
               ),
-              SizedBox(height: 4),
+              const SizedBox(height: 4),
               Text(
                 value,
                 style: TextStyle(

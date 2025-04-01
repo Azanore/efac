@@ -234,5 +234,7 @@
   "errorsWeakPassword": "The password is too weak.",
   "errorsSamePassword": "The new password cannot be the same as the old one.",
   "errorsInvalidUserInfo": "The provided information is incorrect.",
-  "genericSuccess": "Operation completed successfully"
+  "genericSuccess": "Operation completed successfully",
+  "authInvalidCurrentPassword": "Incorrect current password."
+
 }

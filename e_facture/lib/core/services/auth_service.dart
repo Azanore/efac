@@ -1,100 +1,11 @@
-import 'package:flutter/foundation.dart'; // Nécessaire pour compute()
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:logger/logger.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 
-class UserData {
-  final String id;
-  final String email;
-  final String legalName;
-  final String ice;
-  final bool isAdmin;
-  final bool isFirstLogin;
+class AuthService {
+  final Logger logger = Logger();
 
-  UserData({
-    required this.id,
-    required this.email,
-    required this.legalName,
-    required this.ice,
-    required this.isAdmin,
-    required this.isFirstLogin,
-  });
-
-  // Convertir JSON en objet UserData
-  factory UserData.fromJson(Map<String, dynamic> json) {
-    return UserData(
-      id: json['id'] ?? '',
-      email: json['email'] ?? '',
-      legalName: json['legalName'] ?? '',
-      ice: json['ice'] ?? '',
-      isAdmin: json['isAdmin'] ?? false,
-      isFirstLogin: json['isFirstLogin'] ?? true,
-    );
-  }
-
-  // Convertir objet UserData en JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'email': email,
-      'legalName': legalName,
-      'ice': ice,
-      'isAdmin': isAdmin,
-      'isFirstLogin': isFirstLogin,
-    };
-  }
-}
-
-class AuthProvider with ChangeNotifier {
-  final FlutterSecureStorage _storage = FlutterSecureStorage();
-  UserData? _userData;
-  String? _token;
-  bool _isAuthenticated = false;
-
-  var logger = Logger();
-
-  // Variables pour les statistiques utilisateur
-  Map<String, dynamic>? _userStats;
-  bool _isLoadingStats = false;
-  String? _statsError;
-
-  // Getters
-  UserData? get userData => _userData;
-  String? get token => _token;
-  bool get isAuthenticated => _isAuthenticated;
-  bool get isFirstLogin => _userData?.isFirstLogin ?? false;
-  Map<String, dynamic>? get userStats => _userStats;
-  bool get isLoadingStats => _isLoadingStats;
-  String? get statsError => _statsError;
-
-  // Initialiser l'état d'authentification au démarrage
-  Future<void> initAuth() async {
-    final userJson = await _storage.read(key: 'user_data');
-    final token = await _storage.read(key: 'auth_token');
-    logger.i('Stored Token: $token');
-    if (userJson != null && token != null) {
-      _userData = UserData.fromJson(json.decode(userJson));
-      _token = token;
-      _isAuthenticated = true;
-      notifyListeners();
-    }
-  }
-
-  // Helper to process API responses consistently
-  Map<String, dynamic> processApiResponse(dynamic responseData) {
-    final bool success = responseData['success'] == true;
-    final String? code = responseData['code']?.toString().trim();
-
-    return {
-      'success': success,
-      'code': code ?? (success ? 'genericSuccess' : 'errorsInternal'),
-    };
-  }
-
-  // Connexion utilisateur
   Future<Map<String, dynamic>> login(String email, String password) async {
     final String baseUrl = dotenv.get('API_URL');
     final String authPath = dotenv.get('AUTH_PATH');
@@ -111,25 +22,21 @@ class AuthProvider with ChangeNotifier {
       logger.i("📬 Raw login response: ${responseData.toString()}");
 
       if (response.statusCode == 200 && responseData['success'] == true) {
-        // Stocker les données utilisateur et le token
-        final userData = UserData.fromJson(responseData['user']);
-        final token = responseData['token'];
-
-        await _storage.write(
-          key: 'user_data',
-          value: json.encode(userData.toJson()),
-        );
-        await _storage.write(key: 'auth_token', value: token);
-        _userData = userData;
-        _token = token;
-        _isAuthenticated = true;
-
-        notifyListeners();
+        logger.i("🎯 Login success – received user and token");
 
         final result = processApiResponse(responseData);
-        result['isFirstLogin'] = userData.isFirstLogin;
+
+        // 🧩 Ajoute les champs que AuthProvider attend
+        result['user'] = responseData['user'];
+        result['token'] = responseData['token'];
+
+        logger.i("✅ Final processed login result: $result");
+
         return result;
       } else {
+        logger.w(
+          "⚠️ Login failed – status: ${response.statusCode}, body: ${response.body}",
+        );
         return processApiResponse(responseData);
       }
     } catch (e, stack) {
@@ -138,7 +45,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Inscription utilisateur
   Future<Map<String, dynamic>> register(
     String email,
     String ice,
@@ -157,16 +63,15 @@ class AuthProvider with ChangeNotifier {
       );
 
       final responseData = json.decode(response.body);
-      logger.i("📬 Raw registration response: ${responseData.toString()}");
+      logger.i("📬 Raw registration response: $responseData");
 
-      return processApiResponse(responseData);
+      return responseData;
     } catch (e, stack) {
       logger.e("❌ Exception during registration", error: e, stackTrace: stack);
       return {'success': false, 'code': 'errorsNetwork'};
     }
   }
 
-  // Mot de passe oublié
   Future<Map<String, dynamic>> forgotPassword(
     String email,
     String ice,
@@ -185,9 +90,9 @@ class AuthProvider with ChangeNotifier {
       );
 
       final responseData = json.decode(response.body);
-      logger.i("📬 Raw forgot password response: ${responseData.toString()}");
+      logger.i("📬 Raw forgot password response: $responseData");
 
-      return processApiResponse(responseData);
+      return responseData;
     } catch (e, stack) {
       logger.e(
         "❌ Exception during forgot password",
@@ -198,85 +103,18 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Déconnexion utilisateur
-  Future<void> logout() async {
-    await _storage.delete(key: 'user_data');
-    await _storage.delete(key: 'auth_token');
-
-    _userData = null;
-    _token = null;
-    _isAuthenticated = false;
-    _userStats = null;
-    _statsError = null;
-
-    notifyListeners();
-  }
-
-  // Récupérer les statistiques de l'utilisateur avec FutureBuilder
-  Future<Map<String, dynamic>> fetchUserStats(BuildContext context) async {
-    if (_userData == null || _userData!.id.isEmpty) {
-      throw Exception('User not authenticated');
-    }
-
-    _isLoadingStats = true;
-    _statsError = null;
-    notifyListeners();
-
-    final String baseUrl = dotenv.get('API_URL');
-    final String url = '$baseUrl/stats/${_userData!.id}';
-
-    try {
-      final response = await authenticatedRequest(url, 'GET');
-      if (response.statusCode == 200) {
-        final jsonResponse = await compute(_parseJson, response.body);
-
-        if (jsonResponse['success'] == true) {
-          _userStats = {
-            'totalInvoices': jsonResponse['totalInvoices'] ?? 0,
-            'totalAmount': (jsonResponse['totalAmount'] ?? 0).toDouble(),
-          };
-        } else {
-          _statsError = jsonResponse['message'] ?? 'Failed to fetch stats';
-        }
-      } else {
-        _statsError =
-            'Failed to fetch stats. Status code: ${response.statusCode}';
-      }
-    } catch (e) {
-      _statsError = e.toString();
-    } finally {
-      _isLoadingStats = false;
-      notifyListeners();
-    }
-
-    if (_statsError != null) {
-      throw Exception(_statsError);
-    }
-
-    return _userStats!;
-  }
-
-  // Utiliser compute pour analyser les données JSON
-  static Map<String, dynamic> _parseJson(String responseBody) {
-    return json.decode(responseBody);
-  }
-
-  // Effectuer une requête HTTP authentifiée
   Future<http.Response> authenticatedRequest(
     String url,
     String method, {
     Map<String, dynamic>? body,
+    required String token,
   }) async {
-    if (_token == null) {
-      throw Exception('Non authentifié');
-    }
-
     final headers = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $_token',
+      'Authorization': 'Bearer $token',
     };
 
-    logger.i('Sending request to $url with token: $_token');
+    logger.i('Sending request to $url with token: $token');
 
     switch (method.toUpperCase()) {
       case 'GET':
@@ -298,5 +136,19 @@ class AuthProvider with ChangeNotifier {
       default:
         throw Exception('Méthode HTTP non supportée');
     }
+  }
+
+  Map<String, dynamic> processApiResponse(dynamic responseData) {
+    final bool success = responseData['success'] == true;
+    final String? code = responseData['code']?.toString().trim();
+
+    return {
+      'success': success,
+      'code': code ?? (success ? 'genericSuccess' : 'errorsInternal'),
+    };
+  }
+
+  static Map<String, dynamic> parseJson(String responseBody) {
+    return json.decode(responseBody);
   }
 }

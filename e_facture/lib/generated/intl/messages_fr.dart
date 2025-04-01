@@ -156,6 +156,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "authForgotPassword": MessageLookupByLibrary.simpleMessage(
       "Mot de passe oublié ?",
     ),
+    "authInvalidCurrentPassword": MessageLookupByLibrary.simpleMessage(
+      "Mot de passe actuel incorrect.",
+    ),
     "authInvalidEmail": MessageLookupByLibrary.simpleMessage(
       "E-mail invalide.",
     ),
