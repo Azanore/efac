@@ -152,7 +152,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "authLoginPageTitle": MessageLookupByLibrary.simpleMessage("Login Page"),
     "authLoginSuccessful": MessageLookupByLibrary.simpleMessage(
-      "Login successful!",
+      "Login successful.",
     ),
     "authLogoutButton": MessageLookupByLibrary.simpleMessage("Log Out"),
     "authMissingToken": MessageLookupByLibrary.simpleMessage(
@@ -167,6 +167,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "authPasswordMismatch": MessageLookupByLibrary.simpleMessage(
       "Passwords do not match.",
     ),
+    "authPasswordResetSent": MessageLookupByLibrary.simpleMessage(
+      "A password reset email has been sent.",
+    ),
     "authPasswordStrength": MessageLookupByLibrary.simpleMessage(
       "Password Strength",
     ),
@@ -174,7 +177,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Don\'t have an account? Sign up now.",
     ),
     "authRegistrationSuccessful": MessageLookupByLibrary.simpleMessage(
-      "Registration successful! A temporary password has been sent to your email.",
+      "Registration successful!",
     ),
     "authSameOldAndNewPassword": MessageLookupByLibrary.simpleMessage(
       "The new password cannot be the same as the old one.",
@@ -219,29 +222,56 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "This account has been disabled. Please contact the administrator.",
     ),
+    "errorsAccountNotFound": MessageLookupByLibrary.simpleMessage(
+      "No account found with these details.",
+    ),
+    "errorsEmailAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "This email address is already used.",
+    ),
     "errorsEmptyField": MessageLookupByLibrary.simpleMessage(
       "This field cannot be empty.",
     ),
     "errorsEmptyServerResponse": MessageLookupByLibrary.simpleMessage(
       "Empty response from server.",
     ),
+    "errorsIceAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "This ICE is already used.",
+    ),
     "errorsIncorrectCredentials": MessageLookupByLibrary.simpleMessage(
       "Incorrect email or password.",
     ),
+    "errorsInternal": MessageLookupByLibrary.simpleMessage(
+      "An internal error occurred. Please try again later.",
+    ),
+    "errorsInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "Incorrect email or password.",
+    ),
     "errorsInvalidEmail": MessageLookupByLibrary.simpleMessage(
-      "Please enter a valid email.",
+      "Invalid email address.",
     ),
     "errorsInvalidIce": MessageLookupByLibrary.simpleMessage(
-      "ICE must be numeric and contain between 8 and 15 digits.",
+      "ICE must be numeric and between 8 to 15 digits.",
+    ),
+    "errorsInvalidLegalName": MessageLookupByLibrary.simpleMessage(
+      "Company name must be between 3 and 100 characters.",
     ),
     "errorsInvalidPassword": MessageLookupByLibrary.simpleMessage(
       "The provided password is not valid.",
     ),
+    "errorsInvalidUserInfo": MessageLookupByLibrary.simpleMessage(
+      "The provided information is incorrect.",
+    ),
+    "errorsLegalNameAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "This company name is already used.",
+    ),
     "errorsLoginFailed": MessageLookupByLibrary.simpleMessage(
       "Login failed. Please check your credentials.",
     ),
+    "errorsMissingFields": MessageLookupByLibrary.simpleMessage(
+      "All fields are required.",
+    ),
     "errorsNetwork": MessageLookupByLibrary.simpleMessage(
-      "Network error, please try again.",
+      "Network connection issue.",
     ),
     "errorsPasswordChangeRequired": MessageLookupByLibrary.simpleMessage(
       "You need to change your password.",
@@ -251,6 +281,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsRegistrationFailed": MessageLookupByLibrary.simpleMessage(
       "Registration failed.",
+    ),
+    "errorsSamePassword": MessageLookupByLibrary.simpleMessage(
+      "The new password cannot be the same as the old one.",
     ),
     "errorsServerLoginError": MessageLookupByLibrary.simpleMessage(
       "Server error during login.",
@@ -265,7 +298,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "Company name must contain at least 3 characters.",
     ),
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
-      "An unexpected error occurred. Please try again later.",
+      "An unexpected error occurred.",
+    ),
+    "errorsUserDisabled": MessageLookupByLibrary.simpleMessage(
+      "This account has been disabled.",
+    ),
+    "errorsWeakPassword": MessageLookupByLibrary.simpleMessage(
+      "The password is too weak.",
     ),
     "expandAll": MessageLookupByLibrary.simpleMessage("Expand all"),
     "expandAllTooltip": MessageLookupByLibrary.simpleMessage("Expand all"),
@@ -297,6 +336,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "generalTotal": MessageLookupByLibrary.simpleMessage("Total"),
     "generalValidate": MessageLookupByLibrary.simpleMessage("Validate"),
+    "genericSuccess": MessageLookupByLibrary.simpleMessage(
+      "Operation completed successfully",
+    ),
     "homeDescription": MessageLookupByLibrary.simpleMessage(
       "e-Facture is an electronic invoice submission platform for SNRT suppliers.",
     ),
@@ -365,6 +407,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "languagesFrench": MessageLookupByLibrary.simpleMessage("French"),
     "last_seven_days": MessageLookupByLibrary.simpleMessage("Last 7 Days"),
     "loading": MessageLookupByLibrary.simpleMessage("Loading..."),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage("Login successful."),
     "monthly_invoice_title": MessageLookupByLibrary.simpleMessage(
       "Invoices by Month",
     ),
@@ -389,6 +432,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "noUserFound": MessageLookupByLibrary.simpleMessage("No user found"),
     "no_data_message": MessageLookupByLibrary.simpleMessage(
       "No data to display.",
+    ),
+    "passwordChangedSuccess": MessageLookupByLibrary.simpleMessage(
+      "Password changed successfully.",
+    ),
+    "profileRetrieved": MessageLookupByLibrary.simpleMessage(
+      "Profile retrieved successfully.",
+    ),
+    "registrationSuccess": MessageLookupByLibrary.simpleMessage(
+      "Registration successful.",
+    ),
+    "resetEmailSent": MessageLookupByLibrary.simpleMessage(
+      "A temporary password has been sent if the provided information is correct.",
     ),
     "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
       "Returned and created at least 1 invoice",

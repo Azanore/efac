@@ -1,13 +1,17 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:e_facture/widgets/custom_button_widget.dart';
 import 'package:e_facture/widgets/custom_text_field.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:e_facture/widgets/app_bar_widget.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/generated/l10n.dart';
+import 'package:e_facture/core/utils/input_validators.dart';
+import 'package:e_facture/core/utils/feedback_helper.dart';
+import 'package:e_facture/core/services/auth_service.dart';
+import 'package:e_facture/core/constants/app_routes.dart';
+import 'package:e_facture/core/constants/app_constants.dart';
+import 'package:logger/logger.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -17,105 +21,33 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-  final TextEditingController _raisonSocialeController =
-      TextEditingController();
+  final TextEditingController _legalNameController = TextEditingController();
   final TextEditingController _iceController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
+  final Logger logger = Logger();
 
   bool _isLoading = false;
-  String? _errorMessage;
   String? _emailError;
   String? _iceError;
-  String? _raisonSocialeError;
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$",
-    );
-    if (!emailRegExp.hasMatch(value)) {
-      return S.of(context).errorsInvalidEmail;
-    }
-    return null;
-  }
-
-  String? _validateICE(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    final iceRegExp = RegExp(r"^\d{8,15}$");
-    if (!iceRegExp.hasMatch(value)) {
-      return S.of(context).errorsInvalidIce;
-    }
-    return null;
-  }
-
-  String? _validateRaisonSociale(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    if (value.length < 3) {
-      return S.of(context).errorsTooShortCompanyName;
-    }
-    if (value.length > 100) {
-      return S.of(context).errorsTooLongCompanyName;
-    }
-    return null;
-  }
-
-  Future<String?> _register(String email, String ice, String legalName) async {
-    final String baseUrl = dotenv.get('API_URL');
-    final String authPath = dotenv.get('AUTH_PATH');
-    final url = Uri.parse('$baseUrl$authPath/register');
-
-    try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({'email': email, 'ice': ice, 'legalName': legalName}),
-      );
-
-      if (response.statusCode == 201) {
-        return null;
-      } else {
-        String errorMsg = '';
-        try {
-          if (response.body.isNotEmpty) {
-            final errorData = json.decode(response.body);
-            if (errorData != null && errorData.containsKey('message')) {
-              errorMsg = errorData['message'];
-            }
-          }
-        } catch (_) {}
-        return errorMsg.isNotEmpty ? errorMsg : S.of(context).errorsUnexpected;
-      }
-    } catch (_) {
-      return S.of(context).errorsNetwork;
-    }
-  }
+  String? _legalNameError;
 
   Future<void> _signUp() async {
-    final String raisonSociale = _raisonSocialeController.text.trim();
-    final String ice = _iceController.text.trim();
-    final String email = _emailController.text.trim();
+    final email = _emailController.text.trim().toLowerCase();
+    final ice = _iceController.text.trim();
+    final legalName = _legalNameController.text.trim();
+
+    logger.i("👤 Email: $email | ICE: $ice | Legal Name: $legalName");
 
     setState(() {
-      _errorMessage = null;
-      _emailError = null;
-      _iceError = null;
-      _raisonSocialeError = null;
+      _emailError = InputValidators.validateEmail(context, email);
+      _iceError = InputValidators.validateICE(context, ice);
+      _legalNameError = InputValidators.validateLegalName(context, legalName);
     });
 
-    _emailError = _validateEmail(email);
-    _iceError = _validateICE(ice);
-    _raisonSocialeError = _validateRaisonSociale(raisonSociale);
-
-    if (_emailError != null ||
-        _iceError != null ||
-        _raisonSocialeError != null) {
-      setState(() {});
+    if (_emailError != null || _iceError != null || _legalNameError != null) {
+      logger.w(
+        "❌ Validation failed — emailError: $_emailError | iceError: $_iceError | legalNameError: $_legalNameError",
+      );
       return;
     }
 
@@ -123,38 +55,62 @@ class _SignUpState extends State<SignUp> {
       _isLoading = true;
     });
 
-    final String? error = await _register(email, ice, raisonSociale);
+    try {
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    if (!mounted) return;
+      logger.i("📤 Sending registration request...");
+      final result = await authProvider.register(email, ice, legalName);
 
-    if (error == null) {
-      _showMessage(S.of(context).authRegistrationSuccessful, isError: false);
+      logger.i("✅ Parsed result — success: ${result['success']} | code: ${result['code']}");
 
-      Future.delayed(const Duration(seconds: 1), () {
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, '/login');
-        }
-      });
-    } else {
-      setState(() {
-        _errorMessage = error;
-      });
-      _showMessage(_errorMessage!, isError: true);
+      if (!mounted) return;
+
+      if (result['success'] == true) {
+        logger.i("🎉 Registration success");
+        FeedbackHelper.showFromCode(
+          context,
+          result['code'],
+          isError: false,
+        );
+
+        Future.delayed(AppConstants.redirectDelay, () {
+          if (mounted) {
+            logger.i("➡️ Redirecting to login");
+            Navigator.pushReplacementNamed(context, AppRoutes.login);
+          }
+        });
+      } else {
+        FeedbackHelper.showFromCode(
+          context,
+          result['code'],
+          isError: true,
+        );
+      }
+    } catch (error, stack) {
+      logger.e(
+        "❌ Exception during registration",
+        error: error,
+        stackTrace: stack,
+      );
+      if (mounted) {
+        FeedbackHelper.showFromCode(context, "errorsNetwork", isError: true);
+      }
+    } finally {
+      if (mounted) {
+        logger.i("🔄 Registration finished (loading false)");
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
-
-    setState(() {
-      _isLoading = false;
-    });
   }
 
-  void _showMessage(String message, {required bool isError}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? AppColors.errorColor : Colors.green,
-        duration: const Duration(seconds: 5),
-      ),
-    );
+  @override
+  void dispose() {
+    _legalNameController.dispose();
+    _iceController.dispose();
+    _emailController.dispose();
+    super.dispose();
   }
 
   @override
@@ -169,25 +125,19 @@ class _SignUpState extends State<SignUp> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const SizedBox(height: 20),
               Center(
-                child: Image.asset(
-                  'assets/images/snrt_logo.png',
-                  height: 100,
-                  width: 100,
-                ),
+                child: Image.asset('assets/images/snrt_logo.png', height: 100),
               ),
               const SizedBox(height: 20),
               CustomInputFieldWidget(
                 label: S.of(context).generalSocialReason,
                 hint: S.of(context).authEnterCompanyName,
-                controller: _raisonSocialeController,
+                controller: _legalNameController,
                 icon: Icons.business,
                 keyboardType: TextInputType.text,
-                errorText: _raisonSocialeError,
+                errorText: _legalNameError,
               ),
               const SizedBox(height: 10),
               CustomInputFieldWidget(
@@ -222,13 +172,5 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _raisonSocialeController.dispose();
-    _iceController.dispose();
-    _emailController.dispose();
-    super.dispose();
   }
 }

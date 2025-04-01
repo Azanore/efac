@@ -395,10 +395,10 @@ class S {
     );
   }
 
-  /// `Login successful!`
+  /// `Login successful.`
   String get authLoginSuccessful {
     return Intl.message(
-      'Login successful!',
+      'Login successful.',
       name: 'authLoginSuccessful',
       desc: '',
       args: [],
@@ -480,10 +480,10 @@ class S {
     );
   }
 
-  /// `Registration successful! A temporary password has been sent to your email.`
+  /// `Registration successful!`
   String get authRegistrationSuccessful {
     return Intl.message(
-      'Registration successful! A temporary password has been sent to your email.',
+      'Registration successful!',
       name: 'authRegistrationSuccessful',
       desc: '',
       args: [],
@@ -650,20 +650,20 @@ class S {
     );
   }
 
-  /// `Please enter a valid email.`
+  /// `Invalid email address.`
   String get errorsInvalidEmail {
     return Intl.message(
-      'Please enter a valid email.',
+      'Invalid email address.',
       name: 'errorsInvalidEmail',
       desc: '',
       args: [],
     );
   }
 
-  /// `ICE must be numeric and contain between 8 and 15 digits.`
+  /// `ICE must be numeric and between 8 to 15 digits.`
   String get errorsInvalidIce {
     return Intl.message(
-      'ICE must be numeric and contain between 8 and 15 digits.',
+      'ICE must be numeric and between 8 to 15 digits.',
       name: 'errorsInvalidIce',
       desc: '',
       args: [],
@@ -760,20 +760,20 @@ class S {
     );
   }
 
-  /// `Network error, please try again.`
+  /// `Network connection issue.`
   String get errorsNetwork {
     return Intl.message(
-      'Network error, please try again.',
+      'Network connection issue.',
       name: 'errorsNetwork',
       desc: '',
       args: [],
     );
   }
 
-  /// `An unexpected error occurred. Please try again later.`
+  /// `An unexpected error occurred.`
   String get errorsUnexpected {
     return Intl.message(
-      'An unexpected error occurred. Please try again later.',
+      'An unexpected error occurred.',
       name: 'errorsUnexpected',
       desc: '',
       args: [],
@@ -1831,6 +1831,196 @@ class S {
     return Intl.message(
       'End date',
       name: 'endDatePlaceholder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Incorrect email or password.`
+  String get errorsInvalidCredentials {
+    return Intl.message(
+      'Incorrect email or password.',
+      name: 'errorsInvalidCredentials',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This email address is already used.`
+  String get errorsEmailAlreadyUsed {
+    return Intl.message(
+      'This email address is already used.',
+      name: 'errorsEmailAlreadyUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This ICE is already used.`
+  String get errorsIceAlreadyUsed {
+    return Intl.message(
+      'This ICE is already used.',
+      name: 'errorsIceAlreadyUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This account has been disabled.`
+  String get errorsUserDisabled {
+    return Intl.message(
+      'This account has been disabled.',
+      name: 'errorsUserDisabled',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No account found with these details.`
+  String get errorsAccountNotFound {
+    return Intl.message(
+      'No account found with these details.',
+      name: 'errorsAccountNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A password reset email has been sent.`
+  String get authPasswordResetSent {
+    return Intl.message(
+      'A password reset email has been sent.',
+      name: 'authPasswordResetSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Login successful.`
+  String get loginSuccess {
+    return Intl.message(
+      'Login successful.',
+      name: 'loginSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful.`
+  String get registrationSuccess {
+    return Intl.message(
+      'Registration successful.',
+      name: 'registrationSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `All fields are required.`
+  String get errorsMissingFields {
+    return Intl.message(
+      'All fields are required.',
+      name: 'errorsMissingFields',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Company name must be between 3 and 100 characters.`
+  String get errorsInvalidLegalName {
+    return Intl.message(
+      'Company name must be between 3 and 100 characters.',
+      name: 'errorsInvalidLegalName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This company name is already used.`
+  String get errorsLegalNameAlreadyUsed {
+    return Intl.message(
+      'This company name is already used.',
+      name: 'errorsLegalNameAlreadyUsed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An internal error occurred. Please try again later.`
+  String get errorsInternal {
+    return Intl.message(
+      'An internal error occurred. Please try again later.',
+      name: 'errorsInternal',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `A temporary password has been sent if the provided information is correct.`
+  String get resetEmailSent {
+    return Intl.message(
+      'A temporary password has been sent if the provided information is correct.',
+      name: 'resetEmailSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Password changed successfully.`
+  String get passwordChangedSuccess {
+    return Intl.message(
+      'Password changed successfully.',
+      name: 'passwordChangedSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile retrieved successfully.`
+  String get profileRetrieved {
+    return Intl.message(
+      'Profile retrieved successfully.',
+      name: 'profileRetrieved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The password is too weak.`
+  String get errorsWeakPassword {
+    return Intl.message(
+      'The password is too weak.',
+      name: 'errorsWeakPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The new password cannot be the same as the old one.`
+  String get errorsSamePassword {
+    return Intl.message(
+      'The new password cannot be the same as the old one.',
+      name: 'errorsSamePassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The provided information is incorrect.`
+  String get errorsInvalidUserInfo {
+    return Intl.message(
+      'The provided information is incorrect.',
+      name: 'errorsInvalidUserInfo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Operation completed successfully`
+  String get genericSuccess {
+    return Intl.message(
+      'Operation completed successfully',
+      name: 'genericSuccess',
       desc: '',
       args: [],
     );

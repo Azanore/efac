@@ -83,6 +83,17 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
+  // Helper to process API responses consistently
+  Map<String, dynamic> processApiResponse(dynamic responseData) {
+    final bool success = responseData['success'] == true;
+    final String? code = responseData['code']?.toString().trim();
+
+    return {
+      'success': success,
+      'code': code ?? (success ? 'genericSuccess' : 'errorsInternal'),
+    };
+  }
+
   // Connexion utilisateur
   Future<Map<String, dynamic>> login(String email, String password) async {
     final String baseUrl = dotenv.get('API_URL');
@@ -97,8 +108,9 @@ class AuthProvider with ChangeNotifier {
       );
 
       final responseData = json.decode(response.body);
+      logger.i("📬 Raw login response: ${responseData.toString()}");
 
-      if (response.statusCode == 200 && responseData['success']) {
+      if (response.statusCode == 200 && responseData['success'] == true) {
         // Stocker les données utilisateur et le token
         final userData = UserData.fromJson(responseData['user']);
         final token = responseData['token'];
@@ -114,22 +126,75 @@ class AuthProvider with ChangeNotifier {
 
         notifyListeners();
 
-        return {
-          'success': true,
-          'message': responseData['message'],
-          'isFirstLogin': userData.isFirstLogin,
-        };
+        final result = processApiResponse(responseData);
+        result['isFirstLogin'] = userData.isFirstLogin;
+        return result;
       } else {
-        return {
-          'success': false,
-          'message': responseData['message'] ?? 'Une erreur est survenue.',
-        };
+        return processApiResponse(responseData);
       }
-    } catch (e) {
-      return {
-        'success': false,
-        'message': 'Erreur de connexion: ${e.toString()}',
-      };
+    } catch (e, stack) {
+      logger.e("❌ Exception during login", error: e, stackTrace: stack);
+      return {'success': false, 'code': 'errorsNetwork'};
+    }
+  }
+
+  // Inscription utilisateur
+  Future<Map<String, dynamic>> register(
+    String email,
+    String ice,
+    String legalName,
+  ) async {
+    final String baseUrl = dotenv.get('API_URL');
+    final String authPath = dotenv.get('AUTH_PATH');
+    final url = Uri.parse('$baseUrl$authPath/register');
+
+    try {
+      logger.i("📤 Sending register request...");
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': email, 'ice': ice, 'legalName': legalName}),
+      );
+
+      final responseData = json.decode(response.body);
+      logger.i("📬 Raw registration response: ${responseData.toString()}");
+
+      return processApiResponse(responseData);
+    } catch (e, stack) {
+      logger.e("❌ Exception during registration", error: e, stackTrace: stack);
+      return {'success': false, 'code': 'errorsNetwork'};
+    }
+  }
+
+  // Mot de passe oublié
+  Future<Map<String, dynamic>> forgotPassword(
+    String email,
+    String ice,
+    String legalName,
+  ) async {
+    final String baseUrl = dotenv.get('API_URL');
+    final String authPath = dotenv.get('AUTH_PATH');
+    final url = Uri.parse('$baseUrl$authPath/forgot-password');
+
+    try {
+      logger.i("📤 Sending forgot password request...");
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({'email': email, 'ice': ice, 'legalName': legalName}),
+      );
+
+      final responseData = json.decode(response.body);
+      logger.i("📬 Raw forgot password response: ${responseData.toString()}");
+
+      return processApiResponse(responseData);
+    } catch (e, stack) {
+      logger.e(
+        "❌ Exception during forgot password",
+        error: e,
+        stackTrace: stack,
+      );
+      return {'success': false, 'code': 'errorsNetwork'};
     }
   }
 

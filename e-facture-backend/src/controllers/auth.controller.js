@@ -1,6 +1,4 @@
-import bcrypt from "bcrypt";
 import User from "../models/user.model.js";
-
 import {
   validateEmail,
   validateICE,
@@ -13,106 +11,97 @@ import {
   sendResetPasswordEmail,
 } from "../services/emailService.js";
 
-// Fonction utilitaire pour vérifier existence d'utilisateur
-const checkIfUserExists = async (email, ice, legalName) => {
-  const existingUserByLegalName = await User.findOne({ legalName });
-  if (existingUserByLegalName)
-    return "Un utilisateur avec cette raison sociale existe déjà";
-  const existingUserByIce = await User.findOne({ ice });
-  if (existingUserByIce) return "Un utilisateur avec cet ICE existe déjà";
-  const existingUserByEmail = await User.findOne({ email });
-  if (existingUserByEmail) return "Un utilisateur avec cet email existe déjà";
-  return null;
-};
+import { hashPassword, comparePasswords } from "../utils/password.js";
+import { successResponse, errorResponse } from "../utils/responses.js";
+import { checkUserConflicts, formatUserForClient } from "../utils/userUtils.js";
 
 // Register
 export const register = async (req, res) => {
-  const { email, ice, legalName } = req.body;
+  try {
+    const email = req.body.email?.trim().toLowerCase();
+    const { ice, legalName } = req.body;
 
-  if (!email || !ice || !legalName)
-    return res
-      .status(400)
-      .json({ success: false, message: "Tous les champs sont obligatoires" });
-  if (!validateLegalName(legalName))
-    return res.status(400).json({
-      success: false,
-      message: "La raison sociale doit avoir entre 3 et 100 caractères",
+    if (!email || !ice || !legalName) {
+      return errorResponse(res, "errorsMissingFields");
+    }
+
+    if (!validateLegalName(legalName)) {
+      return errorResponse(res, "errorsInvalidLegalName");
+    }
+
+    if (!validateICE(ice)) {
+      return errorResponse(res, "errorsInvalidIce");
+    }
+
+    if (!validateEmail(email)) {
+      return errorResponse(res, "errorsInvalidEmail");
+    }
+
+    const conflicts = await checkUserConflicts({ email, ice, legalName });
+    const conflictCode = Object.values(conflicts)[0];
+    if (conflictCode) {
+      return errorResponse(res, conflictCode, 409);
+    }
+
+    const tempPassword = generateSecurePassword();
+    const hashedPassword = await hashPassword(tempPassword);
+
+    const newUser = new User({
+      email,
+      ice,
+      legalName,
+      password: hashedPassword,
     });
-  if (!validateICE(ice))
-    return res.status(400).json({
-      success: false,
-      message: "L'ICE doit être numérique et avoir entre 8 et 15 chiffres",
-    });
-  if (!validateEmail(email))
-    return res
-      .status(400)
-      .json({ success: false, message: "Format d'email invalide" });
 
-  const errorMessage = await checkIfUserExists(email, ice, legalName);
-  if (errorMessage)
-    return res.status(400).json({ success: false, message: errorMessage });
+    await newUser.save();
+    sendWelcomeEmail(email, tempPassword, legalName);
 
-  const tempPassword = generateSecurePassword();
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(tempPassword, salt);
-
-  const newUser = new User({ email, ice, legalName, password: hashedPassword });
-  await newUser.save();
-
-  sendWelcomeEmail(email, tempPassword, legalName);
-
-  res.status(201).json({
-    success: true,
-    message: "Utilisateur inscrit avec succès. Veuillez vous connecter.",
-  });
+    return successResponse(res, "registrationSuccess");
+  } catch (error) {
+    console.error("Register error:", error);
+    return errorResponse(res, "errorsInternal", 500);
+  }
 };
 
 // Login
 export const login = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const email = req.body.email?.trim().toLowerCase();
+    const { password } = req.body;
 
-  if (!email || !password)
-    return res
-      .status(400)
-      .json({ success: false, message: "Ce champ ne peut pas être vide." });
-  if (!validateEmail(email))
-    return res
-      .status(400)
-      .json({ success: false, message: "Veuillez entrer un email valide." });
+    if (!email || !password) {
+      return errorResponse(res, "errorsMissingFields");
+    }
 
-  const user = await User.findOne({ email });
-  if (!user)
-    return res
-      .status(401)
-      .json({ success: false, message: "Email ou mot de passe incorrect." });
-  if (!user.isActive)
-    return res
-      .status(401)
-      .json({ success: false, message: "Ce compte a été désactivé." });
+    if (!validateEmail(email)) {
+      return errorResponse(res, "errorsInvalidEmail");
+    }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid)
-    return res
-      .status(401)
-      .json({ success: false, message: "Email ou mot de passe incorrect." });
+    const user = await User.findOne({ email });
+    if (!user) {
+      return errorResponse(res, "errorsInvalidCredentials", 401);
+    }
 
-  const token = generateToken(user._id);
+    if (!user.isActive) {
+      return errorResponse(res, "errorsUserDisabled", 403);
+    }
 
-  const userData = {
-    id: user._id,
-    email: user.email,
-    legalName: user.legalName,
-    ice: user.ice,
-    isAdmin: user.isAdmin,
-    isFirstLogin: user.isFirstLogin,
-  };
+    const isPasswordValid = await comparePasswords(password, user.password);
+    if (!isPasswordValid) {
+      return errorResponse(res, "errorsInvalidCredentials", 401);
+    }
 
-  res.status(200).json({
-    success: true,
-    message: "Connexion réussie",
-    user: userData,
-    token: token,
-  });
+    const token = generateToken(user._id);
+    const userData = formatUserForClient(user);
+
+    return successResponse(res, "loginSuccess", {
+      user: userData,
+      token,
+    });
+  } catch (error) {
+    console.error("Login error:", error);
+    return errorResponse(res, "errorsInternal", 500);
+  }
 };
 
 // Change Password
@@ -121,113 +110,69 @@ export const changePassword = async (req, res) => {
   const user = req.user;
 
   if (!currentPassword || !newPassword) {
-    return res.status(400).json({
-      success: false,
-      message: "Ce champ ne peut pas être vide.",
-    });
+    return errorResponse(res, "errorsMissingFields");
   }
 
-  // Vérifier mot de passe actuel
-  const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+  const isPasswordValid = await comparePasswords(
+    currentPassword,
+    user.password
+  );
   if (!isPasswordValid) {
-    return res.status(401).json({
-      success: false,
-      message: "Mot de passe actuel incorrect.",
-    });
+    return errorResponse(res, "errorsInvalidCredentials", 401);
   }
 
-  // Vérifier que le nouveau mot de passe est fort
   if (!validateStrongPassword(newPassword)) {
-    return res.status(400).json({
-      success: false,
-      message:
-        "Le mot de passe est trop faible. Il doit contenir au moins 8 caractères, une majuscule, une minuscule et un chiffre.",
-    });
+    return errorResponse(res, "errorsWeakPassword");
   }
 
-  // Vérifier si le nouveau mot de passe est différent de l'ancien
-  const isSamePassword = await bcrypt.compare(newPassword, user.password);
+  const isSamePassword = await comparePasswords(newPassword, user.password);
   if (isSamePassword) {
-    return res.status(400).json({
-      success: false,
-      message: "Le nouveau mot de passe ne peut pas être identique à l'ancien.",
-    });
+    return errorResponse(res, "errorsSamePassword");
   }
 
-  // Hasher et enregistrer
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(newPassword, salt);
-
-  user.password = hashedPassword;
+  user.password = await hashPassword(newPassword);
   user.isFirstLogin = false;
   await user.save();
 
-  return res.status(200).json({
-    success: true,
-    message: "Mot de passe modifié avec succès.",
-  });
+  return successResponse(res, "passwordChangedSuccess");
 };
 
 // Forgot Password
 export const forgotPassword = async (req, res) => {
-  const { email, ice, legalName } = req.body;
+  const email = req.body.email?.trim().toLowerCase();
+  const { ice, legalName } = req.body;
 
-  if (!email || !ice || !legalName)
-    return res.status(400).json({
-      success: false,
-      message: "Tous les champs sont obligatoires.",
-    });
+  if (!email || !ice || !legalName) {
+    return errorResponse(res, "errorsMissingFields");
+  }
 
   if (
     !validateEmail(email) ||
     !validateICE(ice) ||
     !validateLegalName(legalName)
   ) {
-    return res.status(400).json({
-      success: false,
-      message: "Les informations fournies ne sont pas valides.",
-    });
+    return errorResponse(res, "errorsInvalidUserInfo");
   }
 
   const user = await User.findOne({ email, ice, legalName });
 
-  // On ne révèle pas si l'utilisateur existe ou pas
   if (!user) {
-    return res.status(200).json({
-      success: true,
-      message:
-        "Si les informations fournies sont correctes, un mot de passe temporaire vous a été envoyé par email.",
-    });
+    // Return generic success even if user not found
+    return successResponse(res, "resetEmailSent");
   }
 
   const tempPassword = generateSecurePassword();
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(tempPassword, salt);
-
-  user.password = hashedPassword;
+  user.password = await hashPassword(tempPassword);
   user.isFirstLogin = true;
   await user.save();
 
-  // Envoi du mail personnalisé
   sendResetPasswordEmail(email, tempPassword, legalName);
 
-  return res.status(200).json({
-    success: true,
-    message:
-      "Si les informations fournies sont correctes, un mot de passe temporaire vous a été envoyé par email.",
-  });
+  return successResponse(res, "resetEmailSent");
 };
 
-// Profile
+// Get Profile
 export const getProfile = async (req, res) => {
-  res.status(200).json({
-    success: true,
-    user: {
-      id: req.user._id,
-      email: req.user.email,
-      legalName: req.user.legalName,
-      ice: req.user.ice,
-      isAdmin: req.user.isAdmin,
-    },
-  });
+  const userData = formatUserForClient(req.user);
+  return successResponse(res, "profileRetrieved", { user: userData });
 };

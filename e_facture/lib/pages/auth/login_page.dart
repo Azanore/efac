@@ -7,6 +7,10 @@ import 'package:e_facture/widgets/app_bar_widget.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/generated/l10n.dart';
 import 'package:e_facture/core/services/auth_service.dart';
+import 'package:e_facture/core/utils/input_validators.dart';
+import 'package:e_facture/core/utils/feedback_helper.dart';
+import 'package:e_facture/core/constants/app_routes.dart';
+import 'package:logger/logger.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,9 +23,10 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  final Logger logger = Logger();
+
   bool _isLoading = false;
   bool _obscurePassword = true;
-  String? _errorMessage;
   String? _emailError;
   String? _passwordError;
 
@@ -31,41 +36,22 @@ class _LoginState extends State<Login> {
     });
   }
 
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9.a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$",
-    );
-    if (!emailRegExp.hasMatch(value)) {
-      return S.of(context).errorsInvalidEmail;
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    return null;
-  }
-
   Future<void> _signIn() async {
-    final String email = _emailController.text.trim();
-    final String password = _passwordController.text.trim();
+    final email = _emailController.text.trim().toLowerCase();
+    final password = _passwordController.text.trim();
+
+    logger.i("👤 Email: $email");
+    logger.i("🔒 Password length: ${password.length}");
 
     setState(() {
-      _errorMessage = null;
-      _emailError = null;
-      _passwordError = null;
+      _emailError = InputValidators.validateEmail(context, email);
+      _passwordError = InputValidators.validatePassword(context, password);
     });
 
-    _emailError = _validateEmail(email);
-    _passwordError = _validatePassword(password);
-
     if (_emailError != null || _passwordError != null) {
-      setState(() {});
+      logger.w(
+        "❌ Validation failed — emailError: $_emailError | passwordError: $_passwordError",
+      );
       return;
     }
 
@@ -75,42 +61,41 @@ class _LoginState extends State<Login> {
 
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      logger.i("📤 Sending login request...");
       final result = await authProvider.login(email, password);
 
+      logger.i(
+        "✅ Parsed result — success: ${result['success']} | code: ${result['code']}",
+      );
+
       if (!mounted) return;
 
-      if (result['success']) {
-        _showMessage(S.of(context).authLoginSuccessful, isError: false);
-
-        if (!mounted) return;
+      if (result['success'] == true) {
+        logger.i("🎉 Login success");
+        FeedbackHelper.showFromCode(context, result['code'], isError: false);
 
         if (authProvider.isFirstLogin) {
-          Navigator.pushReplacementNamed(context, '/change-password');
+          logger.i("🔁 Redirecting to change-password");
+          Navigator.pushReplacementNamed(context, AppRoutes.changePassword);
         } else {
-          if (authProvider.userData!.isAdmin) {
-            Navigator.pushReplacementNamed(context, '/dashboard/admin');
-          } else {
-            Navigator.pushReplacementNamed(context, '/dashboard/user');
-          }
+          final isAdmin = authProvider.userData?.isAdmin ?? false;
+          final targetRoute =
+              isAdmin ? AppRoutes.adminDashboard : AppRoutes.userDashboard;
+          logger.i("➡️ Redirecting to: $targetRoute");
+          Navigator.pushReplacementNamed(context, targetRoute);
         }
       } else {
-        final msg = result['message']?.toString().trim();
-        final fallback = S.of(context).errorsUnexpected;
-
-        setState(() {
-          _errorMessage = (msg?.isNotEmpty == true) ? msg! : fallback;
-        });
-
-        _showMessage(_errorMessage!, isError: true);
+        FeedbackHelper.showFromCode(context, result['code'], isError: true);
       }
-    } catch (e) {
-      if (!mounted) return;
-      setState(() {
-        _errorMessage = S.of(context).errorsNetwork;
-      });
-      _showMessage(_errorMessage!, isError: true);
+    } catch (error, stack) {
+      logger.e("❌ Exception during login", error: error, stackTrace: stack);
+      if (mounted) {
+        FeedbackHelper.showFromCode(context, "errorsNetwork", isError: true);
+      }
     } finally {
       if (mounted) {
+        logger.i("🔄 Login finished (loading false)");
         setState(() {
           _isLoading = false;
         });
@@ -118,14 +103,11 @@ class _LoginState extends State<Login> {
     }
   }
 
-  void _showMessage(String message, {required bool isError}) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: isError ? AppColors.errorColor : Colors.green,
-        duration: const Duration(seconds: 5),
-      ),
-    );
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -140,16 +122,10 @@ class _LoginState extends State<Login> {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
+            children: [
               const SizedBox(height: 20),
               Center(
-                child: Image.asset(
-                  'assets/images/snrt_logo.png',
-                  height: 100,
-                  width: 100,
-                ),
+                child: Image.asset('assets/images/snrt_logo.png', height: 100),
               ),
               const SizedBox(height: 20),
               CustomInputFieldWidget(
@@ -191,7 +167,10 @@ class _LoginState extends State<Login> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgot-password');
+                          Navigator.pushNamed(
+                            context,
+                            AppRoutes.forgotPassword,
+                          );
                         },
                         child: Text(
                           S.of(context).authForgotPassword,
@@ -208,12 +187,5 @@ class _LoginState extends State<Login> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

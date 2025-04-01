@@ -168,7 +168,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "صفحة تسجيل الدخول",
     ),
     "authLoginSuccessful": MessageLookupByLibrary.simpleMessage(
-      "تم تسجيل الدخول بنجاح!",
+      "تم تسجيل الدخول بنجاح.",
     ),
     "authLogoutButton": MessageLookupByLibrary.simpleMessage("تسجيل الخروج"),
     "authMissingToken": MessageLookupByLibrary.simpleMessage(
@@ -187,6 +187,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "authPasswordMismatch": MessageLookupByLibrary.simpleMessage(
       "كلمات المرور غير متطابقة.",
     ),
+    "authPasswordResetSent": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال رسالة لإعادة تعيين كلمة المرور.",
+    ),
     "authPasswordStrength": MessageLookupByLibrary.simpleMessage(
       "قوة كلمة المرور",
     ),
@@ -194,7 +197,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "ليس لديك حساب؟ سجل الآن.",
     ),
     "authRegistrationSuccessful": MessageLookupByLibrary.simpleMessage(
-      "تم التسجيل بنجاح! تم إرسال كلمة مرور مؤقتة إلى بريدك الإلكتروني.",
+      "تم التسجيل بنجاح!",
     ),
     "authSameOldAndNewPassword": MessageLookupByLibrary.simpleMessage(
       "لا يمكن أن تكون كلمة المرور الجديدة هي نفسها القديمة.",
@@ -237,29 +240,56 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsAccountDisabled": MessageLookupByLibrary.simpleMessage(
       "تم تعطيل هذا الحساب. يرجى الاتصال بالمسؤول.",
     ),
+    "errorsAccountNotFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على حساب بهذه المعلومات.",
+    ),
+    "errorsEmailAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "عنوان البريد الإلكتروني مستخدم بالفعل.",
+    ),
     "errorsEmptyField": MessageLookupByLibrary.simpleMessage(
       "لا يمكن ترك هذا الحقل فارغًا.",
     ),
     "errorsEmptyServerResponse": MessageLookupByLibrary.simpleMessage(
       "استجابة فارغة من الخادم.",
     ),
+    "errorsIceAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "رقم ICE مستخدم بالفعل.",
+    ),
     "errorsIncorrectCredentials": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     ),
+    "errorsInternal": MessageLookupByLibrary.simpleMessage(
+      "حدث خطأ داخلي. يرجى المحاولة لاحقًا.",
+    ),
+    "errorsInvalidCredentials": MessageLookupByLibrary.simpleMessage(
+      "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+    ),
     "errorsInvalidEmail": MessageLookupByLibrary.simpleMessage(
-      "يرجى إدخال بريد إلكتروني صحيح.",
+      "عنوان البريد الإلكتروني غير صالح.",
     ),
     "errorsInvalidIce": MessageLookupByLibrary.simpleMessage(
-      "يجب أن يكون رقم المعرّف الموحد للمقاولة رقميًا ويتكون من 8 إلى 15 رقمًا.",
+      "يجب أن يكون رقم ICE رقميًا ويتكون من 8 إلى 15 رقمًا.",
+    ),
+    "errorsInvalidLegalName": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يتراوح اسم الشركة بين 3 و100 حرف.",
     ),
     "errorsInvalidPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور المقدمة غير صالحة.",
     ),
+    "errorsInvalidUserInfo": MessageLookupByLibrary.simpleMessage(
+      "المعلومات المقدمة غير صحيحة.",
+    ),
+    "errorsLegalNameAlreadyUsed": MessageLookupByLibrary.simpleMessage(
+      "اسم الشركة مستخدم بالفعل.",
+    ),
     "errorsLoginFailed": MessageLookupByLibrary.simpleMessage(
       "فشل تسجيل الدخول. يرجى التحقق من بيانات الاعتماد الخاصة بك.",
     ),
+    "errorsMissingFields": MessageLookupByLibrary.simpleMessage(
+      "جميع الحقول مطلوبة.",
+    ),
     "errorsNetwork": MessageLookupByLibrary.simpleMessage(
-      "خطأ في الشبكة، يرجى المحاولة مرة أخرى.",
+      "مشكلة في الاتصال بالشبكة.",
     ),
     "errorsPasswordChangeRequired": MessageLookupByLibrary.simpleMessage(
       "يجب عليك تغيير كلمة المرور الخاصة بك.",
@@ -269,6 +299,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsRegistrationFailed": MessageLookupByLibrary.simpleMessage(
       "فشل التسجيل.",
+    ),
+    "errorsSamePassword": MessageLookupByLibrary.simpleMessage(
+      "لا يمكن أن تكون كلمة المرور الجديدة مثل القديمة.",
     ),
     "errorsServerLoginError": MessageLookupByLibrary.simpleMessage(
       "خطأ في الخادم أثناء تسجيل الدخول.",
@@ -283,7 +316,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "يجب أن يحتوي اسم الشركة على الأقل 3 أحرف.",
     ),
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
-      "حدث خطأ غير متوقع. يرجى المحاولة لاحقًا.",
+      "حدث خطأ غير متوقع.",
+    ),
+    "errorsUserDisabled": MessageLookupByLibrary.simpleMessage(
+      "تم تعطيل هذا الحساب.",
+    ),
+    "errorsWeakPassword": MessageLookupByLibrary.simpleMessage(
+      "كلمة المرور ضعيفة جدًا.",
     ),
     "expandAll": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
     "expandAllTooltip": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
@@ -315,6 +354,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "generalTotal": MessageLookupByLibrary.simpleMessage("الإجمالي"),
     "generalValidate": MessageLookupByLibrary.simpleMessage("تحقق"),
+    "genericSuccess": MessageLookupByLibrary.simpleMessage("تمت العملية بنجاح"),
     "homeDescription": MessageLookupByLibrary.simpleMessage(
       "الفاتورة الإلكترونية هي منصة إلكترونية لإيداع الفواتير من قبل موردي SNRT.",
     ),
@@ -377,6 +417,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "languagesFrench": MessageLookupByLibrary.simpleMessage("الفرنسية"),
     "last_seven_days": MessageLookupByLibrary.simpleMessage("آخر 7 أيام"),
     "loading": MessageLookupByLibrary.simpleMessage("جارٍ التحميل..."),
+    "loginSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم تسجيل الدخول بنجاح.",
+    ),
     "monthly_invoice_title": MessageLookupByLibrary.simpleMessage(
       "الفواتير حسب الشهر",
     ),
@@ -403,6 +446,18 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "no_data_message": MessageLookupByLibrary.simpleMessage(
       "لا توجد بيانات لعرضها.",
+    ),
+    "passwordChangedSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم تغيير كلمة المرور بنجاح.",
+    ),
+    "profileRetrieved": MessageLookupByLibrary.simpleMessage(
+      "تم استرجاع الملف الشخصي بنجاح.",
+    ),
+    "registrationSuccess": MessageLookupByLibrary.simpleMessage(
+      "تم التسجيل بنجاح.",
+    ),
+    "resetEmailSent": MessageLookupByLibrary.simpleMessage(
+      "تم إرسال كلمة مرور مؤقتة إذا كانت المعلومات المقدمة صحيحة.",
     ),
     "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
       "عاد وأنشأ على الأقل فاتورة واحدة",

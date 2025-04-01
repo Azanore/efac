@@ -1,13 +1,17 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 import 'package:e_facture/widgets/custom_button_widget.dart';
 import 'package:e_facture/widgets/custom_text_field.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:e_facture/widgets/app_bar_widget.dart';
 import 'package:e_facture/pages/settings/quick_settings_widget.dart';
 import 'package:e_facture/generated/l10n.dart';
+import 'package:e_facture/core/utils/input_validators.dart';
+import 'package:e_facture/core/utils/feedback_helper.dart';
+import 'package:e_facture/core/services/auth_service.dart';
+import 'package:e_facture/core/constants/app_routes.dart';
+import 'package:e_facture/core/constants/app_constants.dart';
+import 'package:logger/logger.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -19,93 +23,79 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _iceController = TextEditingController();
-  final TextEditingController _raisonSocialeController =
-      TextEditingController();
+  final TextEditingController _legalNameController = TextEditingController();
+  final Logger logger = Logger();
 
   bool _isLoading = false;
-  String? _emailError, _iceError, _raisonSocialeError;
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return S.of(context).errorsEmptyField;
-    }
-    final emailRegExp = RegExp(
-      r"^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$",
-    );
-    if (!emailRegExp.hasMatch(value)) {
-      return S.of(context).errorsInvalidEmail;
-    }
-    return null;
-  }
-
-  String? _validateICE(String? value) {
-    if (value == null || value.isEmpty) return S.of(context).errorsEmptyField;
-    final iceRegExp = RegExp(r"^\d{8,15}$");
-    if (!iceRegExp.hasMatch(value)) return S.of(context).errorsInvalidIce;
-    return null;
-  }
-
-  String? _validateRaisonSociale(String? value) {
-    if (value == null || value.isEmpty) return S.of(context).errorsEmptyField;
-    if (value.length < 3) return S.of(context).errorsTooShortCompanyName;
-    if (value.length > 100) return S.of(context).errorsTooLongCompanyName;
-    return null;
-  }
+  String? _emailError, _iceError, _legalNameError;
 
   Future<void> _submitResetRequest() async {
-    final email = _emailController.text.trim();
+    final email = _emailController.text.trim().toLowerCase();
     final ice = _iceController.text.trim();
-    final legalName = _raisonSocialeController.text.trim();
+    final legalName = _legalNameController.text.trim();
+
+    logger.i("👤 Email: $email | ICE: $ice | Legal Name: $legalName");
 
     setState(() {
-      _emailError = _validateEmail(email);
-      _iceError = _validateICE(ice);
-      _raisonSocialeError = _validateRaisonSociale(legalName);
+      _emailError = InputValidators.validateEmail(context, email);
+      _iceError = InputValidators.validateICE(context, ice);
+      _legalNameError = InputValidators.validateLegalName(context, legalName);
     });
 
-    if (_emailError != null ||
-        _iceError != null ||
-        _raisonSocialeError != null) {
+    if (_emailError != null || _iceError != null || _legalNameError != null) {
+      logger.w(
+        "❌ Validation failed — emailError: $_emailError | iceError: $_iceError | legalNameError: $_legalNameError",
+      );
       return;
     }
 
-    setState(() => _isLoading = true);
-
-    final String baseUrl = dotenv.get('API_URL');
-    final String authPath = dotenv.get('AUTH_PATH');
-    final url = Uri.parse('$baseUrl$authPath/forgot-password');
+    setState(() {
+      _isLoading = true;
+    });
 
     try {
-      final response = await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({'email': email, 'ice': ice, 'legalName': legalName}),
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+
+      logger.i("📤 Sending forgot password request...");
+      final result = await authProvider.forgotPassword(email, ice, legalName);
+
+      logger.i(
+        "✅ Parsed result — success: ${result['success']} | code: ${result['code']}",
       );
 
       if (!mounted) return;
 
-      final data = jsonDecode(response.body);
-      final message = data['message']?.toString().trim();
-      final fallback = S.of(context).errorsUnexpected;
+      FeedbackHelper.showFromCode(
+        context,
+        result['code'],
+        isError: !result['success'],
+      );
 
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(message?.isNotEmpty == true ? message! : fallback),
-          backgroundColor:
-              data['success'] ? AppColors.successColor : AppColors.errorColor,
-          duration: const Duration(seconds: 5),
-        ),
+      if (result['success'] == true) {
+        logger.i("🎉 Reset request success");
+        Future.delayed(AppConstants.redirectDelay, () {
+          if (mounted) {
+            logger.i("➡️ Redirecting to login");
+            Navigator.pushReplacementNamed(context, AppRoutes.login);
+          }
+        });
+      }
+    } catch (error, stack) {
+      logger.e(
+        "❌ Exception during reset password request",
+        error: error,
+        stackTrace: stack,
       );
-    } catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(S.of(context).errorsNetwork),
-          backgroundColor: AppColors.errorColor,
-        ),
-      );
+      if (mounted) {
+        FeedbackHelper.showFromCode(context, "errorsNetwork", isError: true);
+      }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (mounted) {
+        logger.i("🔄 Reset request finished (loading false)");
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -113,7 +103,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   void dispose() {
     _emailController.dispose();
     _iceController.dispose();
-    _raisonSocialeController.dispose();
+    _legalNameController.dispose();
     super.dispose();
   }
 
@@ -137,9 +127,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             CustomInputFieldWidget(
               label: S.of(context).generalSocialReason,
               hint: S.of(context).authEnterCompanyName,
-              controller: _raisonSocialeController,
+              controller: _legalNameController,
               icon: Icons.business,
-              errorText: _raisonSocialeError,
+              errorText: _legalNameError,
             ),
             const SizedBox(height: 10),
             CustomInputFieldWidget(
