@@ -167,17 +167,36 @@ class _AdminUserListItemWidgetV2State extends State<AdminUserListItemWidgetV2> {
                             widget.user.isActive
                                 ? S.of(context).deactivate
                                 : S.of(context).activate,
-                        height: 36,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        icon:
+                            widget.user.isActive
+                                ? Icons.block
+                                : Icons.check_circle,
+                        height: 26,
+                        iconSize: 14,
                         backgroundColor:
-                            widget.user.isActive ? Colors.red : Colors.green,
+                            widget.user.isActive
+                                ? Colors.red.shade600
+                                : Colors.green.shade600,
+                        textColor: Colors.white,
+                        borderRadius: 8.0,
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                         onPressed: widget.onToggleStatus,
                       ),
                       CustomButtonWidget(
                         text: S.of(context).viewInvoices,
-                        icon: Icons.receipt_long,
-                        height: 36,
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        icon: Icons.description,
+                        height: 26,
+                        iconSize: 14,
+                        backgroundColor: AppColors.primaryColor(context),
+                        textColor: Colors.white,
+                        borderRadius: 8.0,
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
                         onPressed: widget.onViewInvoices,
                       ),
                     ],

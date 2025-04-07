@@ -92,13 +92,16 @@ class _ChangePasswordBody extends StatelessWidget {
             const SizedBox(height: 20),
             vm.isLoading
                 ? const CircularProgressIndicator()
-                : CustomButtonWidget(
+                : SizedBox(
+                  width: double.infinity,
+                  child: CustomButtonWidget(
                     text: S.of(context).authChangePassword,
                     onPressed: () => vm.changePassword(context, authProvider),
                     backgroundColor: AppColors.buttonColor,
                     textColor: AppColors.buttonTextColor,
                     icon: Icons.lock_open,
                   ),
+                ),
           ],
         ),
       ),

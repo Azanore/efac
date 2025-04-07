@@ -56,12 +56,15 @@ class _AdminInvoiceMonthlyChartState extends State<AdminInvoiceMonthlyChart> {
         );
         return {'month': key, 'count': found['count'] ?? 0};
       });
+      if (!mounted) return; // Add this line
 
       setState(() {
         stats = fullStats;
         isLoading = false;
       });
     } else {
+      if (!mounted) return; // Add this line
+
       setState(() {
         isLoading = false;
       });
@@ -70,7 +73,7 @@ class _AdminInvoiceMonthlyChartState extends State<AdminInvoiceMonthlyChart> {
 
   @override
   Widget build(BuildContext context) {
-    final barColor = AppColors.primaryColor(context).withOpacity(0.8);
+    final barColor = AppColors.iconColor(context).withOpacity(0.8);
     final textColor = AppColors.textColor(context);
 
     return Card(

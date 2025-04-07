@@ -115,12 +115,12 @@ class InvoiceService with ChangeNotifier {
 
       final response = await dio.post(baseUrl, data: formData);
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         _isLoading = false;
         notifyListeners();
         return {
           'success': true,
-          'message': 'Facture ajoutée avec succès',
+          'code': response.data['code'],
           'invoice': response.data['invoice'],
         };
       } else {
@@ -130,7 +130,19 @@ class InvoiceService with ChangeNotifier {
       _error = e.toString();
       _isLoading = false;
       notifyListeners();
-      return {'success': false, 'message': _error};
+
+      String? extractedCode;
+      if (e is DioException) {
+        try {
+          extractedCode = e.response?.data['code'];
+        } catch (_) {}
+      }
+
+      return {
+        'success': false,
+        'code': extractedCode ?? 'errorsInternal',
+        'message': _error,
+      };
     }
   }
 

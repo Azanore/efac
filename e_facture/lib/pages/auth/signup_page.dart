@@ -73,12 +73,15 @@ class _SignupBody extends StatelessWidget {
             const SizedBox(height: 20),
             vm.isLoading
                 ? const CircularProgressIndicator()
-                : CustomButtonWidget(
-                  text: S.of(context).authSignupButton,
-                  onPressed: () => vm.register(context, authProvider),
-                  backgroundColor: AppColors.buttonColor,
-                  textColor: AppColors.buttonTextColor,
-                  icon: Icons.person_add,
+                : SizedBox(
+                  width: double.infinity,
+                  child: CustomButtonWidget(
+                    text: S.of(context).authSignupButton,
+                    onPressed: () => vm.register(context, authProvider),
+                    backgroundColor: AppColors.buttonColor,
+                    textColor: AppColors.buttonTextColor,
+                    icon: Icons.person_add,
+                  ),
                 ),
           ],
         ),

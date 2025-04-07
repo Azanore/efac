@@ -19,56 +19,70 @@ class Home extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Image.asset(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              const SizedBox(height: 20),
+              Center(
+                child: Image.asset(
                   'assets/images/snrt_logo.png',
                   height: 100,
                   width: 100,
                 ),
-                SizedBox(height: 20),
-                CustomTextWidget(
+              ),
+              const SizedBox(height: 20),
+              Center(
+                child: CustomTextWidget(
                   text: 'E-Facture',
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
-                SizedBox(height: 30),
-                CustomTextWidget(
-                  text: S.of(context).homeDescription,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                  textAlign: TextAlign.center,
-                ),
-                SizedBox(height: 30),
-                CustomTextWidget(
-                  text: S.of(context).homeNoAccount,
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-                SizedBox(height: 10),
-                CustomButtonWidget(
-                  text: S.of(context).homeSignup,
-                  onPressed: () => Navigator.pushNamed(context, '/signup'),
-                  backgroundColor: AppColors.buttonColor,
-                  textColor: AppColors.buttonTextColor,
-                  icon: Icons.person_add,
-                ),
-                SizedBox(height: 20),
-                CustomTextWidget(
-                  text: S.of(context).homeHaveAccount,
-                  style: Theme.of(context).textTheme.labelMedium,
-                ),
-                SizedBox(height: 10),
-                CustomButtonWidget(
+              ),
+              const SizedBox(height: 30),
+              CustomTextWidget(
+                text: S.of(context).homeDescription,
+                style: Theme.of(context).textTheme.bodyLarge,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+
+              // 👤 Connexion d'abord
+              CustomTextWidget(
+                text: S.of(context).homeHaveAccount,
+                style: Theme.of(context).textTheme.labelMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButtonWidget(
                   text: S.of(context).homeLogin,
                   onPressed: () => Navigator.pushNamed(context, '/login'),
-                  backgroundColor: AppColors.cardColor(context),
-                  textColor: AppColors.textColor(context),
+                  backgroundColor: AppColors.buttonColor,
+                  textColor: AppColors.buttonTextColor,
                   icon: Icons.login,
                 ),
-                SizedBox(height: 20),
-              ],
-            ),
+              ),
+              const SizedBox(height: 20),
+
+              // 🆕 Ensuite inscription
+              CustomTextWidget(
+                text: S.of(context).homeNoAccount,
+                style: Theme.of(context).textTheme.labelMedium,
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 10),
+              SizedBox(
+                width: double.infinity,
+                child: CustomButtonWidget(
+                  text: S.of(context).homeSignup,
+                  onPressed: () => Navigator.pushNamed(context, '/signup'),
+                  backgroundColor: AppColors.cardColor(context),
+                  textColor: AppColors.textColor(context),
+                  icon: Icons.person_add,
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
           ),
         ),
       ),

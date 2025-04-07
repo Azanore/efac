@@ -59,6 +59,8 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
       final data = json.decode(response.body);
 
       if (data['stats'] == null) {
+        if (!mounted) return;
+
         setState(() {
           isLoading = false;
         });
@@ -88,6 +90,8 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
         isLoading = false;
       });
     } else {
+      if (!mounted) return; // Add this line
+
       setState(() {
         isLoading = false;
       });
@@ -111,7 +115,7 @@ class _AdminInvoiceActivityChartState extends State<AdminInvoiceActivityChart> {
 
   @override
   Widget build(BuildContext context) {
-    final barColor = AppColors.primaryColor(context).withOpacity(0.8);
+    final barColor = AppColors.iconColor(context).withOpacity(0.8);
     final textColor = AppColors.textColor(context);
 
     return Card(

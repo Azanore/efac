@@ -231,6 +231,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dateRangeText": MessageLookupByLibrary.simpleMessage("التاريخ:"),
     "deactivate": MessageLookupByLibrary.simpleMessage("تعطيل"),
+    "downloadUrlGenerated": MessageLookupByLibrary.simpleMessage(
+      "تم إنشاء رابط التحميل بنجاح.",
+    ),
     "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
     "endDateLabel": MessageLookupByLibrary.simpleMessage("تاريخ النهاية"),
     "endDatePlaceholder": MessageLookupByLibrary.simpleMessage("تاريخ النهاية"),
@@ -255,6 +258,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsEmptyServerResponse": MessageLookupByLibrary.simpleMessage(
       "استجابة فارغة من الخادم.",
     ),
+    "errorsFileSave": MessageLookupByLibrary.simpleMessage("تعذر حفظ الملف."),
     "errorsIceAlreadyUsed": MessageLookupByLibrary.simpleMessage(
       "رقم ICE مستخدم بالفعل.",
     ),
@@ -263,6 +267,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsInternal": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ داخلي. يرجى المحاولة لاحقًا.",
+    ),
+    "errorsInvalidAmountFormat": MessageLookupByLibrary.simpleMessage(
+      "تنسيق المبلغ غير صالح.",
+    ),
+    "errorsInvalidAmountMin": MessageLookupByLibrary.simpleMessage(
+      "يجب أن يكون المبلغ أكبر من 5,000,000.",
     ),
     "errorsInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
@@ -281,6 +291,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsInvalidUserInfo": MessageLookupByLibrary.simpleMessage(
       "المعلومات المقدمة غير صحيحة.",
+    ),
+    "errorsInvoiceNotFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على الفاتورة.",
     ),
     "errorsLegalNameAlreadyUsed": MessageLookupByLibrary.simpleMessage(
       "اسم الشركة مستخدم بالفعل.",
@@ -318,17 +331,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsTooShortCompanyName": MessageLookupByLibrary.simpleMessage(
       "يجب أن يحتوي اسم الشركة على الأقل 3 أحرف.",
     ),
+    "errorsUnauthorizedUser": MessageLookupByLibrary.simpleMessage(
+      "غير مسموح لك بتنفيذ هذا الإجراء.",
+    ),
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
       "حدث خطأ غير متوقع.",
     ),
     "errorsUserDisabled": MessageLookupByLibrary.simpleMessage(
       "تم تعطيل هذا الحساب.",
     ),
+    "errorsUserNotFound": MessageLookupByLibrary.simpleMessage(
+      "لم يتم العثور على المستخدم.",
+    ),
     "errorsWeakPassword": MessageLookupByLibrary.simpleMessage(
       "كلمة المرور ضعيفة جدًا.",
     ),
     "expandAll": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
     "expandAllTooltip": MessageLookupByLibrary.simpleMessage("توسيع الكل"),
+    "fileSelected": MessageLookupByLibrary.simpleMessage(
+      "تم تحديد الملف بنجاح.",
+    ),
     "filterByDate": MessageLookupByLibrary.simpleMessage("تصفية حسب التاريخ"),
     "filterByStatus": MessageLookupByLibrary.simpleMessage("تصفية حسب الحالة"),
     "fromDateFilterDisplay": m5,
@@ -389,6 +411,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceCreateInvoiceTitle": MessageLookupByLibrary.simpleMessage(
       "إنشاء فاتورة",
     ),
+    "invoiceCreated": MessageLookupByLibrary.simpleMessage(
+      "تمت إضافة الفاتورة بنجاح.",
+    ),
     "invoiceDate": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "invoiceDateFilter": MessageLookupByLibrary.simpleMessage("التاريخ"),
     "invoiceDownload": MessageLookupByLibrary.simpleMessage("تحميل"),
@@ -409,9 +434,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "بحث عن فاتورة...",
     ),
+    "invoiceStatsRetrieved": MessageLookupByLibrary.simpleMessage(
+      "تم استرجاع إحصائيات الفواتير بنجاح.",
+    ),
     "invoiceTotal": MessageLookupByLibrary.simpleMessage("إجمالي المبلغ"),
     "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
       "نشاط الفواتير",
+    ),
+    "invoicesFetched": MessageLookupByLibrary.simpleMessage(
+      "تم استرجاع الفواتير بنجاح.",
+    ),
+    "invoicesFiltered": MessageLookupByLibrary.simpleMessage(
+      "تم استرجاع الفواتير المفلترة حسب التاريخ بنجاح.",
     ),
     "invoicesFoundCount": m10,
     "invoicesLabel": MessageLookupByLibrary.simpleMessage("الفواتير"),
@@ -457,10 +491,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "تم استرجاع الملف الشخصي بنجاح.",
     ),
     "registrationSuccess": MessageLookupByLibrary.simpleMessage(
-      "تم التسجيل بنجاح.",
+      "تم التسجيل بنجاح! تم إرسال كلمة مرور مؤقتة إلى بريدك الإلكتروني.",
     ),
     "resetEmailSent": MessageLookupByLibrary.simpleMessage(
-      "تم إرسال كلمة مرور مؤقتة إذا كانت المعلومات المقدمة صحيحة.",
+      "إذا كانت المعلومات صحيحة، سيتم إرسال كلمة مرور مؤقتة إلى بريدك الإلكتروني.",
     ),
     "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
       "عاد وأنشأ على الأقل فاتورة واحدة",
@@ -479,6 +513,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "showGridView": MessageLookupByLibrary.simpleMessage("عرض كشبكة"),
     "showListView": MessageLookupByLibrary.simpleMessage("عرض كقائمة"),
+    "splashPreparingApp": MessageLookupByLibrary.simpleMessage(
+      "جارٍ تحضير التطبيق...",
+    ),
     "startDateLabel": MessageLookupByLibrary.simpleMessage("تاريخ البداية"),
     "startDatePlaceholder": MessageLookupByLibrary.simpleMessage(
       "تاريخ البداية",

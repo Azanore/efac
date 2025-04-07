@@ -71,25 +71,34 @@ class _LoginBody extends StatelessWidget {
             const SizedBox(height: 20),
             vm.isLoading
                 ? const CircularProgressIndicator()
-                : Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                : Column(
                   children: [
-                    CustomButtonWidget(
-                      text: S.of(context).homeLogin,
-                      onPressed: () => vm.login(context, authProvider),
-                      backgroundColor: AppColors.buttonColor,
-                      textColor: AppColors.buttonTextColor,
-                      icon: Icons.login,
+                    SizedBox(
+                      width: double.infinity,
+                      child: CustomButtonWidget(
+                        text: S.of(context).homeLogin,
+                        onPressed: () => vm.login(context, authProvider),
+                        backgroundColor: AppColors.buttonColor,
+                        textColor: AppColors.buttonTextColor,
+                        icon: Icons.login,
+                      ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, '/forgot-password');
-                      },
-                      child: Text(
-                        S.of(context).authForgotPassword,
-                        style: TextStyle(
-                          color: AppColors.lightPrimaryColor,
-                          fontWeight: FontWeight.bold,
+                    const SizedBox(height: 10),
+                    Align(
+                      alignment:
+                          Directionality.of(context) == TextDirection.rtl
+                              ? Alignment.centerLeft
+                              : Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/forgot-password');
+                        },
+                        child: Text(
+                          S.of(context).authForgotPassword,
+                          style: TextStyle(
+                            color: AppColors.lightPrimaryColor,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
                     ),

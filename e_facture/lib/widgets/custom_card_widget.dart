@@ -105,7 +105,10 @@ class _InvoiceCardState extends State<InvoiceCard> {
                   _buildInfoRow(
                     Icons.attach_money,
                     S.of(context).invoiceAmount,
-                    InvoiceUtils.formatAmount(widget.invoice.amount.toDouble()),
+                    InvoiceUtils.formatAmount(
+                      widget.invoice.amount.toDouble(),
+                      context,
+                    ), // Ajoute le `context` ici
                     iconColor,
                     textColor,
                   ),
@@ -166,14 +169,18 @@ class _InvoiceCardState extends State<InvoiceCard> {
                               Icon(
                                 Icons.download_rounded,
                                 size: 18,
-                                color: AppColors.primaryColor(context),
+                                color: AppColors.iconColor(
+                                  context,
+                                ).withOpacity(0.7),
                               ),
                               SizedBox(width: 6),
                               Text(
                                 S.of(context).invoiceDownload,
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: AppColors.primaryColor(context),
+                                  color: AppColors.textColor(
+                                    context,
+                                  ).withOpacity(0.7),
                                 ),
                               ),
                             ],

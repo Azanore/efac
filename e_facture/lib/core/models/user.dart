@@ -5,7 +5,7 @@ class User {
   final String legalName;
   final String password;
   final bool isActive;
-  final bool isFirstLogin;
+  bool isFirstLogin;
   final bool isAdmin;
   final DateTime createdAt;
   final DateTime updatedAt;

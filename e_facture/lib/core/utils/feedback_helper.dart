@@ -17,6 +17,12 @@ class FeedbackHelper {
       "resetEmailSent": S.of(context).resetEmailSent,
       "passwordChangedSuccess": S.of(context).authPasswordChanged,
       "profileRetrieved": S.of(context).profileRetrieved,
+      "invoiceCreated": S.of(context).invoiceCreated,
+      "invoicesFetched": S.of(context).invoicesFetched,
+      "downloadUrlGenerated": S.of(context).downloadUrlGenerated,
+      "invoiceStatsRetrieved": S.of(context).invoiceStatsRetrieved,
+      "invoicesFiltered": S.of(context).invoicesFiltered,
+      "fileSelected": S.of(context).fileSelected,
 
       // ✅ Error messages
       "errorsMissingFields": S.of(context).errorsMissingFields,
@@ -34,6 +40,11 @@ class FeedbackHelper {
       "errorsInvalidUserInfo": S.of(context).errorsInvalidUserInfo,
       "errorsNetwork": S.of(context).errorsNetwork,
       "errorsInvalidCurrentPassword": S.of(context).authInvalidCurrentPassword,
+      "errorsInvalidAmountMin": S.of(context).errorsInvalidAmountMin,
+      "errorsFileSave": S.of(context).errorsFileSave,
+      "errorsInvoiceNotFound": S.of(context).errorsInvoiceNotFound,
+      "errorsUserNotFound": S.of(context).errorsUserNotFound,
+      "errorsUnauthorizedUser": S.of(context).errorsUnauthorizedUser,
     };
 
     final message =

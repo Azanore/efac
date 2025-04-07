@@ -213,6 +213,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "dateRangeText": MessageLookupByLibrary.simpleMessage("Date:"),
     "deactivate": MessageLookupByLibrary.simpleMessage("Deactivate"),
+    "downloadUrlGenerated": MessageLookupByLibrary.simpleMessage(
+      "Download URL generated successfully.",
+    ),
     "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
     "endDateLabel": MessageLookupByLibrary.simpleMessage("End Date"),
     "endDatePlaceholder": MessageLookupByLibrary.simpleMessage("End date"),
@@ -237,6 +240,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsEmptyServerResponse": MessageLookupByLibrary.simpleMessage(
       "Empty response from server.",
     ),
+    "errorsFileSave": MessageLookupByLibrary.simpleMessage(
+      "Unable to save the file.",
+    ),
     "errorsIceAlreadyUsed": MessageLookupByLibrary.simpleMessage(
       "This ICE is already used.",
     ),
@@ -245,6 +251,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsInternal": MessageLookupByLibrary.simpleMessage(
       "An internal error occurred. Please try again later.",
+    ),
+    "errorsInvalidAmountFormat": MessageLookupByLibrary.simpleMessage(
+      "The amount format is invalid.",
+    ),
+    "errorsInvalidAmountMin": MessageLookupByLibrary.simpleMessage(
+      "The amount must be greater than 5,000,000.",
     ),
     "errorsInvalidCredentials": MessageLookupByLibrary.simpleMessage(
       "Incorrect email or password.",
@@ -263,6 +275,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "errorsInvalidUserInfo": MessageLookupByLibrary.simpleMessage(
       "The provided information is incorrect.",
+    ),
+    "errorsInvoiceNotFound": MessageLookupByLibrary.simpleMessage(
+      "Invoice not found.",
     ),
     "errorsLegalNameAlreadyUsed": MessageLookupByLibrary.simpleMessage(
       "This company name is already used.",
@@ -300,17 +315,26 @@ class MessageLookup extends MessageLookupByLibrary {
     "errorsTooShortCompanyName": MessageLookupByLibrary.simpleMessage(
       "Company name must contain at least 3 characters.",
     ),
+    "errorsUnauthorizedUser": MessageLookupByLibrary.simpleMessage(
+      "You are not authorized to perform this action.",
+    ),
     "errorsUnexpected": MessageLookupByLibrary.simpleMessage(
       "An unexpected error occurred.",
     ),
     "errorsUserDisabled": MessageLookupByLibrary.simpleMessage(
       "This account has been disabled.",
     ),
+    "errorsUserNotFound": MessageLookupByLibrary.simpleMessage(
+      "User not found.",
+    ),
     "errorsWeakPassword": MessageLookupByLibrary.simpleMessage(
       "The password is too weak.",
     ),
     "expandAll": MessageLookupByLibrary.simpleMessage("Expand all"),
     "expandAllTooltip": MessageLookupByLibrary.simpleMessage("Expand all"),
+    "fileSelected": MessageLookupByLibrary.simpleMessage(
+      "File selected successfully.",
+    ),
     "filterByDate": MessageLookupByLibrary.simpleMessage("Filter by date"),
     "filterByStatus": MessageLookupByLibrary.simpleMessage("Filter by status"),
     "fromDateFilterDisplay": m5,
@@ -377,6 +401,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceCreateInvoiceTitle": MessageLookupByLibrary.simpleMessage(
       "Create an Invoice",
     ),
+    "invoiceCreated": MessageLookupByLibrary.simpleMessage(
+      "Invoice successfully added.",
+    ),
     "invoiceDate": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDateFilter": MessageLookupByLibrary.simpleMessage("Date"),
     "invoiceDownload": MessageLookupByLibrary.simpleMessage("Download"),
@@ -399,9 +426,18 @@ class MessageLookup extends MessageLookupByLibrary {
     "invoiceSearchInvoice": MessageLookupByLibrary.simpleMessage(
       "Search for an invoice...",
     ),
+    "invoiceStatsRetrieved": MessageLookupByLibrary.simpleMessage(
+      "Invoice statistics retrieved successfully.",
+    ),
     "invoiceTotal": MessageLookupByLibrary.simpleMessage("Total Amount"),
     "invoice_activity_title": MessageLookupByLibrary.simpleMessage(
       "Invoice Activity",
+    ),
+    "invoicesFetched": MessageLookupByLibrary.simpleMessage(
+      "Invoices fetched successfully.",
+    ),
+    "invoicesFiltered": MessageLookupByLibrary.simpleMessage(
+      "Invoices filtered by date retrieved successfully.",
     ),
     "invoicesFoundCount": m10,
     "invoicesLabel": MessageLookupByLibrary.simpleMessage("Invoices"),
@@ -443,10 +479,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Profile retrieved successfully.",
     ),
     "registrationSuccess": MessageLookupByLibrary.simpleMessage(
-      "Registration successful.",
+      "Registration successful! A temporary password has been sent to your email.",
     ),
     "resetEmailSent": MessageLookupByLibrary.simpleMessage(
-      "A temporary password has been sent if the provided information is correct.",
+      "If the information provided is correct, a temporary password will be sent to your email.",
     ),
     "returned_and_invoiced_label": MessageLookupByLibrary.simpleMessage(
       "Returned and created at least 1 invoice",
@@ -465,6 +501,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "showGridView": MessageLookupByLibrary.simpleMessage("Show as grid"),
     "showListView": MessageLookupByLibrary.simpleMessage("Show as list"),
+    "splashPreparingApp": MessageLookupByLibrary.simpleMessage(
+      "Preparing the application...",
+    ),
     "startDateLabel": MessageLookupByLibrary.simpleMessage("Start Date"),
     "startDatePlaceholder": MessageLookupByLibrary.simpleMessage("Start date"),
     "statisticsTitle": MessageLookupByLibrary.simpleMessage("Statistics"),

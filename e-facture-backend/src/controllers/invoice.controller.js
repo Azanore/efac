@@ -3,6 +3,7 @@ import User from "../models/user.model.js";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { successResponse, errorResponse } from "../utils/responses.js";
 
 // ====== Config pour le chemin du dossier uploads ======
 const __filename = fileURLToPath(import.meta.url);
@@ -35,7 +36,6 @@ export const createInvoice = async (req, res) => {
   try {
     const { userId, amount } = req.body;
 
-    // === LOGGING : Vérifions ce qui arrive ===
     console.log("=== Nouvelle facture reçue ===");
     console.log("userId :", userId);
     console.log("amount :", amount);
@@ -43,50 +43,30 @@ export const createInvoice = async (req, res) => {
 
     if (!userId || !amount || !req.file) {
       console.log("❌ Champs manquants !");
-      return res.status(400).json({
-        success: false,
-        message: "Tous les champs sont obligatoires",
-      });
+      return errorResponse(res, "errorsMissingFields");
     }
 
     const invoiceAmount = parseFloat(amount);
     if (isNaN(invoiceAmount) || invoiceAmount <= 5000000) {
       console.log("❌ Montant non valide ou <= 5 000 000 :", invoiceAmount);
-      return res.status(400).json({
-        success: false,
-        message: "Le montant doit être supérieur à 5 000 000",
-      });
+      return errorResponse(res, "errorsInvalidAmountMin");
     }
 
-    // Vérif autorisation utilisateur
     if (req.user._id.toString() !== userId && !req.user.isAdmin) {
       console.log("❌ Utilisateur non autorisé :", req.user._id, "vs", userId);
-      return res.status(403).json({
-        success: false,
-        message:
-          "Vous n'êtes pas autorisé à créer une facture pour cet utilisateur",
-      });
+      return errorResponse(res, "errorsUnauthorizedUser", 403);
     }
 
     const user = await User.findById(userId);
     if (!user) {
       console.log("❌ Utilisateur introuvable :", userId);
-      return res.status(404).json({
-        success: false,
-        message: "Utilisateur non trouvé",
-      });
+      return errorResponse(res, "errorsUserNotFound", 404);
     }
 
     const now = new Date();
-    const day = String(now.getDate()).padStart(2, "0");
-    const month = String(now.getMonth() + 1).padStart(2, "0");
-    const year = String(now.getFullYear()).slice(-2);
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    const milliseconds = String(now.getMilliseconds()).padStart(3, "0");
-
-    const newFileName = `INV-${day}-${month}-${year}-${hours}-${minutes}-${seconds}-${milliseconds}-${user.ice}.pdf`;
+    const newFileName = `INV-${now
+      .toLocaleString("fr-FR")
+      .replace(/[\/ :]/g, "-")}-${user.ice}.pdf`;
     req.file.originalname = newFileName;
 
     const fileInfo = await saveFile(req.file);
@@ -102,17 +82,10 @@ export const createInvoice = async (req, res) => {
 
     console.log("✅ Facture créée avec succès :", newInvoice);
 
-    res.status(201).json({
-      success: true,
-      message: "Facture ajoutée avec succès",
-      invoice: newInvoice,
-    });
+    return successResponse(res, "invoiceCreated", { invoice: newInvoice });
   } catch (error) {
     console.error("❌ Erreur lors de la création de la facture:", error);
-    res.status(500).json({
-      success: false,
-      message: error.message || "Erreur lors de la création de la facture",
-    });
+    return errorResponse(res, "errorsInternal", 500);
   }
 };
 

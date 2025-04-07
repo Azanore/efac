@@ -72,12 +72,16 @@ class _ForgotPasswordBody extends StatelessWidget {
             const SizedBox(height: 30),
             vm.isLoading
                 ? const CircularProgressIndicator()
-                : CustomButtonWidget(
-                  text: S.of(context).authSendLink,
-                  onPressed: () => vm.submitResetRequest(context, authProvider),
-                  backgroundColor: AppColors.buttonColor,
-                  textColor: AppColors.buttonTextColor,
-                  icon: Icons.send,
+                : SizedBox(
+                  width: double.infinity,
+                  child: CustomButtonWidget(
+                    text: S.of(context).authSendLink,
+                    onPressed:
+                        () => vm.submitResetRequest(context, authProvider),
+                    backgroundColor: AppColors.buttonColor,
+                    textColor: AppColors.buttonTextColor,
+                    icon: Icons.send,
+                  ),
                 ),
           ],
         ),

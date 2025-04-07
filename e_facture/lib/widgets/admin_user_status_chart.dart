@@ -41,12 +41,16 @@ class _AdminUserStatusChartState extends State<AdminUserStatusChart> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      if (!mounted) return; // Add this line
+
       setState(() {
         active = data['active'] ?? 0;
         inactive = data['inactive'] ?? 0;
         isLoading = false;
       });
     } else {
+      if (!mounted) return; // Add this line
+
       setState(() {
         isLoading = false;
       });

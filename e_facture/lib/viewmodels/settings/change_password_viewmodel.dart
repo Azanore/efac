@@ -65,8 +65,9 @@ class ChangePasswordViewModel extends ChangeNotifier {
 
     if (currentPasswordError != null ||
         newPasswordError != null ||
-        confirmPasswordError != null)
+        confirmPasswordError != null) {
       return;
+    }
 
     isLoading = true;
     notifyListeners();
@@ -125,8 +126,9 @@ class ChangePasswordViewModel extends ChangeNotifier {
   }
 
   String? _validateStrongPassword(BuildContext context, String? password) {
-    if (password == null || password.isEmpty)
+    if (password == null || password.isEmpty) {
       return S.of(context).errorsEmptyField;
+    }
 
     final hasUppercase = password.contains(RegExp(r'[A-Z]'));
     final hasLowercase = password.contains(RegExp(r'[a-z]'));
@@ -145,8 +147,9 @@ class ChangePasswordViewModel extends ChangeNotifier {
     String newPass,
     String? confirmPass,
   ) {
-    if (confirmPass == null || confirmPass.isEmpty)
+    if (confirmPass == null || confirmPass.isEmpty) {
       return S.of(context).errorsEmptyField;
+    }
     if (confirmPass != newPass) return S.of(context).authPasswordMismatch;
     return null;
   }

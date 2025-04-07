@@ -134,7 +134,7 @@ class _InvoiceListItemWidgetState extends State<InvoiceListItemWidget> {
                               : Icon(
                                 Icons.download_rounded,
                                 size: 18,
-                                color: Colors.white,
+                                color: AppColors.iconColor(context),
                               ),
                     ),
                   ),
@@ -171,6 +171,7 @@ class _InvoiceListItemWidgetState extends State<InvoiceListItemWidget> {
                             Text(
                               InvoiceUtils.formatAmount(
                                 widget.invoice.amount.toDouble(),
+                                context, // Ajoute le `context` ici
                               ),
                               style: TextStyle(
                                 fontSize: InvoiceItemStyles.amountFontSize,

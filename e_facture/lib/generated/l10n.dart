@@ -1906,16 +1906,6 @@ class S {
     );
   }
 
-  /// `Registration successful.`
-  String get registrationSuccess {
-    return Intl.message(
-      'Registration successful.',
-      name: 'registrationSuccess',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `All fields are required.`
   String get errorsMissingFields {
     return Intl.message(
@@ -1951,16 +1941,6 @@ class S {
     return Intl.message(
       'An internal error occurred. Please try again later.',
       name: 'errorsInternal',
-      desc: '',
-      args: [],
-    );
-  }
-
-  /// `A temporary password has been sent if the provided information is correct.`
-  String get resetEmailSent {
-    return Intl.message(
-      'A temporary password has been sent if the provided information is correct.',
-      name: 'resetEmailSent',
       desc: '',
       args: [],
     );
@@ -2031,6 +2011,156 @@ class S {
     return Intl.message(
       'Incorrect current password.',
       name: 'authInvalidCurrentPassword',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Preparing the application...`
+  String get splashPreparingApp {
+    return Intl.message(
+      'Preparing the application...',
+      name: 'splashPreparingApp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Registration successful! A temporary password has been sent to your email.`
+  String get registrationSuccess {
+    return Intl.message(
+      'Registration successful! A temporary password has been sent to your email.',
+      name: 'registrationSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `If the information provided is correct, a temporary password will be sent to your email.`
+  String get resetEmailSent {
+    return Intl.message(
+      'If the information provided is correct, a temporary password will be sent to your email.',
+      name: 'resetEmailSent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount must be greater than 5,000,000.`
+  String get errorsInvalidAmountMin {
+    return Intl.message(
+      'The amount must be greater than 5,000,000.',
+      name: 'errorsInvalidAmountMin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unable to save the file.`
+  String get errorsFileSave {
+    return Intl.message(
+      'Unable to save the file.',
+      name: 'errorsFileSave',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice not found.`
+  String get errorsInvoiceNotFound {
+    return Intl.message(
+      'Invoice not found.',
+      name: 'errorsInvoiceNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice successfully added.`
+  String get invoiceCreated {
+    return Intl.message(
+      'Invoice successfully added.',
+      name: 'invoiceCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoices fetched successfully.`
+  String get invoicesFetched {
+    return Intl.message(
+      'Invoices fetched successfully.',
+      name: 'invoicesFetched',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Download URL generated successfully.`
+  String get downloadUrlGenerated {
+    return Intl.message(
+      'Download URL generated successfully.',
+      name: 'downloadUrlGenerated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoice statistics retrieved successfully.`
+  String get invoiceStatsRetrieved {
+    return Intl.message(
+      'Invoice statistics retrieved successfully.',
+      name: 'invoiceStatsRetrieved',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Invoices filtered by date retrieved successfully.`
+  String get invoicesFiltered {
+    return Intl.message(
+      'Invoices filtered by date retrieved successfully.',
+      name: 'invoicesFiltered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User not found.`
+  String get errorsUserNotFound {
+    return Intl.message(
+      'User not found.',
+      name: 'errorsUserNotFound',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You are not authorized to perform this action.`
+  String get errorsUnauthorizedUser {
+    return Intl.message(
+      'You are not authorized to perform this action.',
+      name: 'errorsUnauthorizedUser',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The amount format is invalid.`
+  String get errorsInvalidAmountFormat {
+    return Intl.message(
+      'The amount format is invalid.',
+      name: 'errorsInvalidAmountFormat',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `File selected successfully.`
+  String get fileSelected {
+    return Intl.message(
+      'File selected successfully.',
+      name: 'fileSelected',
       desc: '',
       args: [],
     );

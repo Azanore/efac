@@ -42,6 +42,8 @@ class _AdminUserAdoptionChartState extends State<AdminUserAdoptionChart> {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      if (!mounted) return; // Add this line
+
       setState(() {
         neverReturned = data['neverReturned'] ?? 0;
         returnedButInactive = data['returnedButInactive'] ?? 0;
@@ -49,6 +51,8 @@ class _AdminUserAdoptionChartState extends State<AdminUserAdoptionChart> {
         isLoading = false;
       });
     } else {
+      if (!mounted) return; // Add this line
+
       setState(() {
         isLoading = false;
       });

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:e_facture/core/providers/auth_provider.dart';
+import 'package:e_facture/generated/l10n.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -34,12 +35,14 @@ class _SplashScreenState extends State<SplashScreen>
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     await authProvider.initAuth();
 
-    // Add a minimum delay to ensure the splash screen stays for a certain amount of time
-    await Future.delayed(Duration(seconds: 2)); // Minimum 2 seconds
+    await Future.delayed(Duration(seconds: 2));
 
-    // After the minimum delay, navigate based on authentication status
     if (authProvider.isAuthenticated) {
-      if (authProvider.userData!.isAdmin) {
+      if (authProvider.isFirstLogin) {
+        // 🔐 Forcer la déconnexion si mot de passe temporaire non changé
+        await authProvider.logout();
+        Navigator.pushReplacementNamed(context, '/home');
+      } else if (authProvider.userData!.isAdmin) {
         Navigator.pushReplacementNamed(context, '/dashboard/admin');
       } else {
         Navigator.pushReplacementNamed(context, '/dashboard/user');
@@ -82,7 +85,7 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               SizedBox(height: 20),
               Text(
-                'Préparation de l\'application...',
+                S.of(context).splashPreparingApp,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

@@ -1,7 +1,11 @@
 import 'package:e_facture/core/providers/user_provider.dart';
+import 'package:e_facture/core/services/admin_dashboard_service.dart';
 import 'package:e_facture/core/services/admin_user_service.dart';
 import 'package:e_facture/core/services/admin_invoice_service.dart';
 import 'package:e_facture/core/services/invoice_service.dart';
+import 'package:e_facture/core/services/user_stats_service.dart';
+import 'package:e_facture/viewmodels/admin/admin_dashboard_viewmodel.dart';
+import 'package:e_facture/viewmodels/user/user_dashboard_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +44,20 @@ void main() async {
         ChangeNotifierProvider(create: (_) => AdminUserService()),
         ChangeNotifierProvider(create: (_) => AdminInvoiceService()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(
+          create:
+              (context) => AdminDashboardViewModel(
+                authProvider: Provider.of<AuthProvider>(context, listen: false),
+                adminDashboardService: AdminDashboardService(),
+              ),
+        ),
+        ChangeNotifierProvider(
+          create:
+              (context) => UserDashboardViewModel(
+                userStatsService: UserStatsService(),
+                authProvider: Provider.of<AuthProvider>(context, listen: false),
+              ),
+        ),
       ],
       child: MyApp(),
     ),

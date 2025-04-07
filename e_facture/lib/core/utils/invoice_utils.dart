@@ -1,3 +1,4 @@
+import 'package:e_facture/generated/l10n.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -9,12 +10,20 @@ import 'package:e_facture/core/utils/app_colors.dart';
 import 'package:open_file/open_file.dart';
 
 class InvoiceUtils {
-  static String formatAmount(double amount) {
+  static String formatAmount(double amount, BuildContext context) {
+    // Récupère le symbole monétaire traduit
+    final symbol = S.of(context).currencySymbol;
+
+    // Récupère la locale actuelle
+    final locale = Localizations.localeOf(context).toString();
+
+    // Formatage du montant avec la locale et le symbole monétaire
     final formatter = NumberFormat.currency(
-      locale: 'fr_MA',
-      symbol: 'MAD',
+      locale: locale,
+      symbol: symbol,
       decimalDigits: 2,
     );
+
     return formatter.format(amount);
   }
 

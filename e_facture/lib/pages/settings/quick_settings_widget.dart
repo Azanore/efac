@@ -55,7 +55,7 @@ class SettingsDialogContent extends StatelessWidget {
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
               style: TextButton.styleFrom(
-                foregroundColor: AppColors.primaryColor(context),
+                foregroundColor: AppColors.textColor(context).withOpacity(0.7),
               ),
               child: Text(S.of(context).generalCancel),
             ),

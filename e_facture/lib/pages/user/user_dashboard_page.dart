@@ -1,39 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+
+import '/core/utils/app_colors.dart';
 import '/widgets/app_bar_widget.dart';
 import '/widgets/drawer_widget.dart';
 import '/widgets/custom_button_widget.dart';
 import '/generated/l10n.dart';
-import 'package:e_facture/core/utils/app_colors.dart';
-import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
-import 'package:e_facture/core/providers/auth_provider.dart';
-import 'package:e_facture/core/providers/user_provider.dart';
+import '/viewmodels/user/user_dashboard_viewmodel.dart';
 
-class DashboardUser extends StatefulWidget {
+class DashboardUser extends StatelessWidget {
   const DashboardUser({super.key});
-
-  @override
-  State<DashboardUser> createState() => _DashboardUserState();
-}
-
-class _DashboardUserState extends State<DashboardUser> {
-  bool _hasFetched = false;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (!_hasFetched) {
-      _hasFetched = true;
-
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        final authProvider = Provider.of<AuthProvider>(context, listen: false);
-        final userProvider = Provider.of<UserProvider>(context, listen: false);
-
-        userProvider.fetchStats(authProvider.userData!.id, authProvider.token!);
-      });
-    }
-  }
 
   String _formatAmount(double amount) {
     final formatter = NumberFormat('#,##0.00', 'fr_FR');
@@ -42,14 +19,17 @@ class _DashboardUserState extends State<DashboardUser> {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context);
-    final stats = userProvider.userStats;
-    final isLoading = userProvider.isLoadingStats;
-    final error = userProvider.statsError;
+    final vm = context.watch<UserDashboardViewModel>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!vm.isLoading && vm.stats == null && !vm.hasError) {
+        vm.loadStats(context);
+      }
+    });
 
     return Scaffold(
       appBar: AppBarWidget(title: S.of(context).navigationDashboardUser),
-      drawer: DrawerWidget(),
+      drawer: const DrawerWidget(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
         child: Center(
@@ -78,37 +58,37 @@ class _DashboardUserState extends State<DashboardUser> {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        if (isLoading || stats == null)
+                        if (vm.isLoading || vm.stats == null)
                           Center(
                             child: CircularProgressIndicator(
                               color: AppColors.buttonColor,
                             ),
                           )
-                        else if (error != null)
+                        else if (vm.hasError)
                           Text(
-                            'Erreur : $error',
+                            'Erreur : ${vm.error}',
                             style: TextStyle(color: AppColors.errorColor),
                           )
                         else
                           Column(
                             children: [
                               _buildStatItem(
+                                context: context,
                                 title: S.of(context).invoiceCount,
-                                value: '${stats['totalInvoices']}',
+                                value: '${vm.stats!.totalInvoices}',
                                 icon: Icons.receipt,
                                 color: AppColors.buttonColor,
-                                textColor: AppColors.textColor(context),
                               ),
                               const SizedBox(height: 12),
                               const Divider(height: 1),
                               const SizedBox(height: 12),
                               _buildStatItem(
+                                context: context,
                                 title: S.of(context).invoiceTotal,
                                 value:
-                                    '${_formatAmount(stats['totalAmount'])} ${S.of(context).currencySymbol}',
+                                    '${_formatAmount(vm.stats!.totalAmount)} ${S.of(context).currencySymbol}',
                                 icon: Icons.currency_exchange,
                                 color: AppColors.successColor,
-                                textColor: AppColors.textColor(context),
                               ),
                             ],
                           ),
@@ -123,26 +103,17 @@ class _DashboardUserState extends State<DashboardUser> {
                       () => Navigator.pushNamed(context, '/invoice/create'),
                   backgroundColor: AppColors.successColor,
                   textColor: AppColors.buttonTextColor,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 40,
-                  ),
                   icon: Icons.add_box,
-                  height: 60,
                 ),
+
                 const SizedBox(height: 10),
                 CustomButtonWidget(
                   text: S.of(context).dashboardViewMyInvoices,
                   onPressed:
                       () => Navigator.pushNamed(context, '/invoice/history'),
-                  backgroundColor: AppColors.primaryColor(context),
-                  textColor: AppColors.buttonTextColor,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 40,
-                  ),
+                  backgroundColor: AppColors.cardColor(context),
+                  textColor: AppColors.textColor(context),
                   icon: Icons.history,
-                  height: 60,
                 ),
               ],
             ),
@@ -153,12 +124,14 @@ class _DashboardUserState extends State<DashboardUser> {
   }
 
   Widget _buildStatItem({
+    required BuildContext context,
     required String title,
     required String value,
     required IconData icon,
     required Color color,
-    required Color textColor,
   }) {
+    final textColor = AppColors.textColor(context);
+
     return Row(
       children: [
         Container(

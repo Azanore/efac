@@ -82,13 +82,13 @@ export const login = async (req, res) => {
       return errorResponse(res, "errorsInvalidCredentials", 401);
     }
 
-    if (!user.isActive) {
-      return errorResponse(res, "errorsUserDisabled", 403);
-    }
-
     const isPasswordValid = await comparePasswords(password, user.password);
     if (!isPasswordValid) {
       return errorResponse(res, "errorsInvalidCredentials", 401);
+    }
+
+    if (!user.isActive) {
+      return errorResponse(res, "errorsUserDisabled", 403);
     }
 
     const token = generateToken(user._id);

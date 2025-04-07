@@ -118,46 +118,6 @@ export const getAllUsers = async (req, res) => {
 
 // GET /admin/invoices
 // Route pour récupérer les factures globales
-export const getAllInvoicesForAdmin = async (req, res) => {
-  try {
-    if (!req.user.isAdmin) {
-      return res.status(403).json({
-        success: false,
-        message: "Accès refusé. Réservé aux administrateurs.",
-      });
-    }
-
-    const { limit = 10, offset = 0, startDate, endDate } = req.query;
-    const filter = {};
-
-    // Optionnel : filtre date
-    if (startDate || endDate) {
-      filter.createdAt = {};
-      if (startDate) filter.createdAt.$gte = new Date(startDate);
-      if (endDate) filter.createdAt.$lte = new Date(endDate);
-    }
-
-    const invoices = await Invoice.find(filter)
-      .populate("userId", "legalName ice email") // <-- AJOUT
-      .skip(Number(offset))
-      .limit(Number(limit))
-      .sort({ createdAt: -1 });
-
-    const totalInvoices = await Invoice.countDocuments(filter);
-
-    res.status(200).json({
-      success: true,
-      totalInvoices,
-      invoices,
-    });
-  } catch (error) {
-    console.error("Erreur admin récupération factures globales:", error);
-    res.status(500).json({
-      success: false,
-      message: "Erreur serveur.",
-    });
-  }
-};
 
 export const getInvoicesForAdmin = async (req, res) => {
   try {
@@ -534,7 +494,7 @@ export const getAdminDashboardStats = async (req, res) => {
     }
 
     const [totalUsers, totalInvoices] = await Promise.all([
-      User.countDocuments(),
+      User.countDocuments({ isAdmin: false }),
       Invoice.countDocuments(),
     ]);
 

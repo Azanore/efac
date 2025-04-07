@@ -55,6 +55,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       child: Column(
         children: <Widget>[
           // En-tête du drawer avec les informations utilisateur
+          // En-tête du drawer avec les informations utilisateur
           SafeArea(
             child: Container(
               width: double.infinity,
@@ -64,23 +65,50 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${S.of(context).generalSocialReason}: ${userData?.legalName ?? S.of(context).authForgotPassword}',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  Row(
+                    children: [
+                      Icon(Icons.business, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          userData?.legalName ??
+                              S.of(context).authForgotPassword,
+                          style: const TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    '${S.of(context).generalIce}: ${userData?.ice ?? S.of(context).authForgotPassword}',
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  Row(
+                    children: [
+                      Icon(Icons.numbers, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Text(
+                        userData?.ice ?? S.of(context).authForgotPassword,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 6),
-                  Text(
-                    '${S.of(context).generalEmail}: ${userData?.email ?? S.of(context).authForgotPassword}',
-                    style: const TextStyle(fontSize: 16, color: Colors.white),
+                  Row(
+                    children: [
+                      Icon(Icons.email, color: Colors.white),
+                      const SizedBox(width: 10),
+                      Text(
+                        userData?.email ?? S.of(context).authForgotPassword,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
