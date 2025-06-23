@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (authProvider.isAuthenticated) {
       if (authProvider.isFirstLogin) {
         // 🔐 Forcer la déconnexion si mot de passe temporaire non changé
-        await authProvider.logout();
+        await authProvider.logout(context);
         Navigator.pushReplacementNamed(context, '/home');
       } else if (authProvider.userData!.isAdmin) {
         Navigator.pushReplacementNamed(context, '/dashboard/admin');

@@ -18,17 +18,24 @@ class UserDashboardViewModel extends ChangeNotifier {
   String? error;
 
   Future<void> loadStats(BuildContext context) async {
+    // Enhanced check for authentication status
+    if (!authProvider.isAuthenticated || authProvider.userData == null || authProvider.token == null) {
+      error = "Utilisateur non authentifié ou données utilisateur non disponibles.";
+      stats = null; // Ensure stats are also null
+      isLoading = false; // Ensure loading stops
+      notifyListeners();
+      return; // Don't proceed if not authenticated
+    }
+
     isLoading = true;
     error = null;
+    // stats = null; // Optionally clear previous stats before loading new ones if desired
     notifyListeners();
 
     try {
-      final user = authProvider.userData;
-      final token = authProvider.token;
-
-      if (user == null || token == null) {
-        throw Exception("Utilisateur non authentifié");
-      }
+      // At this point, we are more confident that user and token are available
+      final user = authProvider.userData!; // Can use ! due to the check above
+      final token = authProvider.token!;   // Can use ! due to the check above
 
       final data = await userStatsService.fetchUserStats(user.id, token);
       stats = UserStatsModel.fromJson(data);
@@ -45,4 +52,11 @@ class UserDashboardViewModel extends ChangeNotifier {
   }
 
   bool get hasError => error != null;
+
+  void clearStats() {
+    stats = null;
+    isLoading = false;
+    error = null;
+    notifyListeners();
+  }
 }

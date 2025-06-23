@@ -44,7 +44,8 @@ export const sendWelcomeEmail = (userEmail, tempPassword, legalName) => {
     if (error) {
       console.log("Erreur d'envoi d'email:", error);
     } else {
-      console.log("Email envoyé:", info.response);
+      console.log("Email envoyé avec succès. Réponse du serveur:", info.response);
+      console.log("Détails de l'email envoyé (sendWelcomeEmail):", JSON.stringify(mailOptions, null, 2));
     }
   });
 };

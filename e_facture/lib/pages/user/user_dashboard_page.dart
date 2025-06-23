@@ -22,7 +22,14 @@ class DashboardUser extends StatelessWidget {
     final vm = context.watch<UserDashboardViewModel>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!vm.isLoading && vm.stats == null && !vm.hasError) {
+      // Only attempt to load if the ViewModel's AuthProvider instance indicates
+      // full authentication, and other conditions for loading are met.
+      if (vm.authProvider.isAuthenticated &&
+          vm.authProvider.userData != null &&
+          vm.authProvider.token != null &&
+          !vm.isLoading &&
+          vm.stats == null &&
+          !vm.hasError) {
         vm.loadStats(context);
       }
     });
@@ -58,18 +65,24 @@ class DashboardUser extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        if (vm.isLoading || vm.stats == null)
+                        if (vm.isLoading) // Check isLoading first and exclusively
                           Center(
                             child: CircularProgressIndicator(
                               color: AppColors.buttonColor,
                             ),
                           )
-                        else if (vm.hasError)
+                        else if (vm.hasError) // Then check for errors
                           Text(
-                            'Erreur : ${vm.error}',
+                            //S.of(context).createInvoiceError(vm.error ?? S.of(context).errorsUnknown),
+                            'Erreur de chargement des statistiques: ${vm.error}', // Consider a user-friendly message
                             style: TextStyle(color: AppColors.errorColor),
                           )
-                        else
+                        else if (vm.stats == null) // If not loading, no error, but stats are still null
+                          Text(
+                            "Aucune statistique disponible pour le moment.", // Placeholder - S.of(context).statisticsNoData
+                            style: TextStyle(color: AppColors.textColor(context)),
+                          )
+                        else // Finally, display stats
                           Column(
                             children: [
                               _buildStatItem(

@@ -9,6 +9,7 @@ import 'package:e_facture/core/providers/auth_provider.dart';
 import 'package:e_facture/core/providers/user_provider.dart';
 import 'package:e_facture/generated/l10n.dart';
 import 'package:e_facture/core/utils/feedback_helper.dart';
+import 'package:e_facture/viewmodels/user/user_dashboard_viewmodel.dart'; // Added to refresh dashboard
 
 class CreateInvoiceViewModel extends ChangeNotifier {
   final TextEditingController amountController = TextEditingController();
@@ -143,6 +144,16 @@ class CreateInvoiceViewModel extends ChangeNotifier {
         // Refresh stats
         final userProvider = Provider.of<UserProvider>(context, listen: false);
         await userProvider.fetchStats(userId, token);
+
+        // Refresh dashboard stats as well
+        if (context.mounted) {
+          try {
+            context.read<UserDashboardViewModel>().refresh(context);
+            logger.i('🔄 Dashboard refresh requested after invoice creation.');
+          } catch (e) {
+            logger.w('⚠️ Could not request dashboard refresh: $e');
+          }
+        }
 
         logger.i('📊 Statistiques utilisateur mises à jour');
 

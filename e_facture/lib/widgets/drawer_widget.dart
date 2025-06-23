@@ -255,7 +255,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             child: CustomButtonWidget(
               text: S.of(context).generalLogout,
               onPressed: () async {
-                await authProvider.logout();
+                await authProvider.logout(context);
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   '/home',
                   (Route<dynamic> route) => false,

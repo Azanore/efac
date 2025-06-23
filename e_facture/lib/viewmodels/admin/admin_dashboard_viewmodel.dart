@@ -59,5 +59,18 @@ class AdminDashboardViewModel extends ChangeNotifier {
     loadDashboard(context);
   }
 
+  void clearAdminDashboardData() {
+    stats = null;
+    weeklyStats = [];
+    monthlyStats = [];
+    userStatus = null;
+    userAdoption = null;
+    isLoading = false; // Reset loading state as well
+    error = null;      // Clear any previous errors
+    notifyListeners();
+    // Consider logging this action if you have a logger instance available
+    // logger.i('Cleared AdminDashboardViewModel data.');
+  }
+
   bool get hasError => error != null;
 }
